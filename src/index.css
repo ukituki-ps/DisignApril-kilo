@@ -7,6 +7,7 @@
 @import 'tailwindcss/utilities';
 
 @import '@mantine/core/styles.css';
+@import '@xyflow/react/dist/style.css';
 
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 

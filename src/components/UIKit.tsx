@@ -13,6 +13,8 @@ import { TableSection } from './TableSection';
 import { AlertsSection } from './AlertsSection';
 import { ModalSection } from './ModalSection';
 import { SafetyPatterns } from './SafetyPatterns';
+import { ReactFlowSection } from './ReactFlowSection';
+import { KanbanSection } from './KanbanSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -111,6 +113,20 @@ export function UIKit() {
           description="Destructive actions and confirmations.">
           
           <SafetyPatterns />
+        </Section>
+
+        <Section
+          title="14. React Flow"
+          description="Interactive node-based diagrams for workflows, org charts, and task dependencies.">
+          
+          <ReactFlowSection />
+        </Section>
+
+        <Section
+          title="15. Kanban Board"
+          description="Drag-and-drop task board for project management and workflow visualization.">
+          
+          <KanbanSection />
         </Section>
       </Stack>
     </Container>);
