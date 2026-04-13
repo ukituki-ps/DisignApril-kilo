@@ -1,0 +1,29 @@
+/**
+ * April design tokens as CSS variables (for non-React or static HTML microfrontends).
+ * Prefer Mantine theme + @april/tokens in React; import this when CSS-only is needed.
+ */
+:root {
+  --april-accent-teal-1: #c3fae8;
+  --april-accent-teal-3: #63e6be;
+  --april-accent-teal-6: #12b886;
+  --april-accent-teal-8: #0ca678;
+  --april-accent-teal-9: #099268;
+
+  --april-semantic-danger: #fa5252;
+  --april-semantic-warning: #fd7e14;
+  --april-semantic-success: #40c057;
+
+  --april-neutral-bg: #ffffff;
+  --april-neutral-bg-alt: #f8f9fa;
+  --april-neutral-border: #dee2e6;
+  --april-neutral-text: #212529;
+  --april-neutral-text-muted: #868e96;
+}
+
+[data-mantine-color-scheme='dark'] {
+  --april-neutral-bg: #1a1b1e;
+  --april-neutral-bg-alt: #25262b;
+  --april-neutral-border: #373a40;
+  --april-neutral-text: #c1c2c5;
+  --april-neutral-text-muted: #909296;
+}

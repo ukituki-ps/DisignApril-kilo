@@ -23,7 +23,7 @@ import {
   ChevronDownIcon } from
 'lucide-react';
 import { useDensity } from '../DensityContext';
-const LOGO_ICON = "/g12875-8.svg";
+const LOGO_ICON = '/logo-icon.svg';
 
 const TEAL_FILTER =
 'brightness(0) saturate(100%) invert(65%) sepia(51%) saturate(552%) hue-rotate(118deg) brightness(92%) contrast(87%)';

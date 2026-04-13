@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Stack, Title, Text, Divider, Box } from '@mantine/core';
+import { Container, Stack, Title, Text, Box } from '@mantine/core';
 import { LogoSection } from './LogoSection';
 import { HeaderSection } from './HeaderSection';
 import { SidebarSection } from './SidebarSection';

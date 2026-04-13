@@ -1,10 +1,8 @@
 import React from 'react';
 import { Stack, SimpleGrid, Box, Text, Paper, Group } from '@mantine/core';
-const SVG_FULL = "/\u0421\u043D\u0438\u043C\u043E\u043A_\u044D\u043A\u0440\u0430\u043D\u0430_\u043E\u0442_2026-04-13_13-09-29_(1).svg";
-
-const SVG_ICON = "/g12875-8.svg";
-
-const SVG_WORDMARK = "/g12875.svg";
+const SVG_FULL = '/logo-full.svg';
+const SVG_ICON = '/logo-icon.svg';
+const SVG_WORDMARK = '/logo-wordmark.svg';
 
 const ACCENT = '#12B886';
 export function LogoSection() {
