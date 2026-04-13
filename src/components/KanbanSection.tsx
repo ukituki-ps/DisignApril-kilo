@@ -268,7 +268,8 @@ function Column({
         width: isCompact ? 260 : 300,
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'var(--mantine-color-gray-0)',
+        backgroundColor:
+        'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6))',
         borderRadius: 'var(--mantine-radius-md)',
         borderTop: `4px solid var(--mantine-color-${column.color}-6)`,
         height: 600
