@@ -9,6 +9,7 @@
   --april-accent-teal-8: #0ca678;
   --april-accent-teal-9: #099268;
 
+  /* Semantic: значения как в `semantic.*.light` в @april/tokens (TS) */
   --april-semantic-danger: #fa5252;
   --april-semantic-warning: #fd7e14;
   --april-semantic-success: #40c057;
@@ -20,7 +21,12 @@
   --april-neutral-text-muted: #868e96;
 }
 
+/* Совпадает с `data-mantine-color-scheme` у Mantine — чистый CSS рядом с React-оболочкой */
 [data-mantine-color-scheme='dark'] {
+  --april-semantic-danger: #ff6b6b;
+  --april-semantic-warning: #ffa94d;
+  --april-semantic-success: #51cf66;
+
   --april-neutral-bg: #1a1b1e;
   --april-neutral-bg-alt: #25262b;
   --april-neutral-border: #373a40;
