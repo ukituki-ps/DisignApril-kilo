@@ -1,5 +1,4 @@
-import React, { useCallback, Component } from 'react';
-import '@xyflow/react/dist/style.css';
+import React, { useCallback } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -9,106 +8,168 @@ import {
   useEdgesState,
   addEdge,
   Connection,
-  Edge,
-  MarkerType } from
+  Edge } from
 '@xyflow/react';
 import { useComputedColorScheme } from '@mantine/core';
 import { nodeTypes } from './nodeTypes';
 const initialNodes = [
+// CEO
 {
   id: '1',
-  type: 'taskNode',
+  type: 'orgNode',
   position: {
-    x: 250,
+    x: 400,
     y: 50
   },
   data: {
-    label: 'Define Requirements',
-    status: 'Done',
-    assignee:
+    name: 'Sarah Jenkins',
+    role: 'Chief Executive Officer',
+    department: 'Executive',
+    deptColor: 'grape',
+    avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'
   }
 },
+// Department Heads
 {
   id: '2',
-  type: 'taskNode',
+  type: 'orgNode',
   position: {
     x: 100,
     y: 200
   },
   data: {
-    label: 'Design Database Schema',
-    status: 'Done',
-    assignee:
+    name: 'Michael Chen',
+    role: 'VP of Engineering',
+    department: 'Engineering',
+    deptColor: 'blue',
+    avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
   }
 },
 {
   id: '3',
-  type: 'taskNode',
+  type: 'orgNode',
   position: {
     x: 400,
     y: 200
   },
   data: {
-    label: 'Create UI Mockups',
-    status: 'In Progress',
-    assignee:
+    name: 'Elena Rodriguez',
+    role: 'VP of Product',
+    department: 'Product',
+    deptColor: 'teal',
+    avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png'
   }
 },
 {
   id: '4',
-  type: 'taskNode',
+  type: 'orgNode',
   position: {
-    x: 100,
-    y: 350
+    x: 700,
+    y: 200
   },
   data: {
-    label: 'Implement API Endpoints',
-    status: 'In Progress',
-    assignee:
+    name: 'David Kim',
+    role: 'VP of Marketing',
+    department: 'Marketing',
+    deptColor: 'orange',
+    avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-4.png'
   }
 },
+// Engineering Team
 {
-  id: '5',
-  type: 'taskNode',
+  id: '2a',
+  type: 'orgNode',
+  position: {
+    x: -50,
+    y: 350
+  },
+  data: {
+    name: 'Alex Johnson',
+    role: 'Frontend Lead',
+    department: 'Engineering',
+    deptColor: 'blue',
+    avatar:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png'
+  }
+},
+{
+  id: '2b',
+  type: 'orgNode',
+  position: {
+    x: 200,
+    y: 350
+  },
+  data: {
+    name: 'Sam Taylor',
+    role: 'Backend Lead',
+    department: 'Engineering',
+    deptColor: 'blue',
+    avatar:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png'
+  }
+},
+// Product Team
+{
+  id: '3a',
+  type: 'orgNode',
   position: {
     x: 400,
     y: 350
   },
   data: {
-    label: 'Develop Frontend Components',
-    status: 'Blocked',
-    assignee:
-    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png'
+    name: 'Jordan Lee',
+    role: 'UX Designer',
+    department: 'Product',
+    deptColor: 'teal',
+    avatar:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png'
+  }
+},
+// Marketing Team
+{
+  id: '4a',
+  type: 'orgNode',
+  position: {
+    x: 600,
+    y: 350
+  },
+  data: {
+    name: 'Casey Smith',
+    role: 'Content Strategist',
+    department: 'Marketing',
+    deptColor: 'orange',
+    avatar:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png'
   }
 },
 {
-  id: '6',
-  type: 'taskNode',
+  id: '4b',
+  type: 'orgNode',
   position: {
-    x: 250,
-    y: 500
+    x: 850,
+    y: 350
   },
   data: {
-    label: 'Integration Testing',
-    status: 'To Do',
-    assignee:
-    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png'
+    name: 'Riley Brown',
+    role: 'Growth Hacker',
+    department: 'Marketing',
+    deptColor: 'orange',
+    avatar:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png'
   }
 }];
 
 const initialEdges: Edge[] = [
+// CEO to VPs
 {
   id: 'e1-2',
   source: '1',
   target: '2',
-  label: 'depends on',
-  markerEnd: {
-    type: MarkerType.ArrowClosed
-  },
+  type: 'smoothstep',
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
@@ -118,75 +179,75 @@ const initialEdges: Edge[] = [
   id: 'e1-3',
   source: '1',
   target: '3',
-  label: 'depends on',
-  markerEnd: {
-    type: MarkerType.ArrowClosed
-  },
+  type: 'smoothstep',
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
 },
 {
-  id: 'e2-4',
-  source: '2',
+  id: 'e1-4',
+  source: '1',
   target: '4',
-  label: 'depends on',
-  markerEnd: {
-    type: MarkerType.ArrowClosed
-  },
+  type: 'smoothstep',
+  style: {
+    stroke: 'var(--mantine-color-gray-4)',
+    strokeWidth: 2
+  }
+},
+// VPs to Teams
+{
+  id: 'e2-2a',
+  source: '2',
+  target: '2a',
+  type: 'smoothstep',
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
 },
 {
-  id: 'e3-5',
+  id: 'e2-2b',
+  source: '2',
+  target: '2b',
+  type: 'smoothstep',
+  style: {
+    stroke: 'var(--mantine-color-gray-4)',
+    strokeWidth: 2
+  }
+},
+{
+  id: 'e3-3a',
   source: '3',
-  target: '5',
-  label: 'blocks',
-  animated: true,
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-    color: 'var(--mantine-color-red-6)'
-  },
-  style: {
-    stroke: 'var(--mantine-color-red-6)',
-    strokeWidth: 2
-  },
-  labelStyle: {
-    fill: 'var(--mantine-color-red-6)',
-    fontWeight: 600
-  }
-},
-{
-  id: 'e4-6',
-  source: '4',
-  target: '6',
-  label: 'depends on',
-  markerEnd: {
-    type: MarkerType.ArrowClosed
-  },
+  target: '3a',
+  type: 'smoothstep',
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
 },
 {
-  id: 'e5-6',
-  source: '5',
-  target: '6',
-  label: 'depends on',
-  markerEnd: {
-    type: MarkerType.ArrowClosed
-  },
+  id: 'e4-4a',
+  source: '4',
+  target: '4a',
+  type: 'smoothstep',
+  style: {
+    stroke: 'var(--mantine-color-gray-4)',
+    strokeWidth: 2
+  }
+},
+{
+  id: 'e4-4b',
+  source: '4',
+  target: '4b',
+  type: 'smoothstep',
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
 }];
 
-export function TaskDependencies() {
+export function OrgChart() {
   const colorScheme = useComputedColorScheme('light');
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -196,13 +257,7 @@ export function TaskDependencies() {
     addEdge(
       {
         ...params,
-        markerEnd: {
-          type: MarkerType.ArrowClosed
-        },
-        style: {
-          stroke: 'var(--mantine-color-gray-4)',
-          strokeWidth: 2
-        }
+        type: 'smoothstep'
       },
       eds
     )
@@ -217,13 +272,13 @@ export function TaskDependencies() {
       }}>
       
       <ReactFlow
-        colorMode={colorScheme}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        colorMode={colorScheme}
         fitView
         fitViewOptions={{
           padding: 0.2

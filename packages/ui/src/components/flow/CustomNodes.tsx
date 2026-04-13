@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import '@xyflow/react/dist/style.css';
 import {
   ReactFlow,
   MiniMap,
@@ -9,93 +8,66 @@ import {
   useEdgesState,
   addEdge,
   Connection,
-  Edge } from
+  Edge,
+  MarkerType } from
 '@xyflow/react';
 import { useComputedColorScheme } from '@mantine/core';
 import { nodeTypes } from './nodeTypes';
 const initialNodes = [
 {
   id: '1',
-  type: 'crmNode',
+  type: 'baseNode',
   position: {
     x: 50,
     y: 150
   },
   data: {
-    label: 'Lead',
-    count: 124,
-    amount: '$450k',
-    status: 'active'
+    label: 'Input Node',
+    description: 'Handles on right only',
+    nodeType: 'input',
+    color: 'blue'
   }
 },
 {
   id: '2',
-  type: 'crmNode',
+  type: 'baseNode',
   position: {
     x: 350,
-    y: 150
+    y: 50
   },
   data: {
-    label: 'Qualified',
-    count: 42,
-    amount: '$210k',
-    status: 'active'
+    label: 'Default Node',
+    description: 'Handles on both sides',
+    nodeType: 'default',
+    color: 'teal'
   }
 },
 {
   id: '3',
-  type: 'crmNode',
+  type: 'baseNode',
+  position: {
+    x: 350,
+    y: 250
+  },
+  data: {
+    label: 'Decision Node',
+    description: 'Multiple outputs',
+    nodeType: 'decision',
+    color: 'orange'
+  }
+},
+{
+  id: '4',
+  type: 'baseNode',
   position: {
     x: 650,
     y: 150
   },
   data: {
-    label: 'Proposal',
-    count: 18,
-    amount: '$145k',
-    status: 'active'
-  }
-},
-{
-  id: '4',
-  type: 'crmNode',
-  position: {
-    x: 950,
-    y: 150
-  },
-  data: {
-    label: 'Negotiation',
-    count: 8,
-    amount: '$85k',
-    status: 'active'
-  }
-},
-{
-  id: '5',
-  type: 'crmNode',
-  position: {
-    x: 1250,
-    y: 50
-  },
-  data: {
-    label: 'Closed Won',
-    count: 5,
-    amount: '$62k',
-    status: 'won'
-  }
-},
-{
-  id: '6',
-  type: 'crmNode',
-  position: {
-    x: 1250,
-    y: 250
-  },
-  data: {
-    label: 'Closed Lost',
-    count: 3,
-    amount: '$23k',
-    status: 'lost'
+    label: 'Output Node',
+    description: 'Handles on left only',
+    nodeType: 'output',
+    color: 'grape'
   }
 }];
 
@@ -104,19 +76,33 @@ const initialEdges: Edge[] = [
   id: 'e1-2',
   source: '1',
   target: '2',
-  type: 'smoothstep',
-  animated: true,
+  markerEnd: {
+    type: MarkerType.ArrowClosed
+  },
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
 },
 {
-  id: 'e2-3',
-  source: '2',
+  id: 'e1-3',
+  source: '1',
   target: '3',
-  type: 'smoothstep',
-  animated: true,
+  markerEnd: {
+    type: MarkerType.ArrowClosed
+  },
+  style: {
+    stroke: 'var(--mantine-color-gray-4)',
+    strokeWidth: 2
+  }
+},
+{
+  id: 'e2-4',
+  source: '2',
+  target: '4',
+  markerEnd: {
+    type: MarkerType.ArrowClosed
+  },
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
@@ -126,37 +112,18 @@ const initialEdges: Edge[] = [
   id: 'e3-4',
   source: '3',
   target: '4',
-  type: 'smoothstep',
-  animated: true,
+  sourceHandle: 'top',
+  label: 'Yes',
+  markerEnd: {
+    type: MarkerType.ArrowClosed
+  },
   style: {
     stroke: 'var(--mantine-color-gray-4)',
     strokeWidth: 2
   }
-},
-{
-  id: 'e4-5',
-  source: '4',
-  target: '5',
-  type: 'smoothstep',
-  animated: true,
-  style: {
-    stroke: 'var(--mantine-color-teal-6)',
-    strokeWidth: 2
-  }
-},
-{
-  id: 'e4-6',
-  source: '4',
-  target: '6',
-  type: 'smoothstep',
-  animated: true,
-  style: {
-    stroke: 'var(--mantine-color-red-6)',
-    strokeWidth: 2
-  }
 }];
 
-export function CrmPipeline() {
+export function CustomNodes() {
   const colorScheme = useComputedColorScheme('light');
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -166,8 +133,13 @@ export function CrmPipeline() {
     addEdge(
       {
         ...params,
-        type: 'smoothstep',
-        animated: true
+        markerEnd: {
+          type: MarkerType.ArrowClosed
+        },
+        style: {
+          stroke: 'var(--mantine-color-gray-4)',
+          strokeWidth: 2
+        }
       },
       eds
     )
@@ -196,15 +168,7 @@ export function CrmPipeline() {
         minZoom={0.5}>
         
         <Controls />
-        <MiniMap
-          zoomable
-          pannable
-          nodeColor={(n) => {
-            if (n.data.status === 'won') return 'var(--mantine-color-teal-6)';
-            if (n.data.status === 'lost') return 'var(--mantine-color-red-6)';
-            return 'var(--mantine-color-gray-4)';
-          }} />
-        
+        <MiniMap zoomable pannable />
         <Background color="var(--mantine-color-gray-3)" gap={16} />
       </ReactFlow>
     </div>);

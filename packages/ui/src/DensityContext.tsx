@@ -1,4 +1,5 @@
-import React, { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext } from 'react';
+import type { ReactNode } from 'react';
 type DensityMode = 'comfortable' | 'compact';
 interface DensityContextType {
   density: DensityMode;

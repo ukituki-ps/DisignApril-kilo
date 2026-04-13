@@ -8,7 +8,8 @@ import {
   Button,
   Group,
   Avatar,
-  Stack } from
+  Stack,
+  ThemeIcon } from
 '@mantine/core';
 import { UsersIcon, TrendingUpIcon, CheckCircle2Icon } from 'lucide-react';
 import { useDensity } from '../DensityContext';
@@ -71,12 +72,9 @@ export function CardsSection() {
               $34,500
             </Text>
           </Stack>
-          <div className="bg-teal-100 p-2 rounded-md dark:bg-teal-900">
-            <TrendingUpIcon
-              size={20}
-              className="text-teal-600 dark:text-teal-400" />
-            
-          </div>
+          <ThemeIcon variant="light" color="teal" size="lg" radius="md">
+            <TrendingUpIcon size={20} />
+          </ThemeIcon>
         </Group>
 
         <Group mt="md" gap="xs">

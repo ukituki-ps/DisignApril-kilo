@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import '@xyflow/react/dist/style.css';
+import React, { useCallback, Component } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -17,58 +16,86 @@ import { nodeTypes } from './nodeTypes';
 const initialNodes = [
 {
   id: '1',
-  type: 'baseNode',
+  type: 'taskNode',
   position: {
-    x: 50,
-    y: 150
+    x: 250,
+    y: 50
   },
   data: {
-    label: 'Input Node',
-    description: 'Handles on right only',
-    nodeType: 'input',
-    color: 'blue'
+    label: 'Define Requirements',
+    status: 'Done',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'
   }
 },
 {
   id: '2',
-  type: 'baseNode',
+  type: 'taskNode',
   position: {
-    x: 350,
-    y: 50
+    x: 100,
+    y: 200
   },
   data: {
-    label: 'Default Node',
-    description: 'Handles on both sides',
-    nodeType: 'default',
-    color: 'teal'
+    label: 'Design Database Schema',
+    status: 'Done',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
   }
 },
 {
   id: '3',
-  type: 'baseNode',
+  type: 'taskNode',
   position: {
-    x: 350,
-    y: 250
+    x: 400,
+    y: 200
   },
   data: {
-    label: 'Decision Node',
-    description: 'Multiple outputs',
-    nodeType: 'decision',
-    color: 'orange'
+    label: 'Create UI Mockups',
+    status: 'In Progress',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png'
   }
 },
 {
   id: '4',
-  type: 'baseNode',
+  type: 'taskNode',
   position: {
-    x: 650,
-    y: 150
+    x: 100,
+    y: 350
   },
   data: {
-    label: 'Output Node',
-    description: 'Handles on left only',
-    nodeType: 'output',
-    color: 'grape'
+    label: 'Implement API Endpoints',
+    status: 'In Progress',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-4.png'
+  }
+},
+{
+  id: '5',
+  type: 'taskNode',
+  position: {
+    x: 400,
+    y: 350
+  },
+  data: {
+    label: 'Develop Frontend Components',
+    status: 'Blocked',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png'
+  }
+},
+{
+  id: '6',
+  type: 'taskNode',
+  position: {
+    x: 250,
+    y: 500
+  },
+  data: {
+    label: 'Integration Testing',
+    status: 'To Do',
+    assignee:
+    'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png'
   }
 }];
 
@@ -77,6 +104,7 @@ const initialEdges: Edge[] = [
   id: 'e1-2',
   source: '1',
   target: '2',
+  label: 'depends on',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -89,6 +117,7 @@ const initialEdges: Edge[] = [
   id: 'e1-3',
   source: '1',
   target: '3',
+  label: 'depends on',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -101,6 +130,7 @@ const initialEdges: Edge[] = [
   id: 'e2-4',
   source: '2',
   target: '4',
+  label: 'depends on',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -110,11 +140,42 @@ const initialEdges: Edge[] = [
   }
 },
 {
-  id: 'e3-4',
+  id: 'e3-5',
   source: '3',
-  target: '4',
-  sourceHandle: 'top',
-  label: 'Yes',
+  target: '5',
+  label: 'blocks',
+  animated: true,
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: 'var(--mantine-color-red-6)'
+  },
+  style: {
+    stroke: 'var(--mantine-color-red-6)',
+    strokeWidth: 2
+  },
+  labelStyle: {
+    fill: 'var(--mantine-color-red-6)',
+    fontWeight: 600
+  }
+},
+{
+  id: 'e4-6',
+  source: '4',
+  target: '6',
+  label: 'depends on',
+  markerEnd: {
+    type: MarkerType.ArrowClosed
+  },
+  style: {
+    stroke: 'var(--mantine-color-gray-4)',
+    strokeWidth: 2
+  }
+},
+{
+  id: 'e5-6',
+  source: '5',
+  target: '6',
+  label: 'depends on',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -124,7 +185,7 @@ const initialEdges: Edge[] = [
   }
 }];
 
-export function CustomNodes() {
+export function TaskDependencies() {
   const colorScheme = useComputedColorScheme('light');
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -155,13 +216,13 @@ export function CustomNodes() {
       }}>
       
       <ReactFlow
+        colorMode={colorScheme}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        colorMode={colorScheme}
         fitView
         fitViewOptions={{
           padding: 0.2
