@@ -1,4 +1,4 @@
-# Corporate Service Dashboard — April Design System
+# April Design System
 
 Монорепозиторий дизайн-системы **April** для корпоративной продуктивности (задачи, CRM, HRM, документы) и множества микрофронтендов в одном проекте.
 
