@@ -15,6 +15,7 @@ import { ModalSection } from './ModalSection';
 import { SafetyPatterns } from './SafetyPatterns';
 import { ReactFlowSection } from './ReactFlowSection';
 import { KanbanSection } from './KanbanSection';
+import { LoginSection } from './LoginSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -127,6 +128,13 @@ export function UIKit() {
           description="Drag-and-drop task board for project management and workflow visualization.">
           
           <KanbanSection />
+        </Section>
+
+        <Section
+          title="16. Login Form"
+          description="Authentication screen with social SSO and email/password login.">
+          
+          <LoginSection />
         </Section>
       </Stack>
     </Container>);
