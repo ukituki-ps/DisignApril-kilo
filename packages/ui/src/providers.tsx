@@ -22,7 +22,7 @@ export type AprilProvidersProps = {
 export function AprilProviders({
   children,
   theme,
-  defaultColorScheme = 'light'
+  defaultColorScheme = 'auto'
 }: AprilProvidersProps) {
   return (
     <DensityProvider>
