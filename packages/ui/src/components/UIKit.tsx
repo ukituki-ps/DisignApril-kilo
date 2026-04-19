@@ -86,7 +86,7 @@ export function UIKit() {
 
         <Section
           title="9. Cards"
-          description="Surface containers for content grouping.">
+          description="Surface containers; includes April ecosystem grid (Simple Info Card: letter, product name, short description).">
           
           <CardsSection />
         </Section>
