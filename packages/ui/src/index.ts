@@ -8,5 +8,6 @@ export { AprilEcosystemSimpleCards } from './components/AprilEcosystemSimpleCard
 export type {
   AprilEcosystemSimpleCardsProps,
   AprilEcosystemSimpleCardItem,
+  AprilEcosystemStatusBadgeColor,
 } from './components/AprilEcosystemSimpleCards';
 export { UIKit } from './components/UIKit';

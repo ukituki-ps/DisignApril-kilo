@@ -1,6 +1,8 @@
 import {
+  Badge,
   Box,
   Card,
+  Group,
   SimpleGrid,
   Stack,
   Text,
@@ -10,11 +12,16 @@ import {
 } from '@mantine/core';
 import { useDensity } from '../DensityContext';
 
+/** Соответствует семантическим цветам из витрины (Badges & Tags → Semantic Colors). */
+export type AprilEcosystemStatusBadgeColor = 'gray' | 'blue';
+
 export type AprilEcosystemSimpleCardItem = {
   letter: string;
   title: string;
   product: string;
   description: string;
+  statusBadgeLabel: string;
+  statusBadgeColor: AprilEcosystemStatusBadgeColor;
 };
 
 export type AprilEcosystemSimpleCardsProps = {
@@ -22,8 +29,7 @@ export type AprilEcosystemSimpleCardsProps = {
 };
 
 /**
- * Сетка карточек «Simple Info Card»: верхняя зона teal, крупная латинская буква, заголовок, продукт, описание.
- * Раскладка и тема согласованы с витриной (CardsSection).
+ * Сетка карточек «Simple Info Card»: верх teal, буква; в теле — заголовок + Badge (как Semantic Colors в BadgesSection) справа от названия.
  */
 export function AprilEcosystemSimpleCards({ cards }: AprilEcosystemSimpleCardsProps) {
   const { density } = useDensity();
@@ -77,9 +83,14 @@ export function AprilEcosystemSimpleCards({ cards }: AprilEcosystemSimpleCardsPr
             </Card.Section>
 
             <Stack gap="xs" p={p}>
-              <Title order={3} id={titleId} size={isCompact ? 'h5' : 'h4'}>
-                {item.title}
-              </Title>
+              <Group justify="space-between" align="flex-start" wrap="nowrap" gap="sm">
+                <Title order={3} id={titleId} size={isCompact ? 'h5' : 'h4'} style={{ flex: 1, minWidth: 0 }}>
+                  {item.title}
+                </Title>
+                <Badge color={item.statusBadgeColor} size="sm">
+                  {item.statusBadgeLabel}
+                </Badge>
+              </Group>
               <Text size="xs" c="teal" fw={600}>
                 {item.product}
               </Text>
