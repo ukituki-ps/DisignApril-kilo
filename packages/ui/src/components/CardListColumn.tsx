@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Card,
-  Group,
   Modal,
   Paper,
   ScrollArea,
@@ -299,14 +298,14 @@ export function CardListColumn({
         }
         data={filterOptions}
       />
-      <Group justify="flex-end">
+      <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
         <Button size="xs" variant="light" onClick={resetFilter}>
           Reset
         </Button>
         <Button size="xs" onClick={applyFilter}>
           Apply
         </Button>
-      </Group>
+      </Box>
     </Stack>
   );
   const sortModalBody = renderSortModal ? (
@@ -334,14 +333,14 @@ export function CardListColumn({
         onChange={(value) => setDraftSortDirection((value as CardListColumnSort['direction']) ?? 'desc')}
         data={sortDirectionOptions}
       />
-      <Group justify="flex-end">
+      <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
         <Button size="xs" variant="light" onClick={resetSort}>
           Reset
         </Button>
         <Button size="xs" onClick={applySort}>
           Apply
         </Button>
-      </Group>
+      </Box>
     </Stack>
   );
 
@@ -376,9 +375,9 @@ export function CardListColumn({
         </Stack>
       ) : (
         <>
-          <Group justify="space-between" mb="xs">
+          <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--mantine-spacing-xs)' }}>
             <Text fw={600}>{title}</Text>
-            <Group gap={6}>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <Badge variant="light" color="teal">
                 {totalItems}
               </Badge>
@@ -400,9 +399,16 @@ export function CardListColumn({
                   <XIcon size={14} />
                 </ActionIcon>
               ) : null}
-            </Group>
-          </Group>
-          <Group justify="space-between" wrap="nowrap" mb="xs">
+            </Box>
+          </Box>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'nowrap',
+              marginBottom: 'var(--mantine-spacing-xs)',
+            }}>
             <TextInput
               leftSection={<SearchIcon size={14} />}
               aria-label="Search cards"
@@ -416,7 +422,7 @@ export function CardListColumn({
               }}
               style={{ flex: 1 }}
             />
-            <Group gap={6} wrap="nowrap">
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
               {withFilter ? (
                 <ActionIcon
                   variant="light"
@@ -444,8 +450,8 @@ export function CardListColumn({
                   <PlusIcon size={14} />
                 </ActionIcon>
               ) : null}
-            </Group>
-          </Group>
+            </Box>
+          </Box>
           <Box style={{ flex: 1, minHeight: 0 }}>
             <ScrollArea h="100%" viewportRef={viewportRef} onScrollPositionChange={onScroll}>
               <Stack gap="sm">
