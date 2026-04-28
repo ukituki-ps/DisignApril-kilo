@@ -38,8 +38,8 @@ export function CardListColumnSection() {
     const normalized = query.trim().toLowerCase();
     let next = MOCK_SERVER_ITEMS;
 
-    if (filter.status) {
-      next = next.filter((item) => item.status === filter.status);
+    if (filter.type) {
+      next = next.filter((item) => item.status === filter.type);
     }
 
     if (normalized) {
@@ -61,7 +61,7 @@ export function CardListColumnSection() {
     });
 
     return sort.direction === 'asc' ? sorted : sorted.reverse();
-  }, [filter.status, query, sort.direction, sort.field]);
+  }, [filter.type, query, sort.direction, sort.field]);
 
   useEffect(() => {
     setLoading(true);
@@ -77,7 +77,7 @@ export function CardListColumnSection() {
 
   useEffect(() => {
     setLimit(50);
-  }, [filter.status, query, sort.direction, sort.field]);
+  }, [filter.type, query, sort.direction, sort.field]);
 
   return (
     <Stack gap="md">
@@ -107,7 +107,27 @@ export function CardListColumnSection() {
           searchValue={query}
           onSearchChange={setQuery}
           filterValue={filter}
+          filterField="type"
+          filterLabel="Type"
+          filterModalTitle="Filters"
+          filterOptions={[
+            { label: 'All types', value: 'all' },
+            { label: 'Todo', value: 'todo' },
+            { label: 'In Progress', value: 'in-progress' },
+            { label: 'Done', value: 'done' },
+          ]}
           sortValue={sort}
+          sortModalTitle="Sorting"
+          sortFieldLabel="Sort by"
+          sortDirectionLabel="Direction"
+          sortOptions={[
+            { label: 'Created at', value: 'createdAt' },
+            { label: 'Title', value: 'title' },
+          ]}
+          sortDirectionOptions={[
+            { label: 'Descending', value: 'desc' },
+            { label: 'Ascending', value: 'asc' },
+          ]}
           onFilterChange={setFilter}
           onSortChange={setSort}
           onReachListEnd={() => {
