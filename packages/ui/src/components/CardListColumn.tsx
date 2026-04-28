@@ -407,6 +407,7 @@ export function CardListColumn({
               alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'nowrap',
+              gap: 'var(--mantine-spacing-xs)',
               marginBottom: 'var(--mantine-spacing-xs)',
             }}>
             <TextInput
