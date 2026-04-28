@@ -323,6 +323,52 @@ describe('CardListColumn', () => {
     expect(await screen.findByText('Draft filter status: in-progress')).toBeTruthy();
   });
 
+  it('does not treat reordered filter keys as a new sync value', async () => {
+    const user = userEvent.setup();
+    const { rerender } = renderCardListColumn(
+      <CardListColumn
+        title="Inbox"
+        mode="inline"
+        items={items}
+        filterValue={{ status: 'todo', priority: 'high' }}
+        renderFilterModal={({ draftFilter, closeModal }) => (
+          <div>
+            <span>Draft key order: {Object.keys(draftFilter).join(',')}</span>
+            <button type="button" onClick={closeModal}>
+              Close stable filter modal
+            </button>
+          </div>
+        )}
+      />
+    );
+
+    await user.click(screen.getByLabelText('Open filter options'));
+    expect(await screen.findByText('Draft key order: status,priority')).toBeTruthy();
+    await user.click(screen.getByRole('button', { name: 'Close stable filter modal' }));
+
+    rerender(
+      <AprilProviders defaultColorScheme="dark">
+        <CardListColumn
+          title="Inbox"
+          mode="inline"
+          items={items}
+          filterValue={{ priority: 'high', status: 'todo' }}
+          renderFilterModal={({ draftFilter, closeModal }) => (
+            <div>
+              <span>Draft key order: {Object.keys(draftFilter).join(',')}</span>
+              <button type="button" onClick={closeModal}>
+                Close stable filter modal
+              </button>
+            </div>
+          )}
+        />
+      </AprilProviders>
+    );
+
+    await user.click(screen.getByLabelText('Open filter options'));
+    expect(await screen.findByText('Draft key order: status,priority')).toBeTruthy();
+  });
+
   it('does not resync sort draft while modal is open and resyncs after close', async () => {
     const user = userEvent.setup();
     const { rerender } = renderCardListColumn(

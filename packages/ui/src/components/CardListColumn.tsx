@@ -117,6 +117,14 @@ const DEFAULT_SORT_DIRECTION_OPTIONS: CardListColumnSortDirectionOption[] = [
   { label: 'Descending', value: 'desc' },
   { label: 'Ascending', value: 'asc' },
 ];
+const getStableFilterKey = (filter: CardListColumnFilter | undefined) => {
+  const source = filter ?? {};
+  const orderedEntries = Object.keys(source)
+    .sort()
+    .map((key) => [key, source[key]] as const);
+
+  return JSON.stringify(orderedEntries);
+};
 
 function DefaultCard({ item, cardHeight }: { item: CardListColumnItem; cardHeight: number }) {
   return (
@@ -188,7 +196,7 @@ export function CardListColumn({
     clamp(defaultWidthPercent, minWidthPercent, maxWidthPercent)
   );
   const query = searchValue ?? localQuery;
-  const filterValueKey = useMemo(() => JSON.stringify(filterValue ?? {}), [filterValue]);
+  const filterValueKey = useMemo(() => getStableFilterKey(filterValue), [filterValue]);
   const sortValueKey = useMemo(
     () => JSON.stringify(sortValue ?? { field: 'createdAt', direction: 'desc' }),
     [sortValue]
