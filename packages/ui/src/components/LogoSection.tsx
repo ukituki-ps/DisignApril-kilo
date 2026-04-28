@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, SimpleGrid, Box, Text, Paper, Group } from '@mantine/core';
 const SVG_FULL = '/logo-full.svg';
 const SVG_ICON = '/logo-icon.svg';

@@ -1,9 +1,9 @@
-import React, { lazy } from 'react';
+import type { ReactNode } from 'react';
 import { Stack, Title, Text, Group, Box, Divider } from '@mantine/core';
 export function TypographySection() {
   const renderRow = (
   label: string,
-  element: React.ReactNode,
+  element: ReactNode,
   details: string) =>
 
   <Group align="center" wrap="nowrap" py="sm">

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Group, Button, Text, ActionIcon } from '@mantine/core';
 import { SettingsIcon, PlusIcon, TrashIcon, SearchIcon } from 'lucide-react';
 import { useDensity } from '../DensityContext';

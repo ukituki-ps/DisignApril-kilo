@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Group, Badge, Text } from '@mantine/core';
 export function BadgesSection() {
   return (

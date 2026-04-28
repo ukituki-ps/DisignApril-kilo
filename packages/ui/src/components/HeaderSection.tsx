@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
 import {
   Box,
   Group,
   TextInput,
   ActionIcon,
   Avatar,
-  Badge,
   Menu,
   Text,
   Indicator,

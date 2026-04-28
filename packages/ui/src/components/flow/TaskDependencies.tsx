@@ -1,4 +1,4 @@
-import React, { useCallback, Component } from 'react';
+import { useCallback } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -187,7 +187,7 @@ const initialEdges: Edge[] = [
 
 export function TaskDependencies() {
   const colorScheme = useComputedColorScheme('light');
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const onConnect = useCallback(
     (params: Connection | Edge) =>
@@ -202,7 +202,7 @@ export function TaskDependencies() {
           stroke: 'var(--mantine-color-gray-4)',
           strokeWidth: 2
         }
-      },
+      } as Edge,
       eds
     )
     ),

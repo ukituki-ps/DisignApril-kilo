@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable react-refresh/only-export-components */
 import { Handle, Position, NodeProps } from '@xyflow/react';
 import {
   Card,
@@ -6,8 +6,6 @@ import {
   Badge,
   Group,
   Avatar,
-  Stack,
-  ThemeIcon,
   Box } from
 '@mantine/core';
 import { useDensity } from '../../DensityContext';

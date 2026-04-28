@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stack, Alert, Notification, SimpleGrid, Text } from '@mantine/core';
 import {
   InfoIcon,
@@ -75,8 +74,7 @@ export function AlertsSection() {
           <Notification
             title="Task Completed"
             color="teal"
-            icon={<CheckCircleIcon size={18} />}
-            onClose={() => {}}>
+            icon={<CheckCircleIcon size={18} />}>
             
             The report generation task has finished successfully.
           </Notification>
@@ -84,8 +82,7 @@ export function AlertsSection() {
           <Notification
             title="Upload Failed"
             color="red"
-            icon={<XCircleIcon size={18} />}
-            onClose={() => {}}>
+            icon={<XCircleIcon size={18} />}>
             
             The file "Q3_Financials.pdf" exceeds the maximum allowed size of
             10MB.

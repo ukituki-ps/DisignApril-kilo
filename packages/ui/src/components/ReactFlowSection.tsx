@@ -1,5 +1,4 @@
-import React from 'react';
-import { Tabs, Box, Text } from '@mantine/core';
+import { Tabs, Box } from '@mantine/core';
 import { CrmPipeline } from './flow/CrmPipeline';
 import { OrgChart } from './flow/OrgChart';
 import { TaskDependencies } from './flow/TaskDependencies';

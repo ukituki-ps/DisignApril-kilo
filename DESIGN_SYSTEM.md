@@ -259,6 +259,7 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 
 - **Kanban:** колонки To Do → In Progress → Review → Done; dnd-kit; счётчики в колонках
 - **React Flow:** CRM pipeline, org chart, зависимости задач; кастомные узлы на Mantine; стили потока подключать в приложении (`@xyflow/react/dist/style.css`)
+- **Card List Column:** одиночная колонка списка карточек с двумя секциями (панель управления + список), режимами `inline/overlay`, единым размером карточек и ресайзом ширины в диапазоне 15%-50% контейнера.
 
 ---
 
