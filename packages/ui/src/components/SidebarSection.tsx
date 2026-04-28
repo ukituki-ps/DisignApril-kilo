@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   NavLink,
@@ -7,7 +7,6 @@ import {
   Badge,
   Divider,
   Group,
-  ThemeIcon,
   ScrollArea,
   ActionIcon,
   Tooltip } from
@@ -185,7 +184,10 @@ export function SidebarSection() {
                       </Text>);
 
                   }
-                  const Icon = item.icon!;
+                  if (!('icon' in item) || !item.icon) {
+                    return null;
+                  }
+                  const Icon = item.icon;
                   if (collapsed) {
                     return (
                       <Tooltip

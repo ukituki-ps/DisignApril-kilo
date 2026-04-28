@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -157,7 +157,7 @@ const initialEdges: Edge[] = [
 
 export function CrmPipeline() {
   const colorScheme = useComputedColorScheme('light');
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const onConnect = useCallback(
     (params: Connection | Edge) =>

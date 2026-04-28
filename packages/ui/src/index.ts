@@ -11,3 +11,9 @@ export type {
   AprilEcosystemStatusBadgeColor,
 } from './components/AprilEcosystemSimpleCards';
 export { UIKit } from './components/UIKit';
+export { CardListColumn } from './components/CardListColumn';
+export type {
+  CardListColumnItem,
+  CardListColumnMode,
+  CardListColumnProps,
+} from './components/CardListColumn';

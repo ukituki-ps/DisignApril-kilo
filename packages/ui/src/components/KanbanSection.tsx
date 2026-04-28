@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import { useState } from 'react';
 import {
   DndContext,
   DragOverlay,

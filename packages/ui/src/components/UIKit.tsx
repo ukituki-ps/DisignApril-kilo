@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { Container, Stack, Title, Text, Box } from '@mantine/core';
 import { LogoSection } from './LogoSection';
 import { HeaderSection } from './HeaderSection';
@@ -16,6 +16,7 @@ import { SafetyPatterns } from './SafetyPatterns';
 import { ReactFlowSection } from './ReactFlowSection';
 import { KanbanSection } from './KanbanSection';
 import { LoginSection } from './LoginSection';
+import { CardListColumnSection } from './CardListColumnSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -136,6 +137,12 @@ export function UIKit() {
           
           <LoginSection />
         </Section>
+
+        <Section
+          title="17. Card List Column"
+          description="Kanban-like single column with search controls, fixed-size cards, inline collapse, overlay mode, and resizable width.">
+          <CardListColumnSection />
+        </Section>
       </Stack>
     </Container>);
 
@@ -148,7 +155,7 @@ function Section({
 
 
 
-}: {title: string;description: string;children: React.ReactNode;}) {
+}: {title: string;description: string;children: ReactNode;}) {
   return (
     <Box component="section" mb="xl">
       <Title order={2} mb="xs">

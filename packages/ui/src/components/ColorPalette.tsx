@@ -1,14 +1,5 @@
-import React from 'react';
-import {
-  SimpleGrid,
-  Box,
-  Text,
-  Group,
-  Stack,
-  useMantineTheme } from
-'@mantine/core';
+import { SimpleGrid, Box, Text, Stack } from '@mantine/core';
 export function ColorPalette() {
-  const theme = useMantineTheme();
   const renderSwatch = (color: string, name: string, hex: string) =>
   <Stack gap="xs">
       <Box
