@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import {
   ActionIcon,
@@ -173,6 +173,8 @@ export function CardListColumn({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const loadMoreTriggeredRef = useRef(false);
+  const lastSyncedFilterKeyRef = useRef('');
+  const lastSyncedSortKeyRef = useRef('');
   const [localQuery, setLocalQuery] = useState('');
   const [collapsed, setCollapsed] = useState(false);
   const [overlayOpened, setOverlayOpened] = useState(mode === 'overlay');
@@ -186,12 +188,33 @@ export function CardListColumn({
     clamp(defaultWidthPercent, minWidthPercent, maxWidthPercent)
   );
   const query = searchValue ?? localQuery;
+  const filterValueKey = useMemo(() => JSON.stringify(filterValue ?? {}), [filterValue]);
+  const sortValueKey = useMemo(
+    () => JSON.stringify(sortValue ?? { field: 'createdAt', direction: 'desc' }),
+    [sortValue]
+  );
 
-  useEffect(() => setDraftFilter(filterValue ?? {}), [filterValue]);
   useEffect(() => {
+    if (filterOpened) {
+      return;
+    }
+    if (lastSyncedFilterKeyRef.current === filterValueKey) {
+      return;
+    }
+    setDraftFilter(filterValue ?? {});
+    lastSyncedFilterKeyRef.current = filterValueKey;
+  }, [filterOpened, filterValue, filterValueKey]);
+  useEffect(() => {
+    if (sortOpened) {
+      return;
+    }
+    if (lastSyncedSortKeyRef.current === sortValueKey) {
+      return;
+    }
     setDraftSortField(sortValue?.field ?? 'createdAt');
     setDraftSortDirection(sortValue?.direction ?? 'desc');
-  }, [sortValue?.field, sortValue?.direction]);
+    lastSyncedSortKeyRef.current = sortValueKey;
+  }, [sortOpened, sortValue, sortValueKey]);
   useEffect(() => {
     if (!loading) {
       loadMoreTriggeredRef.current = false;
