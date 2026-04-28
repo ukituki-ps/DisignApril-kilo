@@ -74,12 +74,15 @@ function renderCardListColumn(ui: React.ReactNode) {
 
 describe('CardListColumn', () => {
   it('renders title, counter and list items', () => {
-    renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />);
+    const { container } = renderCardListColumn(
+      <CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />
+    );
 
     expect(screen.getByText('Inbox')).toBeTruthy();
     expect(screen.getByText('2')).toBeTruthy();
     expect(screen.getByText('First task')).toBeTruthy();
     expect(screen.getByText('Second task')).toBeTruthy();
+    expect(container.querySelector('.mantine-Group-root')).toBeNull();
   });
 
   it('calls onSearchChange when user types in search input', async () => {

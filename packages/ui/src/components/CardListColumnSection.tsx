@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Badge, Card, Group, SegmentedControl, Stack, Text } from '@mantine/core';
+import { Badge, Box, Card, SegmentedControl, Stack, Text } from '@mantine/core';
 import {
   CardListColumn,
   CardListColumnFilter,
@@ -81,9 +81,9 @@ export function CardListColumnSection() {
 
   return (
     <Stack gap="md">
-      <Group justify="space-between">
+      <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text size="sm" c="dimmed">
-          Toggle display mode to verify inline and overlay behavior.
+          Toggle display mode to verify inline and overlay behavior with flex-based controls.
         </Text>
         <SegmentedControl
           value={mode}
@@ -94,7 +94,7 @@ export function CardListColumnSection() {
           ]}
           size="xs"
         />
-      </Group>
+      </Box>
 
       <Card withBorder radius="md" p="md" style={{ minHeight: 560 }}>
         <CardListColumn
@@ -139,14 +139,20 @@ export function CardListColumnSection() {
           maxWidthPercent={50}
           renderCard={(item) => (
             <Card withBorder radius="md" p="sm" h="100%">
-              <Group justify="space-between" mb="xs">
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: 'var(--mantine-spacing-xs)',
+                }}>
                 <Text fw={600} lineClamp={1}>
                   {item.title}
                 </Text>
                 <Badge size="xs" variant="light" color="blue">
                   Task
                 </Badge>
-              </Group>
+              </Box>
               <Text size="sm" c="dimmed" lineClamp={3}>
                 {item.description}
               </Text>
