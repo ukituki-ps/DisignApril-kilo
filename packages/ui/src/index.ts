@@ -13,7 +13,14 @@ export type {
 export { UIKit } from './components/UIKit';
 export { CardListColumn } from './components/CardListColumn';
 export type {
+  CardListColumnFilter,
+  CardListColumnFilterModalRenderProps,
+  CardListColumnFilterOption,
   CardListColumnItem,
   CardListColumnMode,
   CardListColumnProps,
+  CardListColumnSortDirectionOption,
+  CardListColumnSortModalRenderProps,
+  CardListColumnSortOption,
+  CardListColumnSort,
 } from './components/CardListColumn';
