@@ -7,6 +7,7 @@
 - `DOCUMENTATION_MAP.md` - карта документов и что читать в первую очередь.
 - `DEVELOPMENT_WORKFLOW.md` - процесс изменения токенов, UI-библиотеки и showcase.
 - `COMPONENT_STANDARDS.md` - стандарты качества для компонентов и API.
+- `TESTING_STRATEGY.md` - стратегия тестирования компонентов и quality gate.
 - `ROADMAP.md` - направления развития и приоритеты.
 - `AGENT_MASTER_PROMPT.md` - мастер-промпт для задач, выполняемых агентом.
 - `AGENT_TASK_TEMPLATE.md` - шаблон постановки задачи.

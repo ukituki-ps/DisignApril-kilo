@@ -13,7 +13,9 @@
     "build:showcase": "pnpm run build && pnpm --filter @april/showcase build",
     "preview": "pnpm --filter @april/showcase preview",
     "lint": "eslint apps/showcase/src packages/ui/src packages/tokens/src --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit -p packages/tokens/tsconfig.json && pnpm --filter @april/ui run typecheck && pnpm --filter @april/showcase run typecheck"
+    "typecheck": "tsc --noEmit -p packages/tokens/tsconfig.json && pnpm --filter @april/ui run typecheck && pnpm --filter @april/showcase run typecheck",
+    "test": "pnpm --filter @april/ui run test",
+    "test:watch": "pnpm --filter @april/ui run test:watch"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.54.0",

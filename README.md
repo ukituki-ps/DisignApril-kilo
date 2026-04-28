@@ -86,3 +86,5 @@ pnpm build:showcase     # библиотеки + статическая витр
 | `pnpm build:showcase` | Библиотеки + сборка витрины |
 | `pnpm lint` | ESLint по `apps/showcase` и `packages/*` |
 | `pnpm typecheck` | Проверка типов |
+| `pnpm test` | Unit/smoke тесты `@april/ui` (Vitest + RTL) |
+| `pnpm test:watch` | Тесты `@april/ui` в watch-режиме |
