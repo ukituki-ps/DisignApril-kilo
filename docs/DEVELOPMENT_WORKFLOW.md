@@ -15,7 +15,7 @@
 3. Внести изменения в исходники и сразу обновить showcase, если поведение визуальное.
 4. Прогнать проверки:
    - `pnpm lint`
-   - `pnpm typecheck`
+   - `pnpm typecheck` (собирает `packages/tokens` и `packages/ui` в `dist/`, затем проверяет типы — на чистом клоне без `dist` это обязательно)
    - `pnpm build`
    - `pnpm test`
 5. Обновить документацию (`DESIGN_SYSTEM.md` и/или файлы в `docs/`), если поменялись правила/контракты. Релиз пакетов в registry — см. [`docs/PUBLISHING.md`](./PUBLISHING.md).
