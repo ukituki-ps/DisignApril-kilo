@@ -1,60 +1,41 @@
 ## 1) Итого
-- Статус: ⚠️ (инфраструктура и документация готовы; первая фактическая публикация в GitHub Packages — после merge и ручного запуска workflow)
-- Задача: DS-005 — публикация `@april/tokens` и `@april/ui` в приватный npm registry (GitHub Packages)
-- Ветка: `feature/ds-005-registry-npm-publish` (рекомендуется для PR)
-- Коммиты: не фиксировались агентом в git
-- PR: не создавался
+- Статус: ✅ (пакеты опубликованы в GitHub Packages; workflow зелёный)
+- Задача: DS-005 — публикация дизайн-системы в приватный npm registry (GitHub Packages)
+- Ветка / merge: изменения влиты в `main` через PR [#15](https://github.com/ukituki-ps/DisignApril/pull/15), [#16](https://github.com/ukituki-ps/DisignApril/pull/16), [#17](https://github.com/ukituki-ps/DisignApril/pull/17), [#18](https://github.com/ukituki-ps/DisignApril/pull/18)
+- Успешный прогон публикации: [Actions run 25134476568](https://github.com/ukituki-ps/DisignApril/actions/runs/25134476568)
 
-## 2) Дополнение (имена пакетов в GitHub Packages)
+## 2) Имена пакетов в registry
 
-GitHub Packages для npm требует scope владельца репозитория; произвольный `@april/*` даёт 403 при `PUT`. Публикуемые имена: **`@ukituki-ps/april-tokens`**, **`@ukituki-ps/april-ui`**. В `docs/PUBLISHING.md` описаны npm-алиасы, чтобы в сервисах сохранить импорты `from '@april/ui'` / `from '@april/tokens'`.
+GitHub Packages для npm требует scope владельца репозитория; произвольный `@april/*` даёт **403** при `PUT`. Публикуемые имена: **`@ukituki-ps/april-tokens@0.1.0`**, **`@ukituki-ps/april-ui@0.1.0`**. Чтобы в сервисах сохранить импорты `from '@april/ui'`, используйте npm-алиасы — [`docs/PUBLISHING.md`](../../docs/PUBLISHING.md).
 
-## 3) Что сделано (исходная реализация)
-- [tokens] В `packages/tokens/package.json`: `repository`, `publishConfig.registry` → `https://npm.pkg.github.com`, `access: restricted`.
-- [ui] В `packages/ui/package.json`: то же для согласованности с GitHub Packages.
-- [showcase] Не менялся (визуальных изменений нет).
-- [docs] Добавлен `docs/PUBLISHING.md` — порядок релиза патч/минор, breaking policy, `.npmrc` для потребителей, проверки `npm view` и dry-run. Обновлены `README.md`, `DESIGN_SYSTEM.md`, `docs/DOCUMENTATION_MAP.md`, `docs/DEVELOPMENT_WORKFLOW.md`.
-- [ci] Добавлен `.github/workflows/publish-april-packages.yml`: `workflow_dispatch` с выбором `tokens` | `ui` | `both`, `pnpm install --frozen-lockfile`, lint + typecheck + build, затем `pnpm publish` с `GITHUB_TOKEN` и `packages: write`.
-- [meta] Добавлен `docs/AGENT_PLAN_TEMPLATE.md` (в репозитории не было; требование мастер-промпта). Обновлены `tasks/ds-005-registry-npm-publish/PLAN.md` и `TASK.md`.
+## 3) Что сделано
+- [tokens/ui] Манифесты, `publishConfig`, workflow **Publish @april packages**, документация, исправления CI (workspace registry, порядок `typecheck`/`dist`).
+- [naming] Переименование workspace-пакетов в `@ukituki-ps/april-*` для совместимости с GPR; обновлены showcase, lockfile, README, `DESIGN_SYSTEM.md`.
+- [publish] Ручной `workflow_dispatch` с `packages=both` после merge PR #18 — оба пакета опубликованы.
 
-## 4) Измененные файлы
-- `packages/tokens/package.json`
-- `packages/ui/package.json`
+## 4) Измененные области (ключевые)
+- `packages/tokens/package.json`, `packages/ui/package.json`
 - `.github/workflows/publish-april-packages.yml`
-- `docs/PUBLISHING.md`
-- `docs/AGENT_PLAN_TEMPLATE.md`
-- `docs/DOCUMENTATION_MAP.md`
-- `docs/DEVELOPMENT_WORKFLOW.md`
-- `DESIGN_SYSTEM.md`
-- `README.md`
-- `tasks/ds-005-registry-npm-publish/PLAN.md`
-- `tasks/ds-005-registry-npm-publish/TASK.md`
-- `tasks/ds-005-registry-npm-publish/REPORT.md`
+- `package.json` (скрипты `typecheck` / `build` / `test`)
+- `docs/PUBLISHING.md`, `README.md`, `DESIGN_SYSTEM.md`, прочие `docs/*`
+- `apps/showcase/*`, `pnpm-lock.yaml`
+- `tasks/ds-005-registry-npm-publish/*`
 
 ## 5) Проверки
-- Линт: ok
-- Типы: ok
-- Сборка: ok
-- Тесты (`pnpm test`): ok
+- Локально: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test` — ok
+- CI publish: lint → typecheck → build → publish tokens → publish ui — ok
 
-Команды:
+Проверка версий (нужен `.npmrc` с `@ukituki-ps:registry` и токеном read):
+
 ```bash
-pnpm lint
-pnpm typecheck
-pnpm build
-pnpm test
-pnpm --filter @april/tokens publish --dry-run --no-git-checks
-pnpm --filter @april/ui publish --dry-run --no-git-checks
+npm view @ukituki-ps/april-tokens versions --json
+npm view @ukituki-ps/april-ui versions --json
 ```
 
-Dry-run публикует в `https://npm.pkg.github.com` (проверено для tokens; ui — аналогично через `publishConfig`).
-
 ## 6) Риски и ограничения
-- **Первая публикация** возможна только на GitHub после merge workflow и наличия прав `packages: write` у `GITHUB_TOKEN` для этого репозитория (обычно включено для приватных пакетов в том же repo).
-- При выборе `both` версии в обоих `package.json` на ветке должны быть согласованы: в tarball `@april/ui` зависимость на `@april/tokens` переписывается в semver текущей версии токенов из монорепо — перед релизом UI убедиться, что нужная версия токенов уже опубликована, если поднимали только UI.
-- Потребители из **других** репозиториев org могут нуждаться в PAT / настройке `read:packages` для `npm ci`; это описано в `docs/PUBLISHING.md`.
+- **AprilHub / AprilProfile** нужно перевести на зависимости `@ukituki-ps/april-*` или на npm-алиасы к ним (см. `docs/PUBLISHING.md`); старые имена `@april/*` в `package.json` без алиасов из registry **не** установятся.
+- Потребители в других репозиториях: PAT / `read:packages`, см. PUBLISHING.
 
-## 7) Что осталось
-- [ ] Смержить изменения, на **GitHub Actions** вручную запустить **Publish @april packages** (например `both` для первого релиза `0.1.0`).
-- [ ] Проверить `npm view @april/ui versions` и `@april/tokens` с read-токеном; передать версии в PR april-worker (эпик 049-03).
-- [ ] Согласовать с владельцем эпика 049 стартовые версии при необходимости bump до первого merge lock на стороне Hub.
+## 7) Что осталось для эпика 049
+- [ ] Обновить `hub-shell` / lock в april-worker на версии `0.1.0` (или согласованный bump) с учётом имён `@ukituki-ps/april-*` или алиасов.
+- [ ] Закрыть задачи AprilProfile по тому же принципу.

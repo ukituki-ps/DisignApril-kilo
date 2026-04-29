@@ -31,7 +31,7 @@
 - Не импортировать `UIKit` в production-примеры (не относится напрямую к publish, но сохраняем общий контракт репозитория).
 
 ## Критерии готовности
-- [ ] Успешная публикация `@april/tokens` и `@april/ui` в выбранный registry (проверка `npm view` с read-доступом) — **после первого запуска** workflow на GitHub; см. `REPORT.md`.
+- [x] Успешная публикация в GitHub Packages под именами `@ukituki-ps/april-tokens` и `@ukituki-ps/april-ui` (workflow на `main`, см. `REPORT.md`).
 - [x] Документ «как выпустить патч/минор» и политика breaking/changelog в этом репозитории (`docs/PUBLISHING.md`).
 - [x] Зафиксированы координаты для потребителей: URL registry, scope, пример `.npmrc` (без секретов) — в `docs/PUBLISHING.md`.
 - [x] `pnpm lint`, `pnpm typecheck`, `pnpm build` проходят после изменений.
