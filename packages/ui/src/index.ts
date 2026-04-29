@@ -11,6 +11,17 @@ export type {
   AprilEcosystemStatusBadgeColor,
 } from './components/AprilEcosystemSimpleCards';
 export { UIKit } from './components/UIKit';
+export { ProductHeaderToolbar } from './components/ProductHeaderToolbar';
+export type {
+  ProductHeaderToolbarProps,
+  ProductHeaderToolbarLabels,
+} from './components/ProductHeaderToolbar';
+export { ProductSidebarNavigation } from './components/ProductSidebarNavigation';
+export type {
+  ProductSidebarNavEntry,
+  ProductSidebarNavigationProps,
+  ProductSidebarNavigationLabels,
+} from './components/ProductSidebarNavigation';
 export { CardListColumn } from './components/CardListColumn';
 export type {
   CardListColumnFilter,
