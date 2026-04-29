@@ -33,11 +33,11 @@ jobs:
         with:
           version: 9.15.9
 
+      # Do not set registry-url/scope here: it would send all @april/* installs to GitHub Packages
+      # and break pnpm workspace resolution for @april/tokens before publish.
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@april'
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
@@ -46,6 +46,13 @@ jobs:
 
       - name: Lint, typecheck, build
         run: pnpm lint && pnpm typecheck && pnpm build
+
+      - name: Configure npm auth for GitHub Packages (publish)
+        run: |
+          echo "@april:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish @april/tokens
         if: github.event.inputs.packages == 'tokens' || github.event.inputs.packages == 'both'
