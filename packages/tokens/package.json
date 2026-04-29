@@ -2,6 +2,11 @@
   "name": "@april/tokens",
   "version": "0.1.0",
   "description": "Design tokens (colors, density, logo) for April corporate UI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ukituki-ps/DisignApril.git",
+    "directory": "packages/tokens"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,6 +23,7 @@
   },
   "license": "UNLICENSED",
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "restricted"
   }
 }

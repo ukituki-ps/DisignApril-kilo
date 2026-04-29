@@ -25,3 +25,4 @@
 - `ds-001-card-list-column` - реализация компонента Card List Column.
 - `ds-002-testing-infrastructure` - внедрение инфраструктуры тестирования UI-компонентов.
 - `ds-003-card-list-column-tests` - создание тестов для Card List Column.
+- `ds-005-registry-npm-publish` - публикация `@april/ui` / `@april/tokens` в приватный npm registry (эпик 049 AprilHub).

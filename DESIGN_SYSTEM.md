@@ -17,7 +17,7 @@
 | `@april/tokens` | TS-константы (`accent`, `mantineGray`, `mantineDark`, `logoFilters`, спецификация плотности), файл `tokens.css` с CSS variables |
 | `@april/ui` | `createAprilTheme`, `AprilProviders`, `DensityProvider` / `useDensity`, витрина `UIKit`, зависимости: React Flow, dnd-kit, lucide-react |
 
-Каждый микрофронт добавляет в `package.json` оба пакета (или только `@april/tokens`, если интерфейс без React). Версии поднимаются релизами в корпоративном registry.
+Каждый микрофронт добавляет в `package.json` оба пакета (или только `@april/tokens`, если интерфейс без React). Версии поднимаются релизами в корпоративном registry (порядок выпуска и `.npmrc` для потребителей — в [`docs/PUBLISHING.md`](./docs/PUBLISHING.md)).
 
 **Минимальный shell:**
 

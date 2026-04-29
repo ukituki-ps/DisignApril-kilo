@@ -10,6 +10,7 @@
 
 ## 2. Документы по развитию
 
+- `docs/PUBLISHING.md` - выпуск `@april/tokens` / `@april/ui` в GitHub Packages и `.npmrc` для потребителей.
 - `docs/COMPONENT_STANDARDS.md` - критерии качества API компонента до merge.
 - `docs/TESTING_STRATEGY.md` - уровни тестирования, quality gate и команды запуска тестов.
 - `docs/ROADMAP.md` - инициативы по развитию и ожидаемый результат.
@@ -18,6 +19,7 @@
 
 - `docs/AGENT_MASTER_PROMPT.md` - рамки для любой инженерной задачи.
 - `docs/AGENT_TASK_TEMPLATE.md` - единый формат постановки.
+- `docs/AGENT_PLAN_TEMPLATE.md` - единый формат детального плана (`tasks/<id>/PLAN.md`).
 - `docs/AGENT_REPORT_TEMPLATE.md` - единый формат результата.
 
 ## 4. Где вести задачи

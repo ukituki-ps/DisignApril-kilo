@@ -1,0 +1,60 @@
+# Publishes @april/tokens and @april/ui to GitHub Packages (private).
+# Versions in packages/*/package.json must already be bumped on the ref you run against.
+name: Publish @april packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: Which packages to publish
+        required: true
+        default: both
+        type: choice
+        options:
+          - tokens
+          - ui
+          - both
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-april-packages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@april'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint, typecheck, build
+        run: pnpm lint && pnpm typecheck && pnpm build
+
+      - name: Publish @april/tokens
+        if: github.event.inputs.packages == 'tokens' || github.event.inputs.packages == 'both'
+        run: pnpm --filter @april/tokens publish --no-git-checks --access restricted
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @april/ui
+        if: github.event.inputs.packages == 'ui' || github.event.inputs.packages == 'both'
+        run: pnpm --filter @april/ui publish --no-git-checks --access restricted
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

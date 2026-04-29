@@ -10,7 +10,7 @@
 | [`@april/ui`](./packages/ui) | Тема Mantine, провайдеры, плотность, витрина компонентов и паттернов (UIKit) |
 | [`@april/showcase`](./apps/showcase) | Локальное приложение-галерея (`pnpm dev`) |
 
-Публикация в registry: `@april/tokens` и `@april/ui` (без git submodule; версии поднимаются релизами в CI).
+Публикация в registry: `@april/tokens` и `@april/ui` (без git submodule; версии поднимаются релизами в CI). Подробно: [`docs/PUBLISHING.md`](./docs/PUBLISHING.md).
 
 Связка пакетов в монорепозитории через **`workspace:*`** (поддерживается **pnpm**; обычный **npm** этот протокол в `dependencies` не понимает — для локальной разработки здесь используется pnpm, см. `pnpm-workspace.yaml` и поле `packageManager`).
 

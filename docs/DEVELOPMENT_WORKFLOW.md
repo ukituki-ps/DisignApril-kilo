@@ -18,7 +18,7 @@
    - `pnpm typecheck`
    - `pnpm build`
    - `pnpm test`
-5. Обновить документацию (`DESIGN_SYSTEM.md` и/или файлы в `docs/`), если поменялись правила/контракты.
+5. Обновить документацию (`DESIGN_SYSTEM.md` и/или файлы в `docs/`), если поменялись правила/контракты. Релиз пакетов в registry — см. [`docs/PUBLISHING.md`](./PUBLISHING.md).
 
 ## 3. Definition of Done
 
