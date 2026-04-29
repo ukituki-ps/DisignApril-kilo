@@ -1,5 +1,5 @@
 import { createTheme } from '@mantine/core';
-import { mantineDark, mantineGray } from '@april/tokens';
+import { mantineDark, mantineGray } from '@ukituki-ps/april-tokens';
 
 export function createAprilTheme() {
   return createTheme({

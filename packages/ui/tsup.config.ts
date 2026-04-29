@@ -22,6 +22,6 @@ export default defineConfig({
     '@dnd-kit/core',
     '@dnd-kit/sortable',
     '@dnd-kit/utilities',
-    '@april/tokens'
+    '@ukituki-ps/april-tokens'
   ]
 });

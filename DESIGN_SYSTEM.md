@@ -10,14 +10,16 @@
 
 ## 1. Интеграция (registry и монорепозиторий)
 
-Поставка — **два пакета** в registry, без git submodule. В этом репозитории пакеты связаны через **pnpm** и протокол **`workspace:*`** (не путать с установкой из registry в сервисах — там только semver).
+Поставка — **два пакета** в registry, без git submodule. В этом репозитории пакеты связаны через **pnpm** и протокол **`workspace:*`** под именами `@ukituki-ps/april-tokens` и `@ukituki-ps/april-ui` (не путать с установкой из registry в сервисах — там только semver).
 
-| Пакет | Содержимое |
+В **GitHub Packages** опубликованные имена обязаны совпадать с владельцем репозитория (`@ukituki-ps`). В документации ниже по-прежнему используются удобные имена `@april/*` для импортов — в сервисе их можно получить через **npm-алиасы** к пакетам `@ukituki-ps/april-*` (см. [`docs/PUBLISHING.md`](./docs/PUBLISHING.md)).
+
+| Пакет (логическое имя импорта) | Содержимое |
 |-------|------------|
 | `@april/tokens` | TS-константы (`accent`, `mantineGray`, `mantineDark`, `logoFilters`, спецификация плотности), файл `tokens.css` с CSS variables |
 | `@april/ui` | `createAprilTheme`, `AprilProviders`, `DensityProvider` / `useDensity`, витрина `UIKit`, зависимости: React Flow, dnd-kit, lucide-react |
 
-Каждый микрофронт добавляет в `package.json` оба пакета (или только `@april/tokens`, если интерфейс без React). Версии поднимаются релизами в корпоративном registry (порядок выпуска и `.npmrc` для потребителей — в [`docs/PUBLISHING.md`](./docs/PUBLISHING.md)).
+Каждый микрофронт добавляет в `package.json` оба пакета (или только токены, если интерфейс без React). Версии поднимаются релизами в registry (порядок выпуска и `.npmrc` — в [`docs/PUBLISHING.md`](./docs/PUBLISHING.md)).
 
 **Минимальный shell:**
 

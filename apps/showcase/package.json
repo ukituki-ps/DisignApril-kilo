@@ -11,8 +11,8 @@
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
-    "@april/tokens": "workspace:*",
-    "@april/ui": "workspace:*",
+    "@ukituki-ps/april-tokens": "workspace:*",
+    "@ukituki-ps/april-ui": "workspace:*",
     "@xyflow/react": "^12.3.0",
     "@emotion/react": "^11.13.3",
     "@mantine/core": "^7.13.4",

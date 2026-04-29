@@ -1,4 +1,4 @@
-# Publishes @april/tokens and @april/ui to GitHub Packages (private).
+# Publishes @ukituki-ps/april-tokens and @ukituki-ps/april-ui to GitHub Packages (private).
 # Versions in packages/*/package.json must already be bumped on the ref you run against.
 name: Publish @april packages
 
@@ -34,7 +34,7 @@ jobs:
           version: 9.15.9
 
       # Do not set registry-url/scope here: it would send all @april/* installs to GitHub Packages
-      # and break pnpm workspace resolution for @april/tokens before publish.
+      # and break pnpm workspace resolution for @ukituki-ps/april-tokens before publish.
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -54,14 +54,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish @april/tokens
+      - name: Publish @ukituki-ps/april-tokens
         if: github.event.inputs.packages == 'tokens' || github.event.inputs.packages == 'both'
-        run: pnpm --filter @april/tokens publish --no-git-checks --access restricted
+        run: pnpm --filter @ukituki-ps/april-tokens publish --no-git-checks --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish @april/ui
+      - name: Publish @ukituki-ps/april-ui
         if: github.event.inputs.packages == 'ui' || github.event.inputs.packages == 'both'
-        run: pnpm --filter @april/ui publish --no-git-checks --access restricted
+        run: pnpm --filter @ukituki-ps/april-ui publish --no-git-checks --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

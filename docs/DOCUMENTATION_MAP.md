@@ -10,7 +10,7 @@
 
 ## 2. Документы по развитию
 
-- `docs/PUBLISHING.md` - выпуск `@april/tokens` / `@april/ui` в GitHub Packages и `.npmrc` для потребителей.
+- `docs/PUBLISHING.md` - выпуск `@ukituki-ps/april-*` в GitHub Packages, npm-алиасы для импортов `@april/*`, `.npmrc`.
 - `docs/COMPONENT_STANDARDS.md` - критерии качества API компонента до merge.
 - `docs/TESTING_STRATEGY.md` - уровни тестирования, quality gate и команды запуска тестов.
 - `docs/ROADMAP.md` - инициативы по развитию и ожидаемый результат.

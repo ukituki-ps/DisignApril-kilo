@@ -8,8 +8,8 @@ import {
   Button
 } from '@mantine/core';
 import { SunIcon, MoonIcon } from 'lucide-react';
-import { logoFilters } from '@april/tokens';
-import { AprilProviders, UIKit, useDensity } from '@april/ui';
+import { logoFilters } from '@ukituki-ps/april-tokens';
+import { AprilProviders, UIKit, useDensity } from '@ukituki-ps/april-ui';
 
 function TopBar() {
   const { setColorScheme } = useMantineColorScheme();

@@ -29,18 +29,18 @@ importers:
 
   apps/showcase:
     dependencies:
-      '@april/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
-      '@april/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@emotion/react':
         specifier: ^11.13.3
         version: 11.14.0(@types/react@18.3.28)(react@18.3.1)
       '@mantine/core':
         specifier: ^7.13.4
         version: 7.17.8(@mantine/hooks@7.17.8(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@ukituki-ps/april-tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@ukituki-ps/april-ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@xyflow/react':
         specifier: ^12.3.0
         version: 12.10.2(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -89,9 +89,6 @@ importers:
 
   packages/ui:
     dependencies:
-      '@april/tokens':
-        specifier: workspace:*
-        version: link:../tokens
       '@dnd-kit/core':
         specifier: ^6.1.0
         version: 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -104,6 +101,9 @@ importers:
       '@emotion/react':
         specifier: ^11.0.0
         version: 11.14.0(@types/react@18.3.28)(react@18.3.1)
+      '@ukituki-ps/april-tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@xyflow/react':
         specifier: ^12.3.0
         version: 12.10.2(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

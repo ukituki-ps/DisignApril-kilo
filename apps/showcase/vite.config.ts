@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@april/ui': path.resolve(dir, '../../packages/ui/src/index.ts'),
-      '@april/tokens': path.resolve(dir, '../../packages/tokens/src/index.ts')
+      '@ukituki-ps/april-ui': path.resolve(dir, '../../packages/ui/src/index.ts'),
+      '@ukituki-ps/april-tokens': path.resolve(dir, '../../packages/tokens/src/index.ts')
     }
   }
 });
