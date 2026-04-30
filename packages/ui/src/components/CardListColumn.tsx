@@ -72,6 +72,8 @@ export interface CardListColumnProps {
   totalItems?: number;
   loadedItemsCount?: number;
   cardHeight?: number;
+  heightMode?: 'fixed' | 'fill';
+  fixedHeight?: number | string;
   defaultWidthPercent?: number;
   minWidthPercent?: number;
   maxWidthPercent?: number;
@@ -147,6 +149,8 @@ export function CardListColumn({
   totalItems = items.length,
   loadedItemsCount = items.length,
   cardHeight = 104,
+  heightMode = 'fixed',
+  fixedHeight = 520,
   defaultWidthPercent = 30,
   minWidthPercent = 15,
   maxWidthPercent = 50,
@@ -344,6 +348,8 @@ export function CardListColumn({
     </Stack>
   );
 
+  const listHeight = heightMode === 'fill' ? '100%' : fixedHeight;
+
   const body = (
     <Paper
       withBorder
@@ -352,7 +358,7 @@ export function CardListColumn({
       style={{
         width: collapsed ? 72 : `${widthPercent}%`,
         minWidth: collapsed ? 72 : 200,
-        height: 520,
+        height: listHeight,
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -507,7 +513,7 @@ export function CardListColumn({
   );
 
   return (
-    <Box ref={containerRef} style={{ width: '100%' }}>
+    <Box ref={containerRef} style={{ width: '100%', height: heightMode === 'fill' ? '100%' : undefined }}>
       {mode === 'inline' ? (
         body
       ) : (
