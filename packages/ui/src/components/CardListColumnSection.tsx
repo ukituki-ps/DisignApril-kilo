@@ -96,7 +96,7 @@ export function CardListColumnSection() {
         />
       </Box>
 
-      <Card withBorder radius="md" p="md" style={{ minHeight: 560 }}>
+      <Card withBorder radius="md" p="md" style={{ height: 560 }}>
         <CardListColumn
           title="Backlog"
           items={items}
@@ -134,6 +134,7 @@ export function CardListColumnSection() {
             setLimit((current) => Math.min(current + LOAD_STEP, totalItems || current + LOAD_STEP));
           }}
           cardHeight={108}
+          heightMode="fill"
           defaultWidthPercent={32}
           minWidthPercent={15}
           maxWidthPercent={50}

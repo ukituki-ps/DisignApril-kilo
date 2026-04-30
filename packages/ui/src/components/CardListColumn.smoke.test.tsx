@@ -85,6 +85,28 @@ describe('CardListColumn', () => {
     expect(container.querySelector('.mantine-Group-root')).toBeNull();
   });
 
+  it('keeps fixed height by default and supports fill mode', () => {
+    const { rerender } = renderCardListColumn(
+      <CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />
+    );
+
+    const fixedHeader = screen.getByText('Inbox');
+    const fixedPaper = fixedHeader.closest('.mantine-Paper-root');
+    expect(fixedPaper).toHaveStyle({ height: '520px' });
+
+    rerender(
+      <AprilProviders defaultColorScheme="dark">
+        <div style={{ height: '640px' }}>
+          <CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} heightMode="fill" />
+        </div>
+      </AprilProviders>
+    );
+
+    const fillHeader = screen.getByText('Inbox');
+    const fillPaper = fillHeader.closest('.mantine-Paper-root');
+    expect(fillPaper).toHaveStyle({ height: '100%' });
+  });
+
   it('calls onSearchChange when user types in search input', async () => {
     const user = userEvent.setup();
     const onSearchChange = vi.fn();
