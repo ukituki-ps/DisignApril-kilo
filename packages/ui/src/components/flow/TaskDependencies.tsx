@@ -22,8 +22,8 @@ const initialNodes = [
     y: 50
   },
   data: {
-    label: 'Define Requirements',
-    status: 'Done',
+    label: 'Сформулировать требования',
+    status: 'Готово',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'
   }
@@ -36,8 +36,8 @@ const initialNodes = [
     y: 200
   },
   data: {
-    label: 'Design Database Schema',
-    status: 'Done',
+    label: 'Спроектировать схему БД',
+    status: 'Готово',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
   }
@@ -50,8 +50,8 @@ const initialNodes = [
     y: 200
   },
   data: {
-    label: 'Create UI Mockups',
-    status: 'In Progress',
+    label: 'Создать макеты интерфейса',
+    status: 'В работе',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png'
   }
@@ -64,8 +64,8 @@ const initialNodes = [
     y: 350
   },
   data: {
-    label: 'Implement API Endpoints',
-    status: 'In Progress',
+    label: 'Реализовать API',
+    status: 'В работе',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-4.png'
   }
@@ -78,8 +78,8 @@ const initialNodes = [
     y: 350
   },
   data: {
-    label: 'Develop Frontend Components',
-    status: 'Blocked',
+    label: 'Разработать компоненты фронтенда',
+    status: 'Заблокировано',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png'
   }
@@ -92,8 +92,8 @@ const initialNodes = [
     y: 500
   },
   data: {
-    label: 'Integration Testing',
-    status: 'To Do',
+    label: 'Интеграционное тестирование',
+    status: 'К выполнению',
     assignee:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png'
   }
@@ -104,7 +104,7 @@ const initialEdges: Edge[] = [
   id: 'e1-2',
   source: '1',
   target: '2',
-  label: 'depends on',
+  label: 'зависит от',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -117,7 +117,7 @@ const initialEdges: Edge[] = [
   id: 'e1-3',
   source: '1',
   target: '3',
-  label: 'depends on',
+  label: 'зависит от',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -130,7 +130,7 @@ const initialEdges: Edge[] = [
   id: 'e2-4',
   source: '2',
   target: '4',
-  label: 'depends on',
+  label: 'зависит от',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -143,7 +143,7 @@ const initialEdges: Edge[] = [
   id: 'e3-5',
   source: '3',
   target: '5',
-  label: 'blocks',
+  label: 'блокирует',
   animated: true,
   markerEnd: {
     type: MarkerType.ArrowClosed,
@@ -162,7 +162,7 @@ const initialEdges: Edge[] = [
   id: 'e4-6',
   source: '4',
   target: '6',
-  label: 'depends on',
+  label: 'зависит от',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },
@@ -175,7 +175,7 @@ const initialEdges: Edge[] = [
   id: 'e5-6',
   source: '5',
   target: '6',
-  label: 'depends on',
+  label: 'зависит от',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },

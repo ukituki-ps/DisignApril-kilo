@@ -9,6 +9,7 @@ import type {
 } from '@rjsf/utils';
 import { ariaDescribedByIds } from '@rjsf/utils';
 import { useDensity } from '../DensityContext';
+import { useAprilRjsfArrayItemToolbar } from './AprilRjsfArrayItemToolbarContext';
 import { aprilJsonMantineFieldSize } from './aprilJsonMantineFieldSize';
 
 function useAprilFieldSize(): 'xs' | 'sm' {
@@ -36,6 +37,8 @@ export function AprilRjsfTextWidget<
     rawErrors,
   } = props;
   const size = useAprilFieldSize();
+  const arrayItemToolbar = useAprilRjsfArrayItemToolbar();
+  const inlineToolbar = arrayItemToolbar?.toolbar;
 
   return (
     <TextInput
@@ -52,6 +55,20 @@ export function AprilRjsfTextWidget<
       aria-describedby={ariaDescribedByIds(id)}
       error={rawErrors?.join(', ')}
       size={size}
+      {...(inlineToolbar
+        ? {
+            rightSection: inlineToolbar,
+            rightSectionPointerEvents: 'auto' as const,
+            rightSectionWidth: '7.5rem',
+            rightSectionProps: {
+              style: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              },
+            },
+          }
+        : {})}
     />
   );
 }
@@ -125,6 +142,8 @@ export function AprilRjsfNumberWidget<
     schema,
   } = props;
   const size = useAprilFieldSize();
+  const arrayItemToolbar = useAprilRjsfArrayItemToolbar();
+  const inlineToolbar = arrayItemToolbar?.toolbar;
   const min = typeof schema.minimum === 'number' ? schema.minimum : undefined;
   const max = typeof schema.maximum === 'number' ? schema.maximum : undefined;
   const step: number | undefined = schema.multipleOf === 1 || schema.type === 'integer' ? 1 : undefined;
@@ -154,6 +173,21 @@ export function AprilRjsfNumberWidget<
       aria-describedby={ariaDescribedByIds(id)}
       error={rawErrors?.join(', ')}
       size={size}
+      hideControls={Boolean(inlineToolbar)}
+      {...(inlineToolbar
+        ? {
+            rightSection: inlineToolbar,
+            rightSectionPointerEvents: 'auto' as const,
+            rightSectionWidth: '7.5rem',
+            rightSectionProps: {
+              style: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              },
+            },
+          }
+        : {})}
     />
   );
 }
@@ -221,7 +255,7 @@ export function AprilRjsfSelectWidget<
       <TextInput
         id={id}
         name={htmlName || id}
-        value="Multiple select is not supported in AprilJsonSchemaForm"
+        value="Множественный выбор в AprilJsonSchemaForm не поддерживается"
         disabled
         size={size}
         error={rawErrors?.join(', ')}

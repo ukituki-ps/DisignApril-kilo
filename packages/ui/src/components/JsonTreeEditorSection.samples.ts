@@ -4,30 +4,33 @@ export const jsonTreeEditorSampleSchema = {
   type: 'object',
   required: ['title', 'config'],
   properties: {
-    title: { type: 'string', minLength: 1 },
+    title: { type: 'string', minLength: 1, title: 'Название' },
     status: {
       type: 'string',
+      title: 'Статус',
       enum: ['draft', 'published', 'archived'],
       default: 'draft',
     },
     tags: {
       type: 'array',
+      title: 'Теги',
       items: { type: 'string', minLength: 1 },
       default: ['demo'],
     },
     config: {
       type: 'object',
+      title: 'Конфигурация',
       required: ['enabled', 'retries'],
       properties: {
-        enabled: { type: 'boolean' },
-        retries: { type: 'integer', minimum: 0, maximum: 10 },
+        enabled: { type: 'boolean', title: 'Включено' },
+        retries: { type: 'integer', minimum: 0, maximum: 10, title: 'Повторы' },
       },
     },
   },
 } as const;
 
 export const jsonTreeEditorSampleInstance = {
-  title: 'My workflow',
+  title: 'Мой процесс',
   status: 'draft' as const,
   tags: ['alpha', 'beta'],
   config: { enabled: true, retries: 3 },

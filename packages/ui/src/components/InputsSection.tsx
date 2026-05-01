@@ -8,8 +8,8 @@ import {
   Radio,
   Switch,
   Text,
-  SimpleGrid } from
-'@mantine/core';
+  SimpleGrid,
+} from '@mantine/core';
 import { useDensity } from '../DensityContext';
 export function InputsSection() {
   const { density } = useDensity();
@@ -17,92 +17,57 @@ export function InputsSection() {
   const size = isCompact ? 'xs' : 'sm';
   return (
     <Stack gap="xl">
-      <SimpleGrid
-        cols={{
-          base: 1,
-          md: 2
-        }}
-        spacing="xl">
-        
+      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
         <Stack gap="md">
           <Text fw={500} size="sm">
-            Text Inputs
+            Текстовые поля
           </Text>
 
           <TextInput
-            label="Standard Input"
-            description="Please enter your full name"
-            placeholder="John Doe"
-            size={size} />
-          
+            label="Обычное поле"
+            description="Введите полное имя"
+            placeholder="Иванов Иван"
+            size={size}
+          />
+
+          <TextInput label="Отключённое поле" placeholder="Редактирование недоступно" disabled size={size} />
 
           <TextInput
-            label="Disabled Input"
-            placeholder="Cannot edit this"
-            disabled
-            size={size} />
-          
+            label="Поле с ошибкой"
+            placeholder="Введите email"
+            error="Некорректный адрес электронной почты"
+            size={size}
+          />
 
-          <TextInput
-            label="Error Input"
-            placeholder="Enter email"
-            error="Invalid email address"
-            size={size} />
-          
-
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            size={size} />
-          
+          <PasswordInput label="Пароль" placeholder="Ваш пароль" size={size} />
         </Stack>
 
         <Stack gap="md">
           <Text fw={500} size="sm">
-            Other Controls
+            Другие элементы
           </Text>
 
-          <Select
-            label="Select Box"
-            placeholder="Pick one"
-            data={['React', 'Angular', 'Vue', 'Svelte']}
-            size={size} />
-          
+          <Select label="Выпадающий список" placeholder="Выберите вариант" data={['React', 'Angular', 'Vue', 'Svelte']} size={size} />
 
-          <Textarea
-            label="Textarea"
-            placeholder="Enter your message here..."
-            minRows={3}
-            size={size} />
-          
+          <Textarea label="Многострочный текст" placeholder="Введите сообщение…" minRows={3} size={size} />
         </Stack>
       </SimpleGrid>
 
-      <SimpleGrid
-        cols={{
-          base: 1,
-          md: 3
-        }}
-        spacing="xl">
-        
+      <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
         <Stack gap="sm">
           <Text fw={500} size="sm">
-            Checkboxes
+            Флажки
           </Text>
-          <Checkbox label="Default checkbox" size={size} />
-          <Checkbox label="Checked checkbox" defaultChecked size={size} />
-          <Checkbox label="Disabled checkbox" disabled size={size} />
+          <Checkbox label="Флажок по умолчанию" size={size} />
+          <Checkbox label="Включённый флажок" defaultChecked size={size} />
+          <Checkbox label="Отключённый флажок" disabled size={size} />
         </Stack>
 
         <Stack gap="sm">
           <Text fw={500} size="sm">
-            Radio Buttons
+            Переключатели (radio)
           </Text>
-          <Radio.Group
-            name="favoriteFramework"
-            defaultValue="react"
-            size={size}>
-            
+          <Radio.Group name="favoriteFramework" defaultValue="react" size={size}>
             <Stack gap="xs" mt="xs">
               <Radio value="react" label="React" />
               <Radio value="svelte" label="Svelte" />
@@ -113,13 +78,13 @@ export function InputsSection() {
 
         <Stack gap="sm">
           <Text fw={500} size="sm">
-            Switches
+            Тумблеры
           </Text>
-          <Switch label="Default switch" size={size} />
-          <Switch label="Checked switch" defaultChecked size={size} />
-          <Switch label="Disabled switch" disabled size={size} />
+          <Switch label="Тумблер по умолчанию" size={size} />
+          <Switch label="Включённый тумблер" defaultChecked size={size} />
+          <Switch label="Отключённый тумблер" disabled size={size} />
         </Stack>
       </SimpleGrid>
-    </Stack>);
-
+    </Stack>
+  );
 }

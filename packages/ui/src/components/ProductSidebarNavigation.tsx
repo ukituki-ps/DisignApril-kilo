@@ -37,9 +37,9 @@ export type ProductSidebarNavigationLabels = {
 };
 
 const DEFAULT_SIDEBAR_LABELS: ProductSidebarNavigationLabels = {
-  settings: "Settings",
-  expandSidebar: "Expand",
-  collapseSidebar: "Collapse",
+  settings: "Настройки",
+  expandSidebar: "Развернуть панель",
+  collapseSidebar: "Свернуть панель",
 };
 
 export type ProductSidebarNavigationProps = {

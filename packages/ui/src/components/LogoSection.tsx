@@ -7,166 +7,139 @@ const ACCENT = '#12B886';
 export function LogoSection() {
   return (
     <Stack gap="xl">
-      {/* Primary: Teal on light/dark backgrounds */}
       <Box>
         <Text fw={500} size="sm" mb="md">
-          Primary (Accent Teal)
+          Основной вариант (бирюзовый акцент)
         </Text>
-        <SimpleGrid
-          cols={{
-            base: 1,
-            sm: 3
-          }}
-          spacing="lg">
-          
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
           <LogoCard
-            label="Full Logo"
-            description="Primary brand mark. Marketing pages, login screens, documents."
+            label="Полный логотип"
+            description="Основной знак. Маркетинг, экран входа, документы."
             src={SVG_FULL}
             width={220}
             color={ACCENT}
-            bg="var(--mantine-color-gray-0)" />
-          
+            bg="var(--mantine-color-gray-0)"
+          />
           <LogoCard
-            label="Icon Only"
-            description="Compact mark for favicons, app icons, avatars, small spaces."
+            label="Только значок"
+            description="Компактный знак: фавикон, иконка приложения, аватар."
             src={SVG_ICON}
             width={72}
             color={ACCENT}
-            bg="var(--mantine-color-gray-0)" />
-          
+            bg="var(--mantine-color-gray-0)"
+          />
           <LogoCard
-            label="Wordmark"
-            description="Text-only variant for headers, navigation bars, inline references."
+            label="Словесный знак"
+            description="Текстовый вариант для шапок, навигации, встроенных ссылок."
             src={SVG_WORDMARK}
             width={180}
             color={ACCENT}
-            bg="var(--mantine-color-gray-0)" />
-          
+            bg="var(--mantine-color-gray-0)"
+          />
         </SimpleGrid>
       </Box>
 
-      {/* On dark background */}
       <Box>
         <Text fw={500} size="sm" mb="md">
-          On Dark Background
+          На тёмном фоне
         </Text>
-        <SimpleGrid
-          cols={{
-            base: 1,
-            sm: 3
-          }}
-          spacing="lg">
-          
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
           <LogoCard
-            label="Full Logo"
-            description="White variant for dark surfaces."
+            label="Полный логотип"
+            description="Белый вариант для тёмных поверхностей."
             src={SVG_FULL}
             width={220}
             color="#FFFFFF"
-            bg="#1A1B1E" />
-          
+            bg="#1A1B1E"
+          />
           <LogoCard
-            label="Icon Only"
-            description="White icon on dark surfaces."
+            label="Только значок"
+            description="Белый значок на тёмном фоне."
             src={SVG_ICON}
             width={72}
             color="#FFFFFF"
-            bg="#1A1B1E" />
-          
+            bg="#1A1B1E"
+          />
           <LogoCard
-            label="Wordmark"
-            description="White wordmark on dark surfaces."
+            label="Словесный знак"
+            description="Белый словесный знак на тёмном фоне."
             src={SVG_WORDMARK}
             width={180}
             color="#FFFFFF"
-            bg="#1A1B1E" />
-          
+            bg="#1A1B1E"
+          />
         </SimpleGrid>
       </Box>
 
-      {/* Monochrome */}
       <Box>
         <Text fw={500} size="sm" mb="md">
-          Monochrome (Dark on Light)
+          Монохром (тёмный на светлом)
         </Text>
-        <SimpleGrid
-          cols={{
-            base: 1,
-            sm: 3
-          }}
-          spacing="lg">
-          
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
           <LogoCard
-            label="Full Logo"
-            description="Single-color for print and formal documents."
+            label="Полный логотип"
+            description="Один цвет для печати и официальных документов."
             src={SVG_FULL}
             width={220}
             color="#212529"
-            bg="#F8F9FA" />
-          
+            bg="#F8F9FA"
+          />
           <LogoCard
-            label="Icon Only"
-            description="Monochrome icon."
+            label="Только значок"
+            description="Монохромный значок."
             src={SVG_ICON}
             width={72}
             color="#212529"
-            bg="#F8F9FA" />
-          
+            bg="#F8F9FA"
+          />
           <LogoCard
-            label="Wordmark"
-            description="Monochrome wordmark."
+            label="Словесный знак"
+            description="Монохромный словесный знак."
             src={SVG_WORDMARK}
             width={180}
             color="#212529"
-            bg="#F8F9FA" />
-          
+            bg="#F8F9FA"
+          />
         </SimpleGrid>
       </Box>
 
       <Stack gap="xs">
         <Text fw={500} size="sm">
-          Usage Guidelines
+          Рекомендации
         </Text>
-        <SimpleGrid
-          cols={{
-            base: 1,
-            sm: 2
-          }}
-          spacing="md">
-          
+        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
           <Box>
             <Text size="sm" c="dimmed">
-              ✅ Primary color: Teal (#12B886) — preferred for all digital use.
+              ✅ Основной цвет: бирюза (#12B886) — предпочтительно для всех цифровых носителей.
             </Text>
             <Text size="sm" c="dimmed">
-              ✅ White variant on dark backgrounds (dark theme, photos).
+              ✅ Белый вариант на тёмных фонах (тёмная тема, фото).
             </Text>
             <Text size="sm" c="dimmed">
-              ✅ Monochrome for print, fax, formal documents.
+              ✅ Монохром для печати, факса, официальных бумаг.
             </Text>
             <Text size="sm" c="dimmed">
-              ✅ Minimum clear space: equal to the icon height on all sides.
+              ✅ Минимальное свободное поле: не меньше высоты значка со всех сторон.
             </Text>
           </Box>
           <Box>
             <Text size="sm" c="dimmed">
-              ❌ Do not use gradients or custom colors on the logo.
+              ❌ Не использовать градиенты и произвольные цвета на логотипе.
             </Text>
             <Text size="sm" c="dimmed">
-              ❌ Do not stretch, rotate, or add effects.
+              ❌ Не растягивать, не поворачивать и не добавлять эффекты.
             </Text>
             <Text size="sm" c="dimmed">
-              ❌ Do not place on busy backgrounds without a container.
+              ❌ Не размещать на «шумном» фоне без контейнера.
             </Text>
             <Text size="sm" c="dimmed">
-              ❌ Do not use the wordmark alone at sizes above 48px.
+              ❌ Не использовать словесный знак один при размере крупнее 48px.
             </Text>
           </Box>
         </SimpleGrid>
       </Stack>
-    </Stack>);
-
+    </Stack>
+  );
 }
 function LogoCard({
   label,
@@ -174,15 +147,15 @@ function LogoCard({
   src,
   width,
   color,
-  bg
-
-
-
-
-
-
-
-}: {label: string;description: string;src: string;width: number;color: string;bg: string;}) {
+  bg,
+}: {
+  label: string;
+  description: string;
+  src: string;
+  width: number;
+  color: string;
+  bg: string;
+}) {
   return (
     <Stack gap="sm">
       <Paper
@@ -195,9 +168,8 @@ function LogoCard({
           justifyContent: 'center',
           minHeight: 140,
           backgroundColor: bg,
-          color: color
+          color: color,
         }}>
-        
         <img
           src={src}
           alt={label}
@@ -206,13 +178,13 @@ function LogoCard({
             width: width,
             objectFit: 'contain',
             filter:
-            color === '#FFFFFF' ?
-            'brightness(0) saturate(100%) invert(1)' :
-            color === '#12B886' ?
-            'brightness(0) saturate(100%) invert(65%) sepia(51%) saturate(552%) hue-rotate(118deg) brightness(92%) contrast(87%)' :
-            'brightness(0) saturate(100%)'
-          }} />
-        
+              color === '#FFFFFF'
+                ? 'brightness(0) saturate(100%) invert(1)'
+                : color === '#12B886'
+                  ? 'brightness(0) saturate(100%) invert(65%) sepia(51%) saturate(552%) hue-rotate(118deg) brightness(92%) contrast(87%)'
+                  : 'brightness(0) saturate(100%)',
+          }}
+        />
       </Paper>
       <Group gap="xs" align="center">
         <Box
@@ -221,16 +193,10 @@ function LogoCard({
           style={{
             borderRadius: 2,
             backgroundColor: color,
-            border: '1px solid var(--mantine-color-default-border)'
-          }} />
-        
-        <Text
-          size="xs"
-          c="dimmed"
-          style={{
-            fontFamily: 'monospace'
-          }}>
-          
+            border: '1px solid var(--mantine-color-default-border)',
+          }}
+        />
+        <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
           {color}
         </Text>
       </Group>
@@ -242,6 +208,6 @@ function LogoCard({
           {description}
         </Text>
       </Box>
-    </Stack>);
-
+    </Stack>
+  );
 }

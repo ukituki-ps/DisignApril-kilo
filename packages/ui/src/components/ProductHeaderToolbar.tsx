@@ -15,11 +15,11 @@ export type ProductHeaderToolbarLabels = {
   help: string;
 };
 
-const DEFAULT_LABELS_EN: ProductHeaderToolbarLabels = {
-  searchPlaceholder: "Search tasks, contacts, documents...",
-  messages: "Messages",
-  notifications: "Notifications",
-  help: "Help",
+const DEFAULT_LABELS: ProductHeaderToolbarLabels = {
+  searchPlaceholder: "Поиск задач, контактов, документов…",
+  messages: "Сообщения",
+  notifications: "Уведомления",
+  help: "Справка",
 };
 
 export type ProductHeaderToolbarProps = {
@@ -30,12 +30,12 @@ export type ProductHeaderToolbarProps = {
   /** Слот справа — меню профиля (`ProfileAccountMenu`) и т.п. */
   userSlot: ReactNode;
   labels?: Partial<ProductHeaderToolbarLabels>;
-  /** В демо-секции UIKit — подложка «Page content area» под панелью. */
+  /** В демо-секции UIKit — подложка под панелью. */
   demoPageContent?: ReactNode;
 };
 
 /**
- * Панель «2. Header» из Design System Reference (`UIKit`): поиск, действия, слот пользователя.
+ * Панель «2. Header» из справочника дизайн-системы (`UIKit`): поиск, действия, слот пользователя.
  * Без обёртки с «анатомией» — для встраивания в AprilHub и демо `HeaderSection`.
  */
 export function ProductHeaderToolbar({
@@ -48,7 +48,7 @@ export function ProductHeaderToolbar({
   const { density } = useDensity();
   const isCompact = density === "compact";
   const h = isCompact ? 48 : 56;
-  const labels = { ...DEFAULT_LABELS_EN, ...labelsProp };
+  const labels = { ...DEFAULT_LABELS, ...labelsProp };
 
   const toolbarRow = (
     <Box

@@ -29,7 +29,7 @@ function TopBar() {
         <Group>
           <img
             src="/logo-icon.svg"
-            alt="April logo"
+            alt="Логотип April"
             style={{
               height: 28,
               width: 28,
@@ -37,16 +37,16 @@ function TopBar() {
               filter: logoFilters.primary
             }}
           />
-          <Title order={3}>April Design System</Title>
+          <Title order={3}>April — дизайн-система</Title>
         </Group>
         <Group>
           <Button variant="light" color="gray" onClick={toggleDensity} size="sm">
-            Mode: {density === 'comfortable' ? 'Comfortable' : 'Compact'}
+            Режим: {density === 'comfortable' ? 'комфортный' : 'компактный'}
           </Button>
           <ActionIcon
             variant="default"
             size="lg"
-            aria-label="Toggle color scheme"
+            aria-label="Переключить светлую и тёмную тему"
             onClick={toggleColorScheme}>
             {computedColorScheme === 'dark' ? (
               <SunIcon size={18} />

@@ -21,7 +21,7 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Lead',
+    label: 'Лид',
     count: 124,
     amount: '$450k',
     status: 'active'
@@ -35,7 +35,7 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Qualified',
+    label: 'Квалификация',
     count: 42,
     amount: '$210k',
     status: 'active'
@@ -49,7 +49,7 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Proposal',
+    label: 'Предложение',
     count: 18,
     amount: '$145k',
     status: 'active'
@@ -63,7 +63,7 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Negotiation',
+    label: 'Переговоры',
     count: 8,
     amount: '$85k',
     status: 'active'
@@ -77,7 +77,7 @@ const initialNodes = [
     y: 50
   },
   data: {
-    label: 'Closed Won',
+    label: 'Выиграно',
     count: 5,
     amount: '$62k',
     status: 'won'
@@ -91,7 +91,7 @@ const initialNodes = [
     y: 250
   },
   data: {
-    label: 'Closed Lost',
+    label: 'Проиграно',
     count: 3,
     amount: '$23k',
     status: 'lost'

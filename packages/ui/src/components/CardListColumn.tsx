@@ -105,18 +105,18 @@ export interface CardListColumnProps {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 const DEFAULT_FILTER_OPTIONS: CardListColumnFilterOption[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Todo', value: 'todo' },
-  { label: 'In Progress', value: 'in-progress' },
-  { label: 'Done', value: 'done' },
+  { label: 'Все', value: 'all' },
+  { label: 'К выполнению', value: 'todo' },
+  { label: 'В работе', value: 'in-progress' },
+  { label: 'Готово', value: 'done' },
 ];
 const DEFAULT_SORT_OPTIONS: CardListColumnSortOption[] = [
-  { label: 'Created at', value: 'createdAt' },
-  { label: 'Title', value: 'title' },
+  { label: 'Дата создания', value: 'createdAt' },
+  { label: 'Заголовок', value: 'title' },
 ];
 const DEFAULT_SORT_DIRECTION_OPTIONS: CardListColumnSortDirectionOption[] = [
-  { label: 'Descending', value: 'desc' },
-  { label: 'Ascending', value: 'asc' },
+  { label: 'По убыванию', value: 'desc' },
+  { label: 'По возрастанию', value: 'asc' },
 ];
 const getStableFilterKey = (filter: CardListColumnFilter | undefined) => {
   const source = filter ?? {};
@@ -162,13 +162,13 @@ export function CardListColumn({
   filterValue,
   sortValue,
   filterField = 'status',
-  filterLabel = 'Status',
+  filterLabel = 'Статус',
   filterOptions = DEFAULT_FILTER_OPTIONS,
-  filterModalTitle = 'Filters',
+  filterModalTitle = 'Фильтры',
   renderFilterModal,
-  sortModalTitle = 'Sort',
-  sortFieldLabel = 'Field',
-  sortDirectionLabel = 'Direction',
+  sortModalTitle = 'Сортировка',
+  sortFieldLabel = 'Поле',
+  sortDirectionLabel = 'Направление',
   sortOptions = DEFAULT_SORT_OPTIONS,
   sortDirectionOptions = DEFAULT_SORT_DIRECTION_OPTIONS,
   renderSortModal,
@@ -304,10 +304,10 @@ export function CardListColumn({
       />
       <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
         <Button size="xs" variant="light" onClick={resetFilter}>
-          Reset
+          Сбросить
         </Button>
         <Button size="xs" onClick={applyFilter}>
-          Apply
+          Применить
         </Button>
       </Box>
     </Stack>
@@ -339,10 +339,10 @@ export function CardListColumn({
       />
       <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
         <Button size="xs" variant="light" onClick={resetSort}>
-          Reset
+          Сбросить
         </Button>
         <Button size="xs" onClick={applySort}>
-          Apply
+          Применить
         </Button>
       </Box>
     </Stack>
@@ -368,7 +368,7 @@ export function CardListColumn({
           <ActionIcon
             variant="subtle"
             color="gray"
-            aria-label="Expand list"
+            aria-label="Развернуть список"
             onClick={() => setCollapsed(false)}>
             <ArrowRightToLineIcon size={14} />
           </ActionIcon>
@@ -391,7 +391,7 @@ export function CardListColumn({
                 <ActionIcon
                   variant="subtle"
                   color="gray"
-                  aria-label="Collapse list"
+                  aria-label="Свернуть список"
                   onClick={() => setCollapsed(true)}>
                   <ArrowLeftToLineIcon size={14} />
                 </ActionIcon>
@@ -400,7 +400,7 @@ export function CardListColumn({
                 <ActionIcon
                   variant="subtle"
                   color="gray"
-                  aria-label="Close overlay list"
+                  aria-label="Закрыть список поверх страницы"
                   onClick={() => setOverlayOpened(false)}>
                   <XIcon size={14} />
                 </ActionIcon>
@@ -418,8 +418,8 @@ export function CardListColumn({
             }}>
             <TextInput
               leftSection={<SearchIcon size={14} />}
-              aria-label="Search cards"
-              placeholder="Search cards"
+              aria-label="Поиск по карточкам"
+              placeholder="Поиск по карточкам"
               size={isCompactDensity ? 'xs' : 'sm'}
               value={query}
               onChange={(e) => {
@@ -434,7 +434,7 @@ export function CardListColumn({
                 <ActionIcon
                   variant="light"
                   color="gray"
-                  aria-label="Open filter options"
+                  aria-label="Открыть фильтры"
                   onClick={() => setFilterOpened(true)}>
                   <FilterIcon size={14} />
                 </ActionIcon>
@@ -443,7 +443,7 @@ export function CardListColumn({
                 <ActionIcon
                   variant="light"
                   color="gray"
-                  aria-label="Open sorting options"
+                  aria-label="Открыть сортировку"
                   onClick={() => setSortOpened(true)}>
                   <ListFilterIcon size={14} />
                 </ActionIcon>
@@ -452,7 +452,7 @@ export function CardListColumn({
                 <ActionIcon
                   variant="filled"
                   color="teal"
-                  aria-label="Add new item"
+                  aria-label="Добавить элемент"
                   onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
                   <PlusIcon size={14} />
                 </ActionIcon>
@@ -464,7 +464,7 @@ export function CardListColumn({
               <Stack gap="sm">
                 {!loading && items.length === 0 ? (
                   <Text size="sm" c="dimmed">
-                    No items for current server query.
+                    Нет элементов для текущего запроса.
                   </Text>
                 ) : null}
                 {items.map((item) => (
@@ -478,26 +478,26 @@ export function CardListColumn({
                 ))}
                 {loading ? (
                   <Text size="sm" c="dimmed">
-                    Reloading 1..{loadedItemsCount} from server...
+                    Обновление: 1…{loadedItemsCount} с сервера…
                   </Text>
                 ) : null}
                 {!loading && loadedItemsCount < totalItems ? (
                   <Text size="xs" c="dimmed">
-                    Scroll to end to load 1..{Math.min(loadedItemsCount + 50, totalItems)}.
+                    Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
                   </Text>
                 ) : null}
               </Stack>
             </ScrollArea>
           </Box>
           <Text size="xs" c="dimmed" mt="sm">
-            Loaded {loadedItemsCount} of {totalItems}.
+            Загружено {loadedItemsCount} из {totalItems}.
           </Text>
         </>
       )}
       {!collapsed ? (
         <Box
           role="separator"
-          aria-label="Resize list width"
+          aria-label="Изменить ширину списка"
           onPointerDown={startResize}
           style={{
             position: 'absolute',
@@ -523,7 +523,7 @@ export function CardListColumn({
             color="gray"
             size={isCompactDensity ? 'xs' : 'sm'}
             onClick={() => setOverlayOpened((current) => !current)}>
-            {overlayOpened ? 'Hide overlay list' : 'Show overlay list'}
+            {overlayOpened ? 'Скрыть список поверх' : 'Показать список поверх'}
           </Button>
           {overlayOpened ? (
             <Box style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.4)', zIndex: 400 }}>
@@ -546,9 +546,9 @@ export function CardListColumn({
       <Modal opened={sortOpened} onClose={() => setSortOpened(false)} title={sortModalTitle}>
         {sortModalBody}
       </Modal>
-      <Modal opened={addOpened} onClose={() => setAddOpened(false)} title="Add new item">
+      <Modal opened={addOpened} onClose={() => setAddOpened(false)} title="Новый элемент">
         <Text size="sm" c="dimmed">
-          Add flow can be implemented with product-specific form fields.
+          Сценарий добавления можно реализовать полями, специфичными для продукта.
         </Text>
       </Modal>
     </Box>

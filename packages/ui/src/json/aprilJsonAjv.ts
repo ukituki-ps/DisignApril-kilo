@@ -18,8 +18,8 @@ function mapAjvErrors(errors: ErrorObject[] | null | undefined): AprilJsonValida
     return [];
   }
   return errors.map((e) => ({
-    instancePath: e.instancePath === '' ? '(root)' : e.instancePath,
-    message: e.message ?? 'Invalid value',
+    instancePath: e.instancePath === '' ? '(корень)' : e.instancePath,
+    message: e.message ?? 'Некорректное значение',
   }));
 }
 

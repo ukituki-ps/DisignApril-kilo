@@ -13,9 +13,9 @@ const MOCK_SERVER_ITEMS: CardListColumnItem[] = Array.from({ length: 120 }, (_, 
   const num = idx + 1;
   return {
     id: `card-${num}`,
-    title: `Backlog task #${num}`,
-    description: `Server item ${num}: sync workflows and update statuses.`,
-    searchText: `task ${num} backlog workflow`,
+    title: `Задача бэклога №${num}`,
+    description: `Элемент ${num}: синхронизация процессов и обновление статусов.`,
+    searchText: `задача ${num} бэклог процесс`,
     status: num % 3 === 0 ? 'done' : num % 2 === 0 ? 'in-progress' : 'todo',
     createdAt: new Date(2026, 3, (num % 28) + 1).toISOString(),
   };
@@ -83,14 +83,14 @@ export function CardListColumnSection() {
     <Stack gap="md">
       <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text size="sm" c="dimmed">
-          Toggle display mode to verify inline and overlay behavior with flex-based controls.
+          Переключите режим отображения, чтобы проверить встроенный список и оверлей с flex-контролами.
         </Text>
         <SegmentedControl
           value={mode}
           onChange={(value) => setMode(value as CardListColumnMode)}
           data={[
-            { label: 'Inline', value: 'inline' },
-            { label: 'Overlay', value: 'overlay' },
+            { label: 'Встроенный', value: 'inline' },
+            { label: 'Поверх', value: 'overlay' },
           ]}
           size="xs"
         />
@@ -98,7 +98,7 @@ export function CardListColumnSection() {
 
       <Card withBorder radius="md" p="md" style={{ height: 560 }}>
         <CardListColumn
-          title="Backlog"
+          title="Бэклог"
           items={items}
           totalItems={totalItems}
           loadedItemsCount={items.length}
@@ -108,25 +108,25 @@ export function CardListColumnSection() {
           onSearchChange={setQuery}
           filterValue={filter}
           filterField="type"
-          filterLabel="Type"
-          filterModalTitle="Filters"
+          filterLabel="Тип"
+          filterModalTitle="Фильтры"
           filterOptions={[
-            { label: 'All types', value: 'all' },
-            { label: 'Todo', value: 'todo' },
-            { label: 'In Progress', value: 'in-progress' },
-            { label: 'Done', value: 'done' },
+            { label: 'Все типы', value: 'all' },
+            { label: 'К выполнению', value: 'todo' },
+            { label: 'В работе', value: 'in-progress' },
+            { label: 'Готово', value: 'done' },
           ]}
           sortValue={sort}
-          sortModalTitle="Sorting"
-          sortFieldLabel="Sort by"
-          sortDirectionLabel="Direction"
+          sortModalTitle="Сортировка"
+          sortFieldLabel="Сортировать по"
+          sortDirectionLabel="Направление"
           sortOptions={[
-            { label: 'Created at', value: 'createdAt' },
-            { label: 'Title', value: 'title' },
+            { label: 'Дата создания', value: 'createdAt' },
+            { label: 'Заголовок', value: 'title' },
           ]}
           sortDirectionOptions={[
-            { label: 'Descending', value: 'desc' },
-            { label: 'Ascending', value: 'asc' },
+            { label: 'По убыванию', value: 'desc' },
+            { label: 'По возрастанию', value: 'asc' },
           ]}
           onFilterChange={setFilter}
           onSortChange={setSort}
@@ -146,12 +146,13 @@ export function CardListColumnSection() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   marginBottom: 'var(--mantine-spacing-xs)',
-                }}>
+                }}
+              >
                 <Text fw={600} lineClamp={1}>
                   {item.title}
                 </Text>
                 <Badge size="xs" variant="light" color="blue">
-                  Task
+                  Задача
                 </Badge>
               </Box>
               <Text size="sm" c="dimmed" lineClamp={3}>

@@ -22,9 +22,9 @@ const initialNodes = [
     y: 50
   },
   data: {
-    name: 'Sarah Jenkins',
-    role: 'Chief Executive Officer',
-    department: 'Executive',
+    name: 'Сара Жукова',
+    role: 'Генеральный директор',
+    department: 'Руководство',
     deptColor: 'grape',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'
@@ -39,9 +39,9 @@ const initialNodes = [
     y: 200
   },
   data: {
-    name: 'Michael Chen',
-    role: 'VP of Engineering',
-    department: 'Engineering',
+    name: 'Михаил Чен',
+    role: 'Вице-президент по разработке',
+    department: 'Разработка',
     deptColor: 'blue',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
@@ -55,9 +55,9 @@ const initialNodes = [
     y: 200
   },
   data: {
-    name: 'Elena Rodriguez',
-    role: 'VP of Product',
-    department: 'Product',
+    name: 'Елена Родригес',
+    role: 'Вице-президент по продукту',
+    department: 'Продукт',
     deptColor: 'teal',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png'
@@ -71,9 +71,9 @@ const initialNodes = [
     y: 200
   },
   data: {
-    name: 'David Kim',
-    role: 'VP of Marketing',
-    department: 'Marketing',
+    name: 'Давид Ким',
+    role: 'Вице-президент по маркетингу',
+    department: 'Маркетинг',
     deptColor: 'orange',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-4.png'
@@ -88,9 +88,9 @@ const initialNodes = [
     y: 350
   },
   data: {
-    name: 'Alex Johnson',
-    role: 'Frontend Lead',
-    department: 'Engineering',
+    name: 'Алексей Иванов',
+    role: 'Руководитель фронтенда',
+    department: 'Разработка',
     deptColor: 'blue',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png'
@@ -104,9 +104,9 @@ const initialNodes = [
     y: 350
   },
   data: {
-    name: 'Sam Taylor',
-    role: 'Backend Lead',
-    department: 'Engineering',
+    name: 'Семён Тейлор',
+    role: 'Руководитель бэкенда',
+    department: 'Разработка',
     deptColor: 'blue',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png'
@@ -121,9 +121,9 @@ const initialNodes = [
     y: 350
   },
   data: {
-    name: 'Jordan Lee',
-    role: 'UX Designer',
-    department: 'Product',
+    name: 'Джордан Ли',
+    role: 'UX-дизайнер',
+    department: 'Продукт',
     deptColor: 'teal',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png'
@@ -138,9 +138,9 @@ const initialNodes = [
     y: 350
   },
   data: {
-    name: 'Casey Smith',
-    role: 'Content Strategist',
-    department: 'Marketing',
+    name: 'Кейси Смит',
+    role: 'Контент-стратег',
+    department: 'Маркетинг',
     deptColor: 'orange',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png'
@@ -154,9 +154,9 @@ const initialNodes = [
     y: 350
   },
   data: {
-    name: 'Riley Brown',
-    role: 'Growth Hacker',
-    department: 'Marketing',
+    name: 'Райли Браун',
+    role: 'Growth-менеджер',
+    department: 'Маркетинг',
     deptColor: 'orange',
     avatar:
     'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png'

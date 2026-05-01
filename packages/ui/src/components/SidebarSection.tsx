@@ -19,21 +19,21 @@ import { ProductSidebarNavigation, type ProductSidebarNavEntry } from "./Product
 
 function buildSidebarDemoItems(): ProductSidebarNavEntry[] {
   return [
-    { id: "dashboard", type: "link", label: "Dashboard", icon: LayoutDashboardIcon, href: "#" },
-    { id: "tasks", type: "link", label: "Tasks", icon: CheckSquareIcon, href: "#", badge: "12" },
-    { id: "inbox", type: "link", label: "Inbox", icon: InboxIcon, href: "#", badge: "3" },
-    { id: "calendar", type: "link", label: "Calendar", icon: CalendarIcon, href: "#" },
+    { id: "dashboard", type: "link", label: "Обзор", icon: LayoutDashboardIcon, href: "#" },
+    { id: "tasks", type: "link", label: "Задачи", icon: CheckSquareIcon, href: "#", badge: "12" },
+    { id: "inbox", type: "link", label: "Входящие", icon: InboxIcon, href: "#", badge: "3" },
+    { id: "calendar", type: "link", label: "Календарь", icon: CalendarIcon, href: "#" },
     { id: "divider1", type: "divider", label: "CRM" },
-    { id: "contacts", type: "link", label: "Contacts", icon: UsersIcon, href: "#" },
-    { id: "deals", type: "link", label: "Deals", icon: BriefcaseIcon, href: "#" },
-    { id: "companies", type: "link", label: "Companies", icon: BuildingIcon, href: "#" },
+    { id: "contacts", type: "link", label: "Контакты", icon: UsersIcon, href: "#" },
+    { id: "deals", type: "link", label: "Сделки", icon: BriefcaseIcon, href: "#" },
+    { id: "companies", type: "link", label: "Компании", icon: BuildingIcon, href: "#" },
     { id: "divider2", type: "divider", label: "HRM" },
-    { id: "employees", type: "link", label: "Employees", icon: UserCogIcon, href: "#" },
-    { id: "recruitment", type: "link", label: "Recruitment", icon: ClipboardListIcon, href: "#" },
-    { id: "divider3", type: "divider", label: "Other" },
-    { id: "documents", type: "link", label: "Documents", icon: FileTextIcon, href: "#" },
-    { id: "projects", type: "link", label: "Projects", icon: FolderIcon, href: "#" },
-    { id: "reports", type: "link", label: "Reports", icon: BarChart3Icon, href: "#" },
+    { id: "employees", type: "link", label: "Сотрудники", icon: UserCogIcon, href: "#" },
+    { id: "recruitment", type: "link", label: "Подбор", icon: ClipboardListIcon, href: "#" },
+    { id: "divider3", type: "divider", label: "Прочее" },
+    { id: "documents", type: "link", label: "Документы", icon: FileTextIcon, href: "#" },
+    { id: "projects", type: "link", label: "Проекты", icon: FolderIcon, href: "#" },
+    { id: "reports", type: "link", label: "Отчёты", icon: BarChart3Icon, href: "#" },
   ];
 }
 
@@ -44,15 +44,17 @@ export function SidebarSection(): JSX.Element {
 
   const navItems = buildSidebarDemoItems();
 
-  const activeMeta = navItems.find((i): i is Extract<ProductSidebarNavEntry, { type: "link" }> => i.type === "link" && i.id === active);
+  const activeMeta = navItems.find(
+    (i): i is Extract<ProductSidebarNavEntry, { type: "link" }> => i.type === "link" && i.id === active
+  );
 
-  const labelForContent = activeMeta?.label ?? "Dashboard";
+  const labelForContent = activeMeta?.label ?? "Обзор";
 
   return (
     <Stack gap="xl">
       <Box>
         <Text fw={500} size="sm" mb="md">
-          Product Sidebar
+          Боковая панель продукта
         </Text>
         <Group align="flex-start" gap="lg" wrap="nowrap">
           <ProductSidebarNavigation items={navItems} activeId={active} onDemoActivate={setActive} />
@@ -73,7 +75,7 @@ export function SidebarSection(): JSX.Element {
                 {labelForContent}
               </Text>
               <Text size="sm" c="dimmed">
-                Content area
+                Область контента
               </Text>
             </Stack>
           </Box>
@@ -82,18 +84,18 @@ export function SidebarSection(): JSX.Element {
 
       <Box>
         <Text fw={500} size="sm" mb="xs">
-          Sidebar Anatomy
+          Состав боковой панели
         </Text>
         <Text size="sm" c="dimmed">
-          <strong>Sections:</strong> Dashboard & productivity (Tasks, Inbox, Calendar), CRM (Contacts, Deals, Companies),
-          HRM (Employees, Recruitment), Other (Documents, Projects, Reports).
+          <strong>Разделы:</strong> обзор и продуктивность (задачи, входящие, календарь), CRM (контакты, сделки,
+          компании), HRM (сотрудники, подбор), прочее (документы, проекты, отчёты).
         </Text>
         <Text size="sm" c="dimmed" mt="xs">
-          <strong>Features:</strong> Collapsible to icon-only mode (60px). Active state uses teal accent. Badge counters for
-          actionable items. Settings pinned to bottom. Responds to density mode.
+          <strong>Возможности:</strong> сворачивание до режима только иконок (60px). Активный пункт — бирюзовый
+          акцент. Счётчики на пунктах с действиями. Настройки закреплены внизу. Реагирует на плотность.
         </Text>
         <Text size="sm" c="dimmed" mt="xs">
-          Width: {isCompact ? "220px (compact)" : "250px (comfortable)"} expanded, 60px collapsed.
+          Ширина: {isCompact ? "220px (компакт)" : "250px (комфорт)"} в развёрнутом виде, 60px в свёрнутом.
         </Text>
       </Box>
     </Stack>
