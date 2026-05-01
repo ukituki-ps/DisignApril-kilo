@@ -118,7 +118,7 @@ export function AprilJsonTreeEditor({
   }, [validationSchema, resolveValidationSchemaRefs]);
 
   useEffect(() => {
-    if (!validate) {
+    if (typeof validate !== 'function') {
       setValidationErrors([]);
       return;
     }

@@ -9,6 +9,7 @@ import type {
   ValidatorType,
 } from '@rjsf/utils';
 import validator from '@rjsf/validator-ajv8';
+import { sanitizeSchemaForRjsf } from './aprilRjsfSanitizeSchema';
 import { aprilRjsfTemplateOverrides } from './aprilRjsfTemplates';
 import { aprilRjsfWidgetOverrides } from './aprilRjsfWidgets';
 
@@ -83,10 +84,12 @@ export function AprilJsonSchemaForm<
     } as UiSchema<T, S, F>;
   }, [hideDefaultSubmit, uiSchema]);
 
+  const safeSchema = useMemo(() => sanitizeSchemaForRjsf(schema), [schema]);
+
   return (
     <Form<T, S, F>
       {...rest}
-      schema={schema}
+      schema={safeSchema}
       formData={formData}
       uiSchema={mergedUiSchema}
       validator={validator}
