@@ -13,6 +13,8 @@
 
 Импорты в коде потребителя могут оставаться привычными `@april/...`, если в `package.json` задать **npm-алиасы** (см. ниже).
 
+**Версионирование:** при релизе в GitHub Packages у `@ukituki-ps/april-tokens` и `@ukituki-ps/april-ui` выставляйте **одинаковую** semver в обоих `package.json`, затем публикуйте (`both`).
+
 ## Реестр
 
 | Параметр | Значение |
@@ -28,7 +30,7 @@
 
 ## Релиз патча / минора
 
-1. Ветка от актуального `main`: поднять `version` в `packages/tokens/package.json` и/или `packages/ui/package.json`.
+1. Ветка от актуального `main`: поднять **одинаковый** `version` в `packages/tokens/package.json` и `packages/ui/package.json`.
 2. PR: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test`.
 3. После merge в `main`: **Actions → Publish @april packages → Run workflow**:
    - `tokens` — только токены;
@@ -60,8 +62,8 @@
 ```json
 {
   "dependencies": {
-    "@april/ui": "npm:@ukituki-ps/april-ui@^0.1.3",
-    "@april/tokens": "npm:@ukituki-ps/april-tokens@^0.1.2"
+    "@april/ui": "npm:@ukituki-ps/april-ui@^0.1.4",
+    "@april/tokens": "npm:@ukituki-ps/april-tokens@^0.1.4"
   }
 }
 ```
