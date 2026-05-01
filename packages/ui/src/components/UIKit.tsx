@@ -19,6 +19,7 @@ import { LoginSection } from './LoginSection';
 import { CardListColumnSection } from './CardListColumnSection';
 import { JsonTreeEditorSection } from './JsonTreeEditorSection';
 import { IconsSection } from './IconsSection';
+import { GradientSegmentedControlSection } from './GradientSegmentedControlSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -141,6 +142,12 @@ export function UIKit() {
           title="19. Иконки"
           description="Lucide через AprilIcon и курируемые экспорты AprilIcon*; размеры и доступность согласованы с DS.">
           <IconsSection />
+        </Section>
+
+        <Section
+          title="20. Градиентный SegmentedControl"
+          description="AprilGradientSegmentedControl — Mantine SegmentedControl со стилями по рецепту Mantine UI и палитрой teal April; см. DESIGN_SYSTEM §11.">
+          <GradientSegmentedControlSection />
         </Section>
       </Stack>
     </Container>

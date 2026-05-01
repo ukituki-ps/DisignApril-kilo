@@ -18,6 +18,7 @@
 
 - Есть текстовая метка/aria-label для интерактивных элементов.
 - Иконки: декоративные — через `AprilIcon` рядом с видимым текстом или с `aria-hidden`; **только иконка** у `Button` / `ActionIcon` — обязательный доступный имя (`aria-label`, текст в `Tooltip` с фокусируемым контролом и т.д.). См. витрину **§19. Иконки** в `UIKit`.
+- Сегментированный переключатель, где в сегменте **только иконка** — у каждого сегмента должно быть доступное имя (например `VisuallyHidden`); см. **§20** в `UIKit` и [доку Mantine — SegmentedControl](https://mantine.dev/core/segmented-control/#accessibility-and-usability).
 - Состояния `hover`, `focus`, `disabled`, `error` визуально различимы.
 - Ошибки формы показываются рядом с контролом и имеют понятный текст.
 
@@ -28,6 +29,7 @@
 - Showcase содержит пример базового использования и минимум один edge-case.
 - JSON: см. секцию **18. JSON & JSON Schema (дерево + форма)** в `UIKit` (`AprilJsonTreeEditor`, `AprilJsonSchemaForm`, валидация, read-only).
 - Иконки: см. секцию **19. Иконки** в `UIKit` (`AprilIcon`, курируемые `AprilIcon*`).
+- Сегменты `SegmentedControl` **только с иконками** — скрытое текстовое имя (`VisuallyHidden` и т.п.), см. **§20. Градиентный SegmentedControl** в `UIKit` (`AprilGradientSegmentedControl`).
 
 ## Checklist перед merge
 
