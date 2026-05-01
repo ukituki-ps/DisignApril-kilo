@@ -224,6 +224,12 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - **Импорт:** `import { AprilIcon, AprilIconSettings } from '@april/ui'`. Для пропсов вида «компонент иконки» используйте тип **`AprilLucideIcon`** (алиас `LucideIcon` из `lucide-react`).
 - **Бренд** (логотип APRIL, §3) — отдельные SVG, не смешивать с UI-иконками.
 
+### Градиентный SegmentedControl
+
+- **Компонент:** `AprilGradientSegmentedControl` — обёртка над Mantine **`SegmentedControl`** с оформлением индикатора градиентом по **шкале teal** (паттерн как в рецепте [Mantine UI — Gradient segmented control](https://ui.mantine.dev/component/gradient-segmented-control/); в April цвета заменены на брендовые, не демо pink/orange).
+- **Когда использовать:** переключатель вида / режима, где нужен выразительный «плавающий» индикатор на нейтральном фоне трека; для нейтрального toolbar без акцента оставляйте обычный `SegmentedControl` из `@mantine/core`.
+- **Импорт:** `import { AprilGradientSegmentedControl } from '@april/ui'`. API совместим с Mantine (включая `data`, `value` / `defaultValue`, `onChange`, `disabled`, `readOnly`, `fullWidth`, `orientation` и т.д.). Стили по умолчанию заданы через проп **`styles`** (рецепт Mantine UI + teal); пользовательский `styles` **поверхностно** накладывается поверх дефолтов по ключам (`root`, `indicator`, …), чтобы сборка `dist` в tsup оставалась корректной (CSS modules в бандле библиотеки не используются).
+
 **Не входят в пакет (по необходимости в сервисе):** графики (`recharts`), тосты (`sonner`), анимации (`framer-motion`) — подключайте в продукте отдельно, визуал согласуйте с палитрой April.
 
 ### JSON tree и JSON Schema (дерево)
