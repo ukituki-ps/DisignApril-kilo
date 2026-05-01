@@ -7,6 +7,10 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 5175,
+    strictPort: true,
+  },
   resolve: {
     alias: {
       '@ukituki-ps/april-ui': path.resolve(dir, '../../packages/ui/src/index.ts'),

@@ -4,109 +4,82 @@ import { useDensity } from '../DensityContext';
 export function ButtonsSection() {
   const { density } = useDensity();
   const isCompact = density === 'compact';
-  // Map density to Mantine sizes
   const defaultSize = isCompact ? 'xs' : 'sm';
   return (
     <Stack gap="xl">
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Variants
+          Варианты
         </Text>
         <Group>
           <Button variant="filled" size={defaultSize}>
-            Filled
+            Заполненная
           </Button>
           <Button variant="light" size={defaultSize}>
-            Light
+            Светлая
           </Button>
           <Button variant="outline" size={defaultSize}>
-            Outline
+            Контур
           </Button>
           <Button variant="subtle" size={defaultSize}>
-            Subtle
+            Тонкая
           </Button>
           <Button variant="default" size={defaultSize}>
-            Default
+            По умолчанию
           </Button>
         </Group>
       </Stack>
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          States
+          Состояния
         </Text>
         <Group>
-          <Button size={defaultSize}>Default</Button>
+          <Button size={defaultSize}>Обычная</Button>
           <Button size={defaultSize} disabled>
-            Disabled
+            Отключена
           </Button>
           <Button size={defaultSize} loading>
-            Loading
+            Загрузка
           </Button>
           <Button size={defaultSize} color="red">
-            Danger
+            Опасное действие
           </Button>
         </Group>
       </Stack>
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          With Icons
+          С иконками
         </Text>
         <Group>
           <Button size={defaultSize} leftSection={<PlusIcon size={16} />}>
-            Add Task
+            Добавить задачу
           </Button>
-          <Button
-            size={defaultSize}
-            variant="default"
-            rightSection={<SettingsIcon size={16} />}>
-            
-            Settings
+          <Button size={defaultSize} variant="default" rightSection={<SettingsIcon size={16} />}>
+            Настройки
           </Button>
-          <Button
-            size={defaultSize}
-            variant="light"
-            color="red"
-            leftSection={<TrashIcon size={16} />}>
-            
-            Delete
+          <Button size={defaultSize} variant="light" color="red" leftSection={<TrashIcon size={16} />}>
+            Удалить
           </Button>
         </Group>
       </Stack>
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Icon Buttons
+          Только иконка
         </Text>
         <Group>
-          <ActionIcon
-            size={isCompact ? 'md' : 'lg'}
-            variant="filled"
-            aria-label="Settings">
-            
+          <ActionIcon size={isCompact ? 'md' : 'lg'} variant="filled" aria-label="Настройки">
             <SettingsIcon size={18} />
           </ActionIcon>
-          <ActionIcon
-            size={isCompact ? 'md' : 'lg'}
-            variant="light"
-            aria-label="Search">
-            
+          <ActionIcon size={isCompact ? 'md' : 'lg'} variant="light" aria-label="Поиск">
             <SearchIcon size={18} />
           </ActionIcon>
-          <ActionIcon
-            size={isCompact ? 'md' : 'lg'}
-            variant="default"
-            aria-label="Add">
-            
+          <ActionIcon size={isCompact ? 'md' : 'lg'} variant="default" aria-label="Добавить">
             <PlusIcon size={18} />
           </ActionIcon>
-          <ActionIcon
-            size={isCompact ? 'md' : 'lg'}
-            variant="subtle"
-            color="red"
-            aria-label="Delete">
-            
+          <ActionIcon size={isCompact ? 'md' : 'lg'} variant="subtle" color="red" aria-label="Удалить">
             <TrashIcon size={18} />
           </ActionIcon>
         </Group>
@@ -114,15 +87,15 @@ export function ButtonsSection() {
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Sizes
+          Размеры
         </Text>
         <Group align="center">
-          <Button size="xs">Extra Small</Button>
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
+          <Button size="xs">Очень маленькая</Button>
+          <Button size="sm">Маленькая</Button>
+          <Button size="md">Средняя</Button>
+          <Button size="lg">Большая</Button>
         </Group>
       </Stack>
-    </Stack>);
-
+    </Stack>
+  );
 }

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Paper, Stack, Text, TextInput, useComputedColorScheme, useMantineTheme } from '@mantine/core';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Alert, Group, Paper, Stack, Text, TextInput, useComputedColorScheme, useMantineTheme } from '@mantine/core';
 import { JsonEditor, type JsonData, type JsonEditorProps } from 'json-edit-react';
 import { Search } from 'lucide-react';
 import { useDensity } from '../DensityContext';
@@ -26,6 +26,8 @@ export type AprilJsonTreeEditorProps = {
   resolveValidationSchemaRefs?: boolean;
   showSearch?: boolean;
   searchFilter?: 'key' | 'value' | 'all';
+  /** Actions next to the search field, outside `TextInput` so they do not inherit error/focus border styling. */
+  searchTrailing?: ReactNode;
   className?: string;
   /** Passed through to JsonEditor except fields owned by this wrapper. */
   jsonEditorProps?: Omit<
@@ -54,6 +56,7 @@ export function AprilJsonTreeEditor({
   resolveValidationSchemaRefs = true,
   showSearch = false,
   searchFilter = 'all',
+  searchTrailing,
   className,
   jsonEditorProps,
 }: AprilJsonTreeEditorProps) {
@@ -140,17 +143,17 @@ export function AprilJsonTreeEditor({
   return (
     <Stack gap="sm">
       {validatorError ? (
-        <Alert color="red" title="Schema preparation failed">
+        <Alert color="red" title="Не удалось подготовить схему">
           <Text size="sm">{validatorError}</Text>
           <Text size="xs" c="dimmed" mt="xs">
-            External <code>$ref</code> URLs may be blocked by CORS in the browser; use inline or
-            bundled references for portable validation.
+            Внешние URL в <code>$ref</code> могут блокироваться CORS в браузере; для переносимой валидации используйте
+            встроенные или собранные в бандл ссылки.
           </Text>
         </Alert>
       ) : null}
 
       <AprilJsonValidationSummary
-        title="Validation"
+        title="Проверка данных"
         items={validationErrors.map((err) => ({
           path: err.instancePath,
           message: err.message,
@@ -158,15 +161,22 @@ export function AprilJsonTreeEditor({
       />
 
       {showSearch ? (
-        <TextInput
-          size={inputSize}
-          label="Search"
-          placeholder="Filter by key or value"
-          value={searchText}
-          onChange={(e) => setSearchText(e.currentTarget.value)}
-          leftSection={<Search size={14} aria-hidden />}
-          aria-label="Filter JSON tree"
-        />
+        <Group align="center" gap="xs" wrap="nowrap" style={{ width: '100%' }}>
+          <TextInput
+            style={{ flex: 1, minWidth: 0 }}
+            size={inputSize}
+            placeholder="Фильтр по ключу или значению"
+            value={searchText}
+            onChange={(e) => setSearchText(e.currentTarget.value)}
+            leftSection={<Search size={14} aria-hidden />}
+            aria-label="Фильтр дерева JSON"
+          />
+          {searchTrailing ? (
+            <Group gap="xs" wrap="nowrap" style={{ flexShrink: 0 }}>
+              {searchTrailing}
+            </Group>
+          ) : null}
+        </Group>
       ) : null}
 
       <Paper withBorder p="xs" radius="md">

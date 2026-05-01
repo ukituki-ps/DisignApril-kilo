@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Form, { type FormProps, type IChangeEvent } from '@rjsf/core';
 import type {
   ErrorTransformer,
@@ -43,6 +44,8 @@ export type AprilJsonSchemaFormProps<
   liveValidate?: FormProps<T, S, F>['liveValidate'];
   /** Default `'top'` to match April JSON validation summary placement. */
   showErrorList?: FormProps<T, S, F>['showErrorList'];
+  /** When true, merges `ui:submitButtonOptions.norender` so the default RJSF submit is hidden (use an external `type="submit"` with matching `form` id). */
+  hideDefaultSubmit?: boolean;
 };
 
 /**
@@ -64,15 +67,28 @@ export function AprilJsonSchemaForm<
   validator = defaultValidator as ValidatorType<T, S, F>,
   liveValidate = 'onChange',
   showErrorList = 'top',
+  hideDefaultSubmit = false,
   children,
   ...rest
 }: AprilJsonSchemaFormProps<T, S, F>) {
+  const mergedUiSchema = useMemo(() => {
+    if (!hideDefaultSubmit) {
+      return uiSchema as UiSchema<T, S, F> | undefined;
+    }
+    const base = (uiSchema && typeof uiSchema === 'object' ? uiSchema : {}) as Record<string, unknown>;
+    const prev = (base['ui:submitButtonOptions'] as Record<string, unknown>) ?? {};
+    return {
+      ...base,
+      'ui:submitButtonOptions': { ...prev, norender: true },
+    } as UiSchema<T, S, F>;
+  }, [hideDefaultSubmit, uiSchema]);
+
   return (
     <Form<T, S, F>
       {...rest}
       schema={schema}
       formData={formData}
-      uiSchema={uiSchema as UiSchema<T, S, F>}
+      uiSchema={mergedUiSchema}
       validator={validator}
       widgets={aprilRjsfWidgetOverrides as unknown as FormProps<T, S, F>['widgets']}
       templates={aprilRjsfTemplateOverrides as unknown as FormProps<T, S, F>['templates']}

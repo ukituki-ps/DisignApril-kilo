@@ -135,10 +135,10 @@ export function TaskNode({ data }: NodeProps) {
   const { density } = useDensity();
   const isCompact = density === 'compact';
   const statusColors: Record<string, string> = {
-    Done: 'teal',
-    'In Progress': 'blue',
-    Blocked: 'red',
-    'To Do': 'gray'
+    Готово: 'teal',
+    'В работе': 'blue',
+    Заблокировано: 'red',
+    'К выполнению': 'gray',
   };
   const color = statusColors[data.status as string] || 'gray';
   return (

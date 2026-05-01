@@ -4,42 +4,42 @@ export function BadgesSection() {
     <Stack gap="xl">
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Variants
+          Варианты
         </Text>
         <Group>
-          <Badge variant="filled">Filled</Badge>
-          <Badge variant="light">Light</Badge>
-          <Badge variant="outline">Outline</Badge>
-          <Badge variant="dot">Dot</Badge>
-          <Badge variant="transparent">Transparent</Badge>
+          <Badge variant="filled">Заполненный</Badge>
+          <Badge variant="light">Светлый</Badge>
+          <Badge variant="outline">Контур</Badge>
+          <Badge variant="dot">Точка</Badge>
+          <Badge variant="transparent">Прозрачный</Badge>
         </Group>
       </Stack>
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Semantic Colors
+          Семантические цвета
         </Text>
         <Group>
-          <Badge color="teal">Active</Badge>
-          <Badge color="blue">In Progress</Badge>
-          <Badge color="orange">Warning</Badge>
-          <Badge color="red">Failed</Badge>
-          <Badge color="gray">Archived</Badge>
+          <Badge color="teal">Активен</Badge>
+          <Badge color="blue">В работе</Badge>
+          <Badge color="orange">Предупреждение</Badge>
+          <Badge color="red">Ошибка</Badge>
+          <Badge color="gray">В архиве</Badge>
         </Group>
       </Stack>
 
       <Stack gap="sm">
         <Text fw={500} size="sm">
-          Sizes
+          Размеры
         </Text>
         <Group align="center">
-          <Badge size="xs">Extra Small</Badge>
-          <Badge size="sm">Small</Badge>
-          <Badge size="md">Medium</Badge>
-          <Badge size="lg">Large</Badge>
-          <Badge size="xl">Extra Large</Badge>
+          <Badge size="xs">Очень маленький</Badge>
+          <Badge size="sm">Маленький</Badge>
+          <Badge size="md">Средний</Badge>
+          <Badge size="lg">Большой</Badge>
+          <Badge size="xl">Очень большой</Badge>
         </Group>
       </Stack>
-    </Stack>);
-
+    </Stack>
+  );
 }

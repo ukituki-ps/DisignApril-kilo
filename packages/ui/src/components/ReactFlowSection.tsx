@@ -8,10 +8,10 @@ export function ReactFlowSection() {
     <Box>
       <Tabs defaultValue="crm" variant="outline">
         <Tabs.List mb="md">
-          <Tabs.Tab value="crm">CRM Pipeline</Tabs.Tab>
-          <Tabs.Tab value="org">Org Chart</Tabs.Tab>
-          <Tabs.Tab value="tasks">Task Dependencies</Tabs.Tab>
-          <Tabs.Tab value="custom">Custom Nodes</Tabs.Tab>
+          <Tabs.Tab value="crm">Воронка CRM</Tabs.Tab>
+          <Tabs.Tab value="org">Оргструктура</Tabs.Tab>
+          <Tabs.Tab value="tasks">Зависимости задач</Tabs.Tab>
+          <Tabs.Tab value="custom">Произвольные узлы</Tabs.Tab>
         </Tabs.List>
 
         <Box
@@ -19,9 +19,9 @@ export function ReactFlowSection() {
             border: '1px solid var(--mantine-color-default-border)',
             borderRadius: 'var(--mantine-radius-md)',
             overflow: 'hidden',
-            backgroundColor: 'var(--mantine-color-body)'
-          }}>
-          
+            backgroundColor: 'var(--mantine-color-body)',
+          }}
+        >
           <Tabs.Panel value="crm">
             <CrmPipeline />
           </Tabs.Panel>
@@ -39,6 +39,6 @@ export function ReactFlowSection() {
           </Tabs.Panel>
         </Box>
       </Tabs>
-    </Box>);
-
+    </Box>
+  );
 }

@@ -40,7 +40,7 @@ vi.mock('@mantine/core', async () => {
       return (
         <div
           role="region"
-          aria-label="Card list scroll area"
+          aria-label="Область прокрутки списка карточек"
           ref={localViewportRef}
           onScroll={(event) => {
             onScrollPositionChange?.({ x: 0, y: event.currentTarget.scrollTop });
@@ -54,8 +54,8 @@ vi.mock('@mantine/core', async () => {
 });
 
 const items = [
-  { id: '1', title: 'First task', description: 'First description' },
-  { id: '2', title: 'Second task', description: 'Second description' }
+  { id: '1', title: 'Первая задача', description: 'Первое описание' },
+  { id: '2', title: 'Вторая задача', description: 'Второе описание' },
 ];
 
 function DensityModeSetter({ mode }: { mode: 'comfortable' | 'compact' }) {
@@ -80,8 +80,8 @@ describe('CardListColumn', () => {
 
     expect(screen.getByText('Inbox')).toBeTruthy();
     expect(screen.getByText('2')).toBeTruthy();
-    expect(screen.getByText('First task')).toBeTruthy();
-    expect(screen.getByText('Second task')).toBeTruthy();
+    expect(screen.getByText('Первая задача')).toBeTruthy();
+    expect(screen.getByText('Вторая задача')).toBeTruthy();
     expect(container.querySelector('.mantine-Group-root')).toBeNull();
   });
 
@@ -115,7 +115,7 @@ describe('CardListColumn', () => {
       <CardListColumn title="Inbox" mode="inline" items={items} onSearchChange={onSearchChange} withAdd={false} />
     );
 
-    const searchInput = screen.getByLabelText('Search cards');
+    const searchInput = screen.getByLabelText('Поиск по карточкам');
     await user.type(searchInput, 'abc');
 
     expect(onSearchChange).toHaveBeenLastCalledWith('abc');
@@ -126,11 +126,11 @@ describe('CardListColumn', () => {
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />);
 
-    await user.click(screen.getByLabelText('Collapse list'));
-    expect(screen.getByLabelText('Expand list')).toBeTruthy();
+    await user.click(screen.getByLabelText('Свернуть список'));
+    expect(screen.getByLabelText('Развернуть список')).toBeTruthy();
 
-    await user.click(screen.getByLabelText('Expand list'));
-    expect(screen.getByLabelText('Collapse list')).toBeTruthy();
+    await user.click(screen.getByLabelText('Развернуть список'));
+    expect(screen.getByLabelText('Свернуть список')).toBeTruthy();
   });
 
   it('handles overlay open and close flow', async () => {
@@ -138,15 +138,15 @@ describe('CardListColumn', () => {
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="overlay" items={items} />);
 
-    expect(screen.getByText('Hide overlay list')).toBeTruthy();
-    expect(screen.getByLabelText('Close overlay list')).toBeTruthy();
+    expect(screen.getByText('Скрыть список поверх')).toBeTruthy();
+    expect(screen.getByLabelText('Закрыть список поверх страницы')).toBeTruthy();
 
-    await user.click(screen.getByLabelText('Close overlay list'));
-    expect(screen.queryByLabelText('Close overlay list')).toBeNull();
-    expect(screen.getByText('Show overlay list')).toBeTruthy();
+    await user.click(screen.getByLabelText('Закрыть список поверх страницы'));
+    expect(screen.queryByLabelText('Закрыть список поверх страницы')).toBeNull();
+    expect(screen.getByText('Показать список поверх')).toBeTruthy();
 
-    await user.click(screen.getByText('Show overlay list'));
-    expect(screen.getByLabelText('Close overlay list')).toBeTruthy();
+    await user.click(screen.getByText('Показать список поверх'));
+    expect(screen.getByLabelText('Закрыть список поверх страницы')).toBeTruthy();
   });
 
   it('calls filter/sort/add callbacks from actions panel', async () => {
@@ -186,17 +186,17 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     await user.click(await screen.findByRole('button', { name: 'Set custom filter' }));
     await user.click(await screen.findByRole('button', { name: 'Apply custom filter' }));
     expect(onFilterChange).toHaveBeenCalledWith({ status: 'done' });
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     await user.click(await screen.findByRole('button', { name: 'Set custom sort' }));
     await user.click(await screen.findByRole('button', { name: 'Apply custom sort' }));
     expect(onSortChange).toHaveBeenCalledWith({ field: 'title', direction: 'asc' });
 
-    await user.click(screen.getByLabelText('Add new item'));
+    await user.click(screen.getByLabelText('Добавить элемент'));
     expect(onAddItem).toHaveBeenCalledTimes(1);
   });
 
@@ -205,9 +205,9 @@ describe('CardListColumn', () => {
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} />);
 
-    await user.click(screen.getByLabelText('Add new item'));
+    await user.click(screen.getByLabelText('Добавить элемент'));
     expect(
-      await screen.findByText('Add flow can be implemented with product-specific form fields.')
+      await screen.findByText('Сценарий добавления можно реализовать полями, специфичными для продукта.')
     ).toBeTruthy();
   });
 
@@ -237,15 +237,15 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     await user.click(await screen.findByRole('button', { name: 'Set draft filter' }));
     await user.click(await screen.findByRole('button', { name: 'Reset filter' }));
     expect(onFilterChange).toHaveBeenCalledWith({});
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     await user.click(await screen.findByRole('button', { name: 'Close filter modal' }));
     await waitFor(() => {
-      expect(screen.queryByRole('dialog', { name: 'Filters' })).toBeNull();
+      expect(screen.queryByRole('dialog', { name: 'Фильтры' })).toBeNull();
     });
   });
 
@@ -275,15 +275,15 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     await user.click(await screen.findByRole('button', { name: 'Set draft sort' }));
     await user.click(await screen.findByRole('button', { name: 'Reset sort' }));
     expect(onSortChange).toHaveBeenCalledWith({ field: 'createdAt', direction: 'desc' });
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     await user.click(await screen.findByRole('button', { name: 'Close sort modal' }));
     await waitFor(() => {
-      expect(screen.queryByRole('dialog', { name: 'Sort' })).toBeNull();
+      expect(screen.queryByRole('dialog', { name: 'Сортировка' })).toBeNull();
     });
   });
 
@@ -309,7 +309,7 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     expect(await screen.findByText('Draft filter status: todo')).toBeTruthy();
 
     await user.click(screen.getByRole('button', { name: 'Set draft to done' }));
@@ -341,10 +341,10 @@ describe('CardListColumn', () => {
 
     await user.click(screen.getByRole('button', { name: 'Close filter modal' }));
     await waitFor(() => {
-      expect(screen.queryByRole('dialog', { name: 'Filters' })).toBeNull();
+      expect(screen.queryByRole('dialog', { name: 'Фильтры' })).toBeNull();
     });
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     expect(await screen.findByText('Draft filter status: in-progress')).toBeTruthy();
   });
 
@@ -367,7 +367,7 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     expect(await screen.findByText('Draft key order: status,priority')).toBeTruthy();
     await user.click(screen.getByRole('button', { name: 'Close stable filter modal' }));
 
@@ -390,7 +390,7 @@ describe('CardListColumn', () => {
       </AprilProviders>
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     expect(await screen.findByText('Draft key order: status,priority')).toBeTruthy();
   });
 
@@ -418,7 +418,7 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     expect(await screen.findByText('Draft sort: createdAt:desc')).toBeTruthy();
 
     await user.click(screen.getByRole('button', { name: 'Set draft sort custom' }));
@@ -452,10 +452,10 @@ describe('CardListColumn', () => {
 
     await user.click(screen.getByRole('button', { name: 'Close sort modal' }));
     await waitFor(() => {
-      expect(screen.queryByRole('dialog', { name: 'Sort' })).toBeNull();
+      expect(screen.queryByRole('dialog', { name: 'Сортировка' })).toBeNull();
     });
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     expect(await screen.findByText('Draft sort: title:desc')).toBeTruthy();
   });
 
@@ -500,21 +500,21 @@ describe('CardListColumn', () => {
       />
     );
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     await user.click(await screen.findByRole('button', { name: 'Set apply filter value' }));
     await user.click(await screen.findByRole('button', { name: 'Apply filter value' }));
     expect(onFilterChange).toHaveBeenCalledWith({ status: 'done' });
 
-    await user.click(screen.getByLabelText('Open filter options'));
+    await user.click(screen.getByLabelText('Открыть фильтры'));
     await user.click(await screen.findByRole('button', { name: 'Reset filter value' }));
     expect(onFilterChange).toHaveBeenCalledWith({});
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     await user.click(await screen.findByRole('button', { name: 'Set apply sort value' }));
     await user.click(await screen.findByRole('button', { name: 'Apply sort value' }));
     expect(onSortChange).toHaveBeenCalledWith({ field: 'title', direction: 'asc' });
 
-    await user.click(screen.getByLabelText('Open sorting options'));
+    await user.click(screen.getByLabelText('Открыть сортировку'));
     await user.click(await screen.findByRole('button', { name: 'Reset sort value' }));
     expect(onSortChange).toHaveBeenCalledWith({ field: 'createdAt', direction: 'desc' });
   });
@@ -524,15 +524,15 @@ describe('CardListColumn', () => {
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} />);
 
-    await user.click(screen.getByLabelText('Add new item'));
+    await user.click(screen.getByLabelText('Добавить элемент'));
     expect(
-      await screen.findByText('Add flow can be implemented with product-specific form fields.')
+      await screen.findByText('Сценарий добавления можно реализовать полями, специфичными для продукта.')
     ).toBeTruthy();
 
-    const addDialog = screen.getByRole('dialog', { name: 'Add new item' });
+    const addDialog = screen.getByRole('dialog', { name: 'Новый элемент' });
     await user.click(within(addDialog).getByRole('button'));
     await waitFor(() => {
-      expect(screen.queryByRole('dialog', { name: 'Add new item' })).toBeNull();
+      expect(screen.queryByRole('dialog', { name: 'Новый элемент' })).toBeNull();
     });
   });
 
@@ -541,7 +541,7 @@ describe('CardListColumn', () => {
       <CardListColumn title="Inbox" mode="inline" items={[]} loading={false} withAdd={false} />
     );
 
-    expect(screen.getByText('No items for current server query.')).toBeTruthy();
+    expect(screen.getByText('Нет элементов для текущего запроса.')).toBeTruthy();
 
     rerender(
       <AprilProviders defaultColorScheme="dark">
@@ -557,7 +557,7 @@ describe('CardListColumn', () => {
       </AprilProviders>
     );
 
-    expect(screen.getByText('Reloading 1..2 from server...')).toBeTruthy();
+    expect(screen.getByText('Обновление: 1…2 с сервера…')).toBeTruthy();
   });
 
   it('calls onReachListEnd once and guards repeat trigger while loading', () => {
@@ -575,7 +575,7 @@ describe('CardListColumn', () => {
       />
     );
 
-    const scrollContainer = screen.getByRole('region', { name: 'Card list scroll area' });
+    const scrollContainer = screen.getByRole('region', { name: 'Область прокрутки списка карточек' });
     Object.defineProperty(scrollContainer, 'scrollHeight', { value: 400, configurable: true });
     Object.defineProperty(scrollContainer, 'clientHeight', { value: 300, configurable: true });
     Object.defineProperty(scrollContainer, 'scrollTop', { value: 100, writable: true, configurable: true });
@@ -594,10 +594,10 @@ describe('CardListColumn', () => {
       </AprilProviders>
     );
 
-    expect(screen.getByRole('textbox', { name: 'Search cards' })).toBeTruthy();
-    expect(screen.getByLabelText('Open filter options')).toBeTruthy();
-    expect(screen.getByLabelText('Open sorting options')).toBeTruthy();
-    expect(screen.getByLabelText('Add new item')).toBeTruthy();
-    expect(screen.getByRole('separator', { name: 'Resize list width' })).toBeTruthy();
+    expect(screen.getByRole('textbox', { name: 'Поиск по карточкам' })).toBeTruthy();
+    expect(screen.getByLabelText('Открыть фильтры')).toBeTruthy();
+    expect(screen.getByLabelText('Открыть сортировку')).toBeTruthy();
+    expect(screen.getByLabelText('Добавить элемент')).toBeTruthy();
+    expect(screen.getByRole('separator', { name: 'Изменить ширину списка' })).toBeTruthy();
   });
 });

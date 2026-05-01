@@ -22,8 +22,8 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Input Node',
-    description: 'Handles on right only',
+    label: 'Входной узел',
+    description: 'Ручки только справа',
     nodeType: 'input',
     color: 'blue'
   }
@@ -36,8 +36,8 @@ const initialNodes = [
     y: 50
   },
   data: {
-    label: 'Default Node',
-    description: 'Handles on both sides',
+    label: 'Обычный узел',
+    description: 'Ручки с двух сторон',
     nodeType: 'default',
     color: 'teal'
   }
@@ -50,8 +50,8 @@ const initialNodes = [
     y: 250
   },
   data: {
-    label: 'Decision Node',
-    description: 'Multiple outputs',
+    label: 'Узел решения',
+    description: 'Несколько выходов',
     nodeType: 'decision',
     color: 'orange'
   }
@@ -64,8 +64,8 @@ const initialNodes = [
     y: 150
   },
   data: {
-    label: 'Output Node',
-    description: 'Handles on left only',
+    label: 'Выходной узел',
+    description: 'Ручки только слева',
     nodeType: 'output',
     color: 'grape'
   }
@@ -113,7 +113,7 @@ const initialEdges: Edge[] = [
   source: '3',
   target: '4',
   sourceHandle: 'top',
-  label: 'Yes',
+  label: 'Да',
   markerEnd: {
     type: MarkerType.ArrowClosed
   },

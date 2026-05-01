@@ -6,7 +6,7 @@ export type AprilJsonValidationListItem = {
 };
 
 export type AprilJsonValidationSummaryProps = {
-  /** Shown as Alert title (e.g. "Validation"). */
+  /** Заголовок блока Alert (например, «Проверка данных»). */
   title?: string;
   items: AprilJsonValidationListItem[];
 };
@@ -15,7 +15,7 @@ export type AprilJsonValidationSummaryProps = {
  * Shared validation summary (Mantine `Alert` + `List`) for tree (Ajv) and RJSF form error lists.
  */
 export function AprilJsonValidationSummary({
-  title = 'Validation',
+  title = 'Проверка данных',
   items,
 }: AprilJsonValidationSummaryProps) {
   if (items.length === 0) {

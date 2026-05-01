@@ -11,7 +11,7 @@ import {
   Divider,
   Stack,
   Anchor,
-  Center
+  Center,
 } from '@mantine/core';
 import { MailIcon, LockIcon } from 'lucide-react';
 import { useDensity } from '../DensityContext';
@@ -69,7 +69,7 @@ export function LoginSection() {
   return (
     <Stack gap="xl">
       <Text fw={500} size="sm">
-        Login Page Preview
+        Предпросмотр экрана входа
       </Text>
 
       <Center>
@@ -80,7 +80,7 @@ export function LoginSection() {
           withBorder
           style={{
             width: '100%',
-            maxWidth: 420
+            maxWidth: 420,
           }}
         >
           <Stack gap="lg">
@@ -93,7 +93,7 @@ export function LoginSection() {
                     height: 32,
                     width: 32,
                     objectFit: 'contain',
-                    filter: TEAL_FILTER
+                    filter: TEAL_FILTER,
                   }}
                 />
 
@@ -105,45 +105,35 @@ export function LoginSection() {
 
             <Box ta="center">
               <Text size="lg" fw={600}>
-                Welcome back
+                С возвращением
               </Text>
               <Text size="sm" c="dimmed">
-                Sign in to your workspace
+                Войдите в рабочее пространство
               </Text>
             </Box>
 
             <Stack gap="sm">
-              <Button
-                variant="default"
-                fullWidth
-                size={size}
-                leftSection={<GoogleIcon size={16} />}
-              >
-                Continue with Google
+              <Button variant="default" fullWidth size={size} leftSection={<GoogleIcon size={16} />}>
+                Продолжить с Google
               </Button>
-              <Button
-                variant="default"
-                fullWidth
-                size={size}
-                leftSection={<MicrosoftIcon size={16} />}
-              >
-                Continue with Microsoft
+              <Button variant="default" fullWidth size={size} leftSection={<MicrosoftIcon size={16} />}>
+                Продолжить с Microsoft
               </Button>
             </Stack>
 
-            <Divider label="or continue with email" labelPosition="center" />
+            <Divider label="или войдите по почте" labelPosition="center" />
 
             <Stack gap="md">
               <TextInput
-                label="Email"
+                label="Электронная почта"
                 placeholder="you@company.com"
                 leftSection={<MailIcon size={16} />}
                 size={size}
                 required
               />
               <PasswordInput
-                label="Password"
-                placeholder="Your password"
+                label="Пароль"
+                placeholder="Ваш пароль"
                 leftSection={<LockIcon size={16} />}
                 size={size}
                 required
@@ -151,20 +141,20 @@ export function LoginSection() {
             </Stack>
 
             <Group justify="space-between">
-              <Checkbox label="Remember me" size={size} />
+              <Checkbox label="Запомнить меня" size={size} />
               <Anchor size="sm" c="teal">
-                Forgot password?
+                Забыли пароль?
               </Anchor>
             </Group>
 
             <Button fullWidth size={size} loading={loading} onClick={handleLogin}>
-              Sign in
+              Войти
             </Button>
 
             <Text ta="center" size="sm" c="dimmed">
-              Don't have an account?{' '}
+              Нет аккаунта?{' '}
               <Anchor c="teal" fw={500}>
-                Create one
+                Зарегистрироваться
               </Anchor>
             </Text>
           </Stack>
@@ -173,17 +163,15 @@ export function LoginSection() {
 
       <Box>
         <Text fw={500} size="sm" mb="xs">
-          Login Form Anatomy
+          Состав экрана входа
         </Text>
         <Text size="sm" c="dimmed">
-          <strong>Top:</strong> Logo + welcome text. <strong>Social:</strong> Google &
-          Microsoft SSO (corporate standard). <strong>Form:</strong> Email + password
-          with icons. <strong>Actions:</strong> Remember me, forgot password, sign in
-          button with loading state. <strong>Footer:</strong> Sign up link.
+          <strong>Верх:</strong> логотип и приветствие. <strong>Соцсети:</strong> Google и Microsoft SSO.{' '}
+          <strong>Форма:</strong> почта и пароль с иконками. <strong>Действия:</strong> «Запомнить меня», восстановление
+          пароля, кнопка входа с индикатором загрузки. <strong>Низ:</strong> ссылка на регистрацию.
         </Text>
         <Text size="sm" c="dimmed" mt="xs">
-          The "Sign in" button shows a loading spinner on click (1.5s demo). All
-          elements respond to density mode.
+          Кнопка «Войти» показывает спиннер 1,5 с (демо). Все элементы учитывают режим плотности.
         </Text>
       </Box>
     </Stack>

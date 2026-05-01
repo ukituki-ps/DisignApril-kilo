@@ -34,7 +34,7 @@ import {
 import { PlusIcon, MoreHorizontalIcon, CalendarIcon } from 'lucide-react';
 import { useDensity } from '../DensityContext';
 // --- Types & Mock Data ---
-type Priority = 'High' | 'Medium' | 'Low';
+type Priority = 'Высокий' | 'Средний' | 'Низкий';
 type ColumnId = 'todo' | 'in-progress' | 'review' | 'done';
 interface Task {
   id: string;
@@ -48,92 +48,92 @@ const INITIAL_TASKS: Task[] = [
 {
   id: 't1',
   columnId: 'todo',
-  title: 'Design new landing page',
-  priority: 'High',
+  title: 'Новый лендинг: дизайн',
+  priority: 'Высокий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-  dueDate: 'Oct 24'
+  dueDate: '24 окт.'
 },
 {
   id: 't2',
   columnId: 'todo',
-  title: 'Update dependencies',
-  priority: 'Low',
+  title: 'Обновить зависимости',
+  priority: 'Низкий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-  dueDate: 'Oct 28'
+  dueDate: '28 окт.'
 },
 {
   id: 't3',
   columnId: 'todo',
-  title: 'Write API documentation',
-  priority: 'Medium',
+  title: 'Документация API',
+  priority: 'Средний',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-  dueDate: 'Nov 02'
+  dueDate: '2 ноя.'
 },
 {
   id: 't4',
   columnId: 'in-progress',
-  title: 'Implement OAuth2 login',
-  priority: 'High',
+  title: 'Вход через OAuth2',
+  priority: 'Высокий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-4.png',
-  dueDate: 'Oct 22'
+  dueDate: '22 окт.'
 },
 {
   id: 't5',
   columnId: 'in-progress',
-  title: 'Fix navigation bug on mobile',
-  priority: 'Medium',
+  title: 'Навигация на мобильных: баг',
+  priority: 'Средний',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png',
-  dueDate: 'Oct 23'
+  dueDate: '23 окт.'
 },
 {
   id: 't6',
   columnId: 'review',
-  title: 'Database schema migration',
-  priority: 'High',
+  title: 'Миграция схемы БД',
+  priority: 'Высокий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-6.png',
-  dueDate: 'Oct 20'
+  dueDate: '20 окт.'
 },
 {
   id: 't7',
   columnId: 'review',
-  title: 'User profile settings UI',
-  priority: 'Medium',
+  title: 'UI настроек профиля',
+  priority: 'Средний',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png',
-  dueDate: 'Oct 21'
+  dueDate: '21 окт.'
 },
 {
   id: 't8',
   columnId: 'done',
-  title: 'Setup project repository',
-  priority: 'High',
+  title: 'Настроить репозиторий',
+  priority: 'Высокий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png',
-  dueDate: 'Oct 15'
+  dueDate: '15 окт.'
 },
 {
   id: 't9',
   columnId: 'done',
-  title: 'Configure CI/CD pipeline',
-  priority: 'High',
+  title: 'Настроить CI/CD',
+  priority: 'Высокий',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png',
-  dueDate: 'Oct 16'
+  dueDate: '16 окт.'
 },
 {
   id: 't10',
   columnId: 'done',
-  title: 'Create initial wireframes',
-  priority: 'Medium',
+  title: 'Первые вайрфреймы',
+  priority: 'Средний',
   assignee:
   'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-  dueDate: 'Oct 18'
+  dueDate: '18 окт.'
 }];
 
 const COLUMNS: {
@@ -143,22 +143,22 @@ const COLUMNS: {
 }[] = [
 {
   id: 'todo',
-  title: 'To Do',
+  title: 'К выполнению',
   color: 'gray'
 },
 {
   id: 'in-progress',
-  title: 'In Progress',
+  title: 'В работе',
   color: 'blue'
 },
 {
   id: 'review',
-  title: 'Review',
+  title: 'На проверке',
   color: 'orange'
 },
 {
   id: 'done',
-  title: 'Done',
+  title: 'Готово',
   color: 'teal'
 }];
 
@@ -175,9 +175,9 @@ function TaskCard({
   const { density } = useDensity();
   const isCompact = density === 'compact';
   const priorityColors: Record<Priority, string> = {
-    High: 'red',
-    Medium: 'orange',
-    Low: 'gray'
+    Высокий: 'red',
+    Средний: 'orange',
+    Низкий: 'gray',
   };
   return (
     <Card
@@ -320,7 +320,7 @@ function Column({
           justify="flex-start"
           size={isCompact ? 'xs' : 'sm'}>
           
-          Add task
+          Добавить задачу
         </Button>
       </Box>
     </Box>);

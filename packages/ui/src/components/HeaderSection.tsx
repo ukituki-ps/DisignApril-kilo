@@ -18,21 +18,21 @@ export function HeaderSection(): JSX.Element {
           />
           <Box style={{ lineHeight: 1 }} visibleFrom="sm">
             <Text size="xs" fw={500}>
-              Jane Doe
+              Иванова Мария
             </Text>
             <Text size="xs" c="dimmed">
-              Product Manager
+              Менеджер продукта
             </Text>
           </Box>
           <ChevronDownIcon size={14} style={{ color: "var(--mantine-color-dimmed)" }} />
         </div>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<UserIcon size={14} />}>Profile</Menu.Item>
-        <Menu.Item leftSection={<SettingsIcon size={14} />}>Settings</Menu.Item>
+        <Menu.Item leftSection={<UserIcon size={14} />}>Профиль</Menu.Item>
+        <Menu.Item leftSection={<SettingsIcon size={14} />}>Настройки</Menu.Item>
         <Menu.Divider />
         <Menu.Item leftSection={<LogOutIcon size={14} />} color="red">
-          Log out
+          Выйти
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
@@ -42,7 +42,7 @@ export function HeaderSection(): JSX.Element {
     <Stack gap="xl">
       <Box>
         <Text fw={500} size="sm" mb="md">
-          Product Header
+          Шапка продукта
         </Text>
         <Box
           style={{
@@ -57,7 +57,7 @@ export function HeaderSection(): JSX.Element {
             demoPageContent={
               <Box p="md" style={{ backgroundColor: "var(--mantine-color-gray-0)", minHeight: 60 }}>
                 <Text size="sm" c="dimmed">
-                  Page content area
+                  Область содержимого страницы
                 </Text>
               </Box>
             }
@@ -67,15 +67,16 @@ export function HeaderSection(): JSX.Element {
 
       <Box>
         <Text fw={500} size="sm" mb="xs">
-          Header Anatomy
+          Состав шапки
         </Text>
         <Text size="sm" c="dimmed">
-          <strong>Left:</strong> Logo + app name — always visible. &nbsp;
-          <strong>Center:</strong> Global search — collapses to icon on mobile. &nbsp;
-          <strong>Right:</strong> Messages, notifications (with indicator), help, user menu with avatar and role.
+          <strong>Слева:</strong> логотип и имя приложения — всегда видны. &nbsp;
+          <strong>По центру:</strong> глобальный поиск — на мобильных схлопывается в иконку. &nbsp;
+          <strong>Справа:</strong> сообщения, уведомления (с индикатором), справка, меню пользователя с аватаром и
+          ролью.
         </Text>
         <Text size="sm" c="dimmed" mt="xs">
-          Height: {isCompact ? "48px (compact)" : "56px (comfortable)"}. Responds to density mode.
+          Высота: {isCompact ? "48px (компакт)" : "56px (комфорт)"}. Реагирует на режим плотности.
         </Text>
       </Box>
     </Stack>

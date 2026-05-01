@@ -10,7 +10,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Процессы',
     product: 'AprilWorkFlow',
     description: 'Моделирование и исполнение бизнес-процессов.',
-    statusBadgeLabel: 'Plan',
+    statusBadgeLabel: 'План',
     statusBadgeColor: 'gray',
   },
   {
@@ -18,7 +18,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Коммуникации',
     product: 'AprilNFlow',
     description: 'Каналы уведомлений и согласований.',
-    statusBadgeLabel: 'Plan',
+    statusBadgeLabel: 'План',
     statusBadgeColor: 'gray',
   },
   {
@@ -26,7 +26,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Структура',
     product: 'AprilOrgFlow',
     description: 'Оргструктура и иерархия под задачи компании.',
-    statusBadgeLabel: 'Plan',
+    statusBadgeLabel: 'План',
     statusBadgeColor: 'gray',
   },
   {
@@ -34,7 +34,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Профиль',
     product: 'AprilProfile',
     description: 'Профили людей, роли и контекст доступа.',
-    statusBadgeLabel: 'In Progress',
+    statusBadgeLabel: 'В работе',
     statusBadgeColor: 'blue',
   },
   {
@@ -42,7 +42,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Интеграции',
     product: 'AprilEDC',
     description: 'Внешний контур данных и обмен с системами.',
-    statusBadgeLabel: 'Plan',
+    statusBadgeLabel: 'План',
     statusBadgeColor: 'gray',
   },
   {
@@ -50,7 +50,7 @@ const ECOSYSTEM_CARDS: readonly AprilEcosystemSimpleCardItem[] = [
     title: 'Отчётность',
     product: 'AprilReport',
     description: 'Регулярная и ad-hoc отчётность по процессам и данным.',
-    statusBadgeLabel: 'Plan',
+    statusBadgeLabel: 'План',
     statusBadgeColor: 'gray',
   },
 ];

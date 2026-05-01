@@ -1,14 +1,5 @@
 import { useState } from 'react';
-import {
-  Stack,
-  Group,
-  Button,
-  Text,
-  Modal,
-  TextInput,
-  Notification,
-  Box } from
-'@mantine/core';
+import { Stack, Group, Button, Text, Modal, TextInput, Notification, Box } from '@mantine/core';
 import { TrashIcon, AlertTriangleIcon, RotateCcwIcon } from 'lucide-react';
 import { useDensity } from '../DensityContext';
 export function SafetyPatterns() {
@@ -18,11 +9,11 @@ export function SafetyPatterns() {
   const { density } = useDensity();
   const isCompact = density === 'compact';
   const size = isCompact ? 'xs' : 'sm';
+  const projectName = 'Альфа';
   const handleDelete = () => {
     setDeleteModalOpened(false);
     setConfirmText('');
     setShowUndo(true);
-    // Auto-hide undo toast after 5 seconds
     setTimeout(() => {
       setShowUndo(false);
     }, 5000);
@@ -31,101 +22,79 @@ export function SafetyPatterns() {
     <Stack gap="xl">
       <Box>
         <Text fw={500} mb="xs">
-          Destructive Actions
+          Опасные действия
         </Text>
         <Text size="sm" c="dimmed" mb="md">
-          For critical operations like deleting a project or user, require
-          explicit confirmation by typing the item name.
+          Для критичных операций (удаление проекта, пользователя) требуйте явное подтверждение — например, ввод имени
+          объекта.
         </Text>
 
-        <Button
-          color="red"
-          leftSection={<TrashIcon size={16} />}
-          onClick={() => setDeleteModalOpened(true)}>
-          
-          Delete Project "Alpha"
+        <Button color="red" leftSection={<TrashIcon size={16} />} onClick={() => setDeleteModalOpened(true)}>
+          Удалить проект «{projectName}»
         </Button>
       </Box>
 
-      {showUndo &&
-      <Box>
+      {showUndo ? (
+        <Box>
           <Text fw={500} mb="xs">
-            Undo Pattern
+            Отмена действия
           </Text>
           <Text size="sm" c="dimmed" mb="md">
-            After a destructive action, provide a temporary window to undo the
-            change.
+            После разрушительного действия дайте короткое окно, чтобы пользователь мог отменить его.
           </Text>
 
           <Notification
-          icon={<TrashIcon size={18} />}
-          color="gray"
-          title="Project deleted"
-          onClose={() => setShowUndo(false)}
-          style={{
-            maxWidth: 400
-          }}>
-          
+            icon={<TrashIcon size={18} />}
+            color="gray"
+            title="Проект удалён"
+            onClose={() => setShowUndo(false)}
+            style={{ maxWidth: 400 }}
+          >
             <Group justify="space-between" mt="xs">
-              <Text size="sm">Project "Alpha" has been moved to trash.</Text>
-              <Button
-              variant="subtle"
-              size="xs"
-              leftSection={<RotateCcwIcon size={14} />}
-              onClick={() => setShowUndo(false)}>
-              
-                Undo
+              <Text size="sm">Проект «{projectName}» перемещён в корзину.</Text>
+              <Button variant="subtle" size="xs" leftSection={<RotateCcwIcon size={14} />} onClick={() => setShowUndo(false)}>
+                Отменить
               </Button>
             </Group>
           </Notification>
         </Box>
-      }
+      ) : null}
 
       <Modal
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
         title={
-        <Group gap="xs" c="red">
+          <Group gap="xs" c="red">
             <AlertTriangleIcon size={20} />
-            <Text fw={600}>Delete Project</Text>
+            <Text fw={600}>Удаление проекта</Text>
           </Group>
         }
-        centered>
-        
+        centered
+      >
         <Stack gap="md">
           <Text size="sm">
-            You are about to delete the project <strong>"Alpha"</strong>. This
-            action cannot be undone and will permanently delete all associated
-            tasks, documents, and data.
+            Вы собираетесь удалить проект <strong>«{projectName}»</strong>. Это действие нельзя отменить: будут удалены
+            связанные задачи, документы и данные.
           </Text>
 
           <TextInput
-            label="Please type the project name to confirm"
-            placeholder="Alpha"
+            label="Введите имя проекта для подтверждения"
+            placeholder={projectName}
             value={confirmText}
             onChange={(e) => setConfirmText(e.currentTarget.value)}
-            size={size} />
-          
+            size={size}
+          />
 
           <Group justify="flex-end" mt="md">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              size={size}>
-              
-              Cancel
+            <Button variant="default" onClick={() => setDeleteModalOpened(false)} size={size}>
+              Отмена
             </Button>
-            <Button
-              color="red"
-              disabled={confirmText !== 'Alpha'}
-              onClick={handleDelete}
-              size={size}>
-              
-              Delete Permanently
+            <Button color="red" disabled={confirmText !== projectName} onClick={handleDelete} size={size}>
+              Удалить безвозвратно
             </Button>
           </Group>
         </Stack>
       </Modal>
-    </Stack>);
-
+    </Stack>
+  );
 }
