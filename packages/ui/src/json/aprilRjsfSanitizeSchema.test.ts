@@ -1,5 +1,8 @@
+import type { RJSFSchema } from '@rjsf/utils';
 import { describe, expect, it } from 'vitest';
 import { sanitizeSchemaForRjsf } from './aprilRjsfSanitizeSchema';
+
+const asSchema = (x: unknown): RJSFSchema => x as RJSFSchema;
 
 describe('sanitizeSchemaForRjsf', () => {
   it('passes through null and primitives', () => {
@@ -14,15 +17,17 @@ describe('sanitizeSchemaForRjsf', () => {
       properties: { a: null, b: { type: 'string' } },
     };
     const snapshot = structuredClone(input);
-    sanitizeSchemaForRjsf(input);
+    sanitizeSchemaForRjsf(asSchema(input));
     expect(input).toEqual(snapshot);
   });
 
   it('replaces null entries in properties with empty objects', () => {
-    const out = sanitizeSchemaForRjsf({
-      type: 'object',
-      properties: { broken: null, ok: { type: 'string' } },
-    });
+    const out = sanitizeSchemaForRjsf(
+      asSchema({
+        type: 'object',
+        properties: { broken: null, ok: { type: 'string' } },
+      })
+    );
     expect(out.properties).toEqual({
       broken: {},
       ok: { type: 'string' },
@@ -31,28 +36,25 @@ describe('sanitizeSchemaForRjsf', () => {
 
   it('replaces null map value when properties (or defs map) is null', () => {
     expect(
-      sanitizeSchemaForRjsf({
-        type: 'object',
-        properties: null,
-      } as Record<string, unknown>)
+      sanitizeSchemaForRjsf(asSchema({ type: 'object', properties: null }))
     ).toMatchObject({ properties: {} });
     expect(
-      sanitizeSchemaForRjsf({
-        $defs: null,
-      } as Record<string, unknown>)
+      sanitizeSchemaForRjsf(asSchema({ $defs: null }))
     ).toMatchObject({ $defs: {} });
   });
 
   it('sanitizes nested property maps recursively', () => {
-    const out = sanitizeSchemaForRjsf({
-      type: 'object',
-      properties: {
-        outer: {
-          type: 'object',
-          properties: { inner: null },
+    const out = sanitizeSchemaForRjsf(
+      asSchema({
+        type: 'object',
+        properties: {
+          outer: {
+            type: 'object',
+            properties: { inner: null },
+          },
         },
-      },
-    });
+      })
+    );
     expect((out.properties as Record<string, unknown>).outer).toEqual({
       type: 'object',
       properties: { inner: {} },
@@ -60,49 +62,43 @@ describe('sanitizeSchemaForRjsf', () => {
   });
 
   it('sanitizes patternProperties', () => {
-    const out = sanitizeSchemaForRjsf({
-      type: 'object',
-      patternProperties: { '^x$': null },
-    });
+    const out = sanitizeSchemaForRjsf(
+      asSchema({
+        type: 'object',
+        patternProperties: { '^x$': null },
+      })
+    );
     expect(out.patternProperties).toEqual({ '^x$': {} });
   });
 
   it('sanitizes definitions and $defs', () => {
-    const out = sanitizeSchemaForRjsf({
-      definitions: { Foo: null },
-      $defs: { Bar: null },
-    } as Record<string, unknown>);
+    const out = sanitizeSchemaForRjsf(asSchema({ definitions: { Foo: null }, $defs: { Bar: null } }));
     expect(out.definitions).toEqual({ Foo: {} });
     expect(out.$defs).toEqual({ Bar: {} });
   });
 
   it('sanitizes items when null, array, or object', () => {
     expect(
-      sanitizeSchemaForRjsf({
-        type: 'array',
-        items: null,
-      })
+      sanitizeSchemaForRjsf(asSchema({ type: 'array', items: null }))
     ).toMatchObject({ items: {} });
 
     expect(
-      sanitizeSchemaForRjsf({
-        type: 'array',
-        items: [null, { type: 'string' }],
-      })
+      sanitizeSchemaForRjsf(asSchema({ type: 'array', items: [null, { type: 'string' }] }))
     ).toMatchObject({ items: [{}, { type: 'string' }] });
 
-    const nested = sanitizeSchemaForRjsf({
-      type: 'array',
-      items: { type: 'object', properties: { z: null } },
-    });
+    const nested = sanitizeSchemaForRjsf(
+      asSchema({ type: 'array', items: { type: 'object', properties: { z: null } } })
+    );
     expect(nested.items).toEqual({ type: 'object', properties: { z: {} } });
   });
 
   it('walks additionalProperties when it is an object schema', () => {
-    const out = sanitizeSchemaForRjsf({
-      type: 'object',
-      additionalProperties: { type: 'object', properties: { dyn: null } },
-    });
+    const out = sanitizeSchemaForRjsf(
+      asSchema({
+        type: 'object',
+        additionalProperties: { type: 'object', properties: { dyn: null } },
+      })
+    );
     expect(out.additionalProperties).toEqual({
       type: 'object',
       properties: { dyn: {} },

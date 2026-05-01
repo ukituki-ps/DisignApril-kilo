@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
+import type { RJSFSchema } from '@rjsf/utils';
 import { describe, expect, it, vi } from 'vitest';
 import { AprilProviders } from '../providers';
 import { AprilJsonSchemaForm } from './AprilJsonSchemaForm';
@@ -88,7 +89,7 @@ describe('AprilJsonSchemaForm', () => {
     const { getByRole } = render(
       <AprilProviders>
         <AprilJsonSchemaForm
-          schema={schemaWithNullProperty}
+          schema={schemaWithNullProperty as unknown as RJSFSchema}
           formData={{ title: 'ok' }}
           onChange={() => undefined}
         />
@@ -110,7 +111,7 @@ describe('AprilJsonSchemaForm', () => {
     const { getByRole } = render(
       <AprilProviders>
         <AprilJsonSchemaForm
-          schema={schema}
+          schema={schema as unknown as RJSFSchema}
           formData={{ config: { retries: 2 } }}
           onChange={() => undefined}
         />
@@ -130,9 +131,12 @@ describe('AprilJsonSchemaForm', () => {
         />
       </AprilProviders>
     );
-    const form = container.querySelector('form');
-    expect(form).toBeTruthy();
-    expect(form!.querySelector('button[type="submit"]')).toBeNull();
+    const formEl = container.querySelector('form');
+    expect(formEl).toBeInstanceOf(HTMLFormElement);
+    if (!(formEl instanceof HTMLFormElement)) {
+      throw new Error('expected <form>');
+    }
+    expect(formEl.querySelector('button[type="submit"]')).toBeNull();
   });
 
   it('renders the default submit control when hideDefaultSubmit is false', () => {
@@ -223,11 +227,11 @@ describe('AprilJsonSchemaForm', () => {
   it('maps transformErrors over validation errors after submit', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     try {
-      const requiredSchema = {
+      const requiredSchema: RJSFSchema = {
         type: 'object',
         required: ['title'],
         properties: { title: { type: 'string', title: 'Title' } },
-      } as const;
+      };
       const transformErrors = (
         errors: { property?: string; message?: string; stack?: string; name?: string }[]
       ) => errors.map((e) => ({ ...e, message: `ERR:${e.stack ?? e.message ?? 'field'}` }));
@@ -240,7 +244,7 @@ describe('AprilJsonSchemaForm', () => {
             formData={{}}
             onChange={() => undefined}
             onError={onError}
-            transformErrors={transformErrors}
+            transformErrors={transformErrors as never}
           />
         </AprilProviders>
       );
