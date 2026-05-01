@@ -22,6 +22,13 @@ export default defineConfig({
     '@dnd-kit/core',
     '@dnd-kit/sortable',
     '@dnd-kit/utilities',
-    '@ukituki-ps/april-tokens'
+    '@ukituki-ps/april-tokens',
+    'json-edit-react',
+    'ajv',
+    'ajv-formats',
+    '@apidevtools/json-schema-ref-parser',
+    '@rjsf/core',
+    '@rjsf/utils',
+    '@rjsf/validator-ajv8',
   ]
 });

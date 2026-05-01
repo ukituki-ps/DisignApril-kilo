@@ -13,6 +13,8 @@ export type AprilProvidersProps = {
   /** Mantine theme override; default is `createAprilTheme()`. Merge app-specific tweaks in the shell. */
   theme?: MantineThemeOverride;
   defaultColorScheme?: MantineColorScheme;
+  /** Initial value for `useDensity()` (default `comfortable`). */
+  defaultDensity?: 'comfortable' | 'compact';
 };
 
 /**
@@ -22,10 +24,11 @@ export type AprilProvidersProps = {
 export function AprilProviders({
   children,
   theme,
-  defaultColorScheme = 'auto'
+  defaultColorScheme = 'auto',
+  defaultDensity = 'comfortable',
 }: AprilProvidersProps) {
   return (
-    <DensityProvider>
+    <DensityProvider initialDensity={defaultDensity}>
       <ColorSchemeScript defaultColorScheme={defaultColorScheme} />
       <MantineProvider
         theme={theme ?? createAprilTheme()}

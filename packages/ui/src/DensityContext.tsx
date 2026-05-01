@@ -8,8 +8,15 @@ interface DensityContextType {
   toggleDensity: () => void;
 }
 const DensityContext = createContext<DensityContextType | undefined>(undefined);
-export function DensityProvider({ children }: {children: ReactNode;}) {
-  const [density, setDensity] = useState<DensityMode>('comfortable');
+export function DensityProvider({
+  children,
+  initialDensity = 'comfortable',
+}: {
+  children: ReactNode;
+  /** For shells/tests that start in a fixed density. */
+  initialDensity?: DensityMode;
+}) {
+  const [density, setDensity] = useState<DensityMode>(initialDensity);
   const toggleDensity = () => {
     setDensity((prev) => prev === 'comfortable' ? 'compact' : 'comfortable');
   };

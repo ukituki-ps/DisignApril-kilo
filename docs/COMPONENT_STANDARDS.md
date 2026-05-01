@@ -25,6 +25,7 @@
 - Нет дублирования логики, которую можно вынести в общий utility/helper.
 - Компонент не тянет тяжелые зависимости без необходимости.
 - Showcase содержит пример базового использования и минимум один edge-case.
+- JSON: см. секцию **18. JSON & JSON Schema (tree)** в `UIKit` (`AprilJsonTreeEditor`, валидация, read-only).
 
 ## Checklist перед merge
 

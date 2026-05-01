@@ -214,8 +214,24 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - `@mantine/core` — **peer**
 - `@emotion/react` — **peer**
 - `lucide-react`, `@xyflow/react`, `@dnd-kit/*` — зависимости пакета (иконки, канбан, диаграммы)
+- `json-edit-react`, `ajv`, `ajv-formats`, `@apidevtools/json-schema-ref-parser` — дерево JSON / JSON Schema и клиентская валидация схемой (dependencies `@ukituki-ps/april-ui`, в сборке библиотеки помечены как **external** в `tsup`)
+- `@rjsf/core`, `@rjsf/utils`, `@rjsf/validator-ajv8` — форма по JSON Schema (RJSF + Ajv 8), **external** в `tsup`; виджеты и шаблоны — только **Mantine 7** внутри April (пакет **`@rjsf/mantine` не используется** — он требует Mantine 8+)
 
 **Не входят в пакет (по необходимости в сервисе):** графики (`recharts`), тосты (`sonner`), анимации (`framer-motion`) — подключайте в продукте отдельно, визуал согласуйте с палитрой April.
+
+### JSON tree и JSON Schema (дерево)
+
+- **Компонент:** `AprilJsonTreeEditor` — обёртка над `json-edit-react`: тема и типографика из Mantine (`createAprilJsonEditTheme`), иконки Lucide (`createAprilJsonEditIcons`), плотность `comfortable` / `compact` через `useDensity`, поиск через Mantine `TextInput`, режим правки коллекции как JSON через Mantine `Textarea` (`AprilJsonCollectionTextEditor`).
+- **Валидация:** `createAprilJsonSchemaValidator` / `validateWithSchema` — Ajv 8 + `ajv-formats`; по умолчанию **`$ref` разрешаются** через `@apidevtools/json-schema-ref-parser` (клон схемы перед dereference). Ссылки на **внешние URL** в браузере могут упасть из‑за CORS — для портативных сценариев держите схему самодостаточной или отключайте разрешение (`resolveValidationSchemaRefs={false}` на редакторе).
+- **Когда использовать дерево:** админки и инструменты, где нужен структурный просмотр/правка произвольного JSON или черновика JSON Schema без фиксированного набора полей.
+
+### JSON Schema form (RJSF + Mantine 7)
+
+- **Компонент:** `AprilJsonSchemaForm` — обёртка над [`@rjsf/core`](https://github.com/rjsf-team/react-jsonschema-form) с валидатором **`@rjsf/validator-ajv8`**; кастомные **widgets** и **templates** на `@mantine/core` v7, плотность и светлая/тёмная тема через те же примитивы, что и в остальных формах DS. Сводка ошибок формы (`ErrorListTemplate`) визуально согласована с блоком ошибок дерева через общий **`AprilJsonValidationSummary`** (заголовок + список путей).
+- **Поведение:** по умолчанию **`liveValidate="onChange"`** и **`showErrorList="top"`** — явно передайте другие значения при необходимости. Управляемый режим: проп **`formData`** + **`onChange(formData)`**.
+- **Локализация сообщений Ajv/RJSF:** штатные строки на английском; для продукта передайте **`transformErrors`** (контракт RJSF) и/или локализатор на стороне приложения.
+- **Когда использовать форму:** известная JSON Schema, нужны стандартные поля ввода (строка, число, enum, вложенные объекты, массивы) и предсказуемый UX формы без ручной вёрстки каждого поля.
+- **Ограничения:** не подключать `@rjsf/mantine` до отдельного эпика на Mantine 8+; состав кастомных виджетов в April ограничен (например, **multi-select enum** в текущей версии не поддержан — явный запасной UI).
 
 ### Кнопки
 
@@ -262,6 +278,8 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - **Kanban:** колонки To Do → In Progress → Review → Done; dnd-kit; счётчики в колонках
 - **React Flow:** CRM pipeline, org chart, зависимости задач; кастомные узлы на Mantine; стили потока подключать в приложении (`@xyflow/react/dist/style.css`)
 - **Card List Column:** одиночная колонка списка карточек с двумя секциями (панель управления + список), режимами `inline/overlay`, единым размером карточек и ресайзом ширины в диапазоне 15%-50% контейнера.
+- **JSON tree (`AprilJsonTreeEditor`):** дерево с темой April; живой Ajv по опциональной `validationSchema`; см. §11 «JSON tree и JSON Schema».
+- **JSON Schema form (`AprilJsonSchemaForm`):** RJSF на Mantine 7; см. §11 «JSON Schema form».
 
 ---
 
@@ -280,11 +298,12 @@ packages/ui/src/
   theme.ts
   providers.tsx
   index.ts
-  components/                 # витрина + flow/, Kanban, …
+  json/                         # AprilJsonTreeEditor, AprilJsonSchemaForm (RJSF), Ajv, тема json-edit-react
+  components/                   # витрина + flow/, Kanban, …
 apps/showcase/                # Vite-приложение-галерея
 DESIGN_SYSTEM.md              # этот файл
 ```
 
 ---
 
-*Обновлено: 13 апреля 2026 · Продукт: April — Corporate Productivity Platform*
+*Обновлено: 1 мая 2026 · Продукт: April — Corporate Productivity Platform*

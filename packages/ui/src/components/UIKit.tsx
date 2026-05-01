@@ -17,6 +17,7 @@ import { ReactFlowSection } from './ReactFlowSection';
 import { KanbanSection } from './KanbanSection';
 import { LoginSection } from './LoginSection';
 import { CardListColumnSection } from './CardListColumnSection';
+import { JsonTreeEditorSection } from './JsonTreeEditorSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -142,6 +143,12 @@ export function UIKit() {
           title="17. Card List Column"
           description="Kanban-like single column with search controls, fixed-size cards, inline collapse, overlay mode, and resizable width.">
           <CardListColumnSection />
+        </Section>
+
+        <Section
+          title="18. JSON & JSON Schema (tree)"
+          description="AprilJsonTreeEditor: json-edit-react with Mantine theme, density, search, Textarea for collection JSON edit, and Ajv validation with Mantine error summary.">
+          <JsonTreeEditorSection />
         </Section>
       </Stack>
     </Container>);
