@@ -62,3 +62,4 @@ export type {
   AprilJsonValidationListItem,
   AprilJsonValidationSummaryProps,
 } from './json/AprilJsonValidationSummary';
+export * from './icons';

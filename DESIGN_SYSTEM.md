@@ -217,6 +217,13 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - `json-edit-react`, `ajv`, `ajv-formats`, `@apidevtools/json-schema-ref-parser` — дерево JSON / JSON Schema и клиентская валидация схемой (dependencies `@ukituki-ps/april-ui`, в сборке библиотеки помечены как **external** в `tsup`)
 - `@rjsf/core`, `@rjsf/utils`, `@rjsf/validator-ajv8` — форма по JSON Schema (RJSF + Ajv 8), **external** в `tsup`; виджеты и шаблоны — только **Mantine 7** внутри April (пакет **`@rjsf/mantine` не используется** — он требует Mantine 8+)
 
+### Иконки интерфейса
+
+- **Единственный набор** пиктограмм UI в продуктах April — **`lucide-react`** (зависимость `@april/ui`, см. §1).
+- **Публичный API дизайн-системы:** компонент **`AprilIcon`** (размеры `xs | sm | md | lg` или число в px, наследование `currentColor`, по умолчанию декоративные иконки с `aria-hidden`) и курируемые именованные реэкспорты **`AprilIcon*`** из `@april/ui` — согласованные имена и состав; новые символы добавляются через ревью DS (файл `packages/ui/src/icons/aprilUiIcons.ts`).
+- **Импорт:** `import { AprilIcon, AprilIconSettings } from '@april/ui'`. Для пропсов вида «компонент иконки» используйте тип **`AprilLucideIcon`** (алиас `LucideIcon` из `lucide-react`).
+- **Бренд** (логотип APRIL, §3) — отдельные SVG, не смешивать с UI-иконками.
+
 **Не входят в пакет (по необходимости в сервисе):** графики (`recharts`), тосты (`sonner`), анимации (`framer-motion`) — подключайте в продукте отдельно, визуал согласуйте с палитрой April.
 
 ### JSON tree и JSON Schema (дерево)
@@ -298,6 +305,7 @@ packages/ui/src/
   theme.ts
   providers.tsx
   index.ts
+  icons/                        # AprilIcon, resolveAprilIconSize, курируемые AprilIcon* (Lucide)
   json/                         # AprilJsonTreeEditor, AprilJsonSchemaForm (RJSF), Ajv, тема json-edit-react
   components/                   # витрина + flow/, Kanban, …
 apps/showcase/                # Vite-приложение-галерея

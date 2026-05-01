@@ -18,6 +18,7 @@ import { KanbanSection } from './KanbanSection';
 import { LoginSection } from './LoginSection';
 import { CardListColumnSection } from './CardListColumnSection';
 import { JsonTreeEditorSection } from './JsonTreeEditorSection';
+import { IconsSection } from './IconsSection';
 export function UIKit() {
   return (
     <Container size="lg" py="xl">
@@ -134,6 +135,12 @@ export function UIKit() {
           title="18. JSON и JSON Schema (дерево + форма)"
           description="AprilJsonTreeEditor и AprilJsonSchemaForm (RJSF): тема Mantine, плотность, Ajv; демо во вложенных панелях меньше контента — прокрутка внутри оболочки.">
           <JsonTreeEditorSection />
+        </Section>
+
+        <Section
+          title="19. Иконки"
+          description="Lucide через AprilIcon и курируемые экспорты AprilIcon*; размеры и доступность согласованы с DS.">
+          <IconsSection />
         </Section>
       </Stack>
     </Container>

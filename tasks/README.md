@@ -22,6 +22,7 @@
 
 ## Текущие задачи
 
+- `ds-008-april-icons` - коллекция UI-иконок (Lucide), обёртка, витрина в `UIKit`, документация.
 - `ds-001-card-list-column` - реализация компонента Card List Column.
 - `ds-002-testing-infrastructure` - внедрение инфраструктуры тестирования UI-компонентов.
 - `ds-003-card-list-column-tests` - создание тестов для Card List Column.
