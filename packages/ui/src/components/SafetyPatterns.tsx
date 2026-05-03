@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Stack, Group, Button, Text, Modal, TextInput, Notification, Box } from '@mantine/core';
-import { TrashIcon, AlertTriangleIcon, RotateCcwIcon } from 'lucide-react';
+import { Stack, Group, Button, Text, TextInput, Notification, Box } from '@mantine/core';
+import { TrashIcon, RotateCcwIcon } from 'lucide-react';
+import { AprilIconTrash, AprilIconWarning } from '../icons';
 import { useDensity } from '../DensityContext';
+import { AprilModal } from './AprilModal';
 export function SafetyPatterns() {
   const [deleteModalOpened, setDeleteModalOpened] = useState(false);
   const [confirmText, setConfirmText] = useState('');
@@ -60,14 +62,38 @@ export function SafetyPatterns() {
         </Box>
       ) : null}
 
-      <Modal
+      <AprilModal
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title={
-          <Group gap="xs" c="red">
-            <AlertTriangleIcon size={20} />
-            <Text fw={600}>Удаление проекта</Text>
-          </Group>
+        headerTitle={
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              fontWeight: 600,
+              color: 'var(--mantine-color-red-filled)',
+            }}
+          >
+            <AprilIconWarning size={20} aria-hidden />
+            Удаление проекта
+          </span>
+        }
+        headerActions={
+          <>
+            <Button variant="default" onClick={() => setDeleteModalOpened(false)} size={size}>
+              Отмена
+            </Button>
+            <Button
+              color="red"
+              disabled={confirmText !== projectName}
+              onClick={handleDelete}
+              size={size}
+              leftSection={<AprilIconTrash size={16} aria-hidden />}
+            >
+              Удалить
+            </Button>
+          </>
         }
         centered
       >
@@ -84,17 +110,8 @@ export function SafetyPatterns() {
             onChange={(e) => setConfirmText(e.currentTarget.value)}
             size={size}
           />
-
-          <Group justify="flex-end" mt="md">
-            <Button variant="default" onClick={() => setDeleteModalOpened(false)} size={size}>
-              Отмена
-            </Button>
-            <Button color="red" disabled={confirmText !== projectName} onClick={handleDelete} size={size}>
-              Удалить безвозвратно
-            </Button>
-          </Group>
         </Stack>
-      </Modal>
+      </AprilModal>
     </Stack>
   );
 }

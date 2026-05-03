@@ -98,7 +98,9 @@ export function UIKit() {
           <AlertsSection />
         </Section>
 
-        <Section title="12. Модальные окна" description="Оверлеи для сфокусированных задач.">
+        <Section
+          title="12. Модальные окна"
+          description="Оверлеи для сфокусированных задач: действия в шапке справа (рядом с закрытием), тело с прокруткой — см. AprilModal в пакете и DESIGN_SYSTEM.md.">
           <ModalSection />
         </Section>
 

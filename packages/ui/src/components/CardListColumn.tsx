@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Card,
-  Modal,
   Paper,
   ScrollArea,
   Select,
@@ -24,6 +23,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { useDensity } from '../DensityContext';
+import { AprilModal } from './AprilModal';
 
 export type CardListColumnMode = 'inline' | 'overlay';
 export interface CardListColumnItem {
@@ -88,12 +88,18 @@ export interface CardListColumnProps {
   filterLabel?: string;
   filterOptions?: CardListColumnFilterOption[];
   filterModalTitle?: string;
+  /**
+   * Полное тело модалки фильтра. По договорённости April размещайте кнопки в шапке (см. {@link AprilModal}
+   * и `DESIGN_SYSTEM.md`): при кастомном теле без `headerActions` встроенный `AprilModal` показывает только заголовок
+   * и крестик — действия нужно вынести в шапку на стороне продукта или оставить вторичный поток в теле осознанно.
+   */
   renderFilterModal?: (props: CardListColumnFilterModalRenderProps) => ReactNode;
   sortModalTitle?: string;
   sortFieldLabel?: string;
   sortDirectionLabel?: string;
   sortOptions?: CardListColumnSortOption[];
   sortDirectionOptions?: CardListColumnSortDirectionOption[];
+  /** См. комментарий к `renderFilterModal` — тот же паттерн шапки для сортировки. */
   renderSortModal?: (props: CardListColumnSortModalRenderProps) => ReactNode;
   renderCard?: (item: CardListColumnItem) => React.ReactNode;
   onSearchChange?: (value: string) => void;
@@ -302,14 +308,6 @@ export function CardListColumn({
         }
         data={filterOptions}
       />
-      <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
-        <Button size="xs" variant="light" onClick={resetFilter}>
-          Сбросить
-        </Button>
-        <Button size="xs" onClick={applyFilter}>
-          Применить
-        </Button>
-      </Box>
     </Stack>
   );
   const sortModalBody = renderSortModal ? (
@@ -337,14 +335,6 @@ export function CardListColumn({
         onChange={(value) => setDraftSortDirection((value as CardListColumnSort['direction']) ?? 'desc')}
         data={sortDirectionOptions}
       />
-      <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--mantine-spacing-md)' }}>
-        <Button size="xs" variant="light" onClick={resetSort}>
-          Сбросить
-        </Button>
-        <Button size="xs" onClick={applySort}>
-          Применить
-        </Button>
-      </Box>
     </Stack>
   );
 
@@ -540,17 +530,49 @@ export function CardListColumn({
           ) : null}
         </>
       )}
-      <Modal opened={filterOpened} onClose={() => setFilterOpened(false)} title={filterModalTitle}>
+      <AprilModal
+        opened={filterOpened}
+        onClose={() => setFilterOpened(false)}
+        headerTitle={filterModalTitle}
+        headerActions={
+          renderFilterModal ? undefined : (
+            <>
+              <Button size={isCompactDensity ? 'xs' : 'sm'} variant="light" onClick={resetFilter}>
+                Сбросить
+              </Button>
+              <Button size={isCompactDensity ? 'xs' : 'sm'} onClick={applyFilter}>
+                Применить
+              </Button>
+            </>
+          )
+        }
+      >
         {filterModalBody}
-      </Modal>
-      <Modal opened={sortOpened} onClose={() => setSortOpened(false)} title={sortModalTitle}>
+      </AprilModal>
+      <AprilModal
+        opened={sortOpened}
+        onClose={() => setSortOpened(false)}
+        headerTitle={sortModalTitle}
+        headerActions={
+          renderSortModal ? undefined : (
+            <>
+              <Button size={isCompactDensity ? 'xs' : 'sm'} variant="light" onClick={resetSort}>
+                Сбросить
+              </Button>
+              <Button size={isCompactDensity ? 'xs' : 'sm'} onClick={applySort}>
+                Применить
+              </Button>
+            </>
+          )
+        }
+      >
         {sortModalBody}
-      </Modal>
-      <Modal opened={addOpened} onClose={() => setAddOpened(false)} title="Новый элемент">
+      </AprilModal>
+      <AprilModal opened={addOpened} onClose={() => setAddOpened(false)} headerTitle="Новый элемент">
         <Text size="sm" c="dimmed">
           Сценарий добавления можно реализовать полями, специфичными для продукта.
         </Text>
-      </Modal>
+      </AprilModal>
     </Box>
   );
 }
