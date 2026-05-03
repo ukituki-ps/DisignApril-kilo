@@ -1,22 +1,27 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   ActionIcon,
   Badge,
   Box,
   Button,
-  Card,
+  Group,
   Paper,
   ScrollArea,
   Select,
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
+import type { LucideIcon } from 'lucide-react';
 import {
-  ArrowLeftToLineIcon,
-  ArrowRightToLineIcon,
+  FileTextIcon,
   FilterIcon,
+  LayoutGridIcon,
+  ListIcon,
+  PanelLeftCloseIcon,
   ListFilterIcon,
   PlusIcon,
   SearchIcon,
@@ -24,17 +29,20 @@ import {
 } from 'lucide-react';
 import { AprilIconCheck, AprilIconRotateCcw } from '../icons';
 import { useDensity } from '../DensityContext';
+import { AprilMobileShellBar, type AprilMobileShellBarPosition } from './AprilMobileShellBar';
+import { aprilMobileShellBarGhostWhiteBorderActionStyles } from './aprilMobileShellBarLayout';
 import { AprilModal } from './AprilModal';
+import { AprilVaulBottomSheet } from './AprilVaulBottomSheet';
+import { aprilMobileShellBarContentPaddingBottom } from './aprilMobileShellBarLayout';
+import { DefaultListCard } from './cardListColumn/DefaultListCard';
+import { GridItemCard } from './cardListColumn/GridItemCard';
+import type { CardListColumnItem } from './cardListColumn/types';
+import { cardListColumnViewLabelRu, getNextCardListColumnView, type CardListColumnView } from './cardListColumn/viewCycle';
+
+export type { CardListColumnItem } from './cardListColumn/types';
+export type { CardListColumnView } from './cardListColumn/viewCycle';
 
 export type CardListColumnMode = 'inline' | 'overlay';
-export interface CardListColumnItem {
-  id: string;
-  title: string;
-  description?: string;
-  searchText?: string;
-  status?: string;
-  createdAt?: string;
-}
 export type CardListColumnFilter = Record<string, string | undefined>;
 export interface CardListColumnSort {
   field: 'title' | 'createdAt';
@@ -66,6 +74,10 @@ export interface CardListColumnSortModalRenderProps {
   resetSort: () => void;
   closeModal: () => void;
 }
+
+/** Управление мобильным режимом колонки (&lt;768px, порог `sm` Mantine). */
+export type CardListColumnMobileLayout = 'off' | 'auto' | 'on';
+
 export interface CardListColumnProps {
   title: string;
   items: CardListColumnItem[];
@@ -108,6 +120,30 @@ export interface CardListColumnProps {
   onFilterChange?: (value: CardListColumnFilter) => void;
   onSortChange?: (value: CardListColumnSort) => void;
   onAddItem?: () => void;
+  /** Вид колонки: список, сетка или свёрнутая полоса. Управляемый режим вместе с `onViewChange`. */
+  view?: CardListColumnView;
+  /** Начальный вид при неуправляемом `view`. По умолчанию `list`. */
+  defaultView?: CardListColumnView;
+  onViewChange?: (view: CardListColumnView) => void;
+  /** Выбранный элемент (управляемый режим вместе с `onSelectItem`). */
+  selectedItemId?: string | null;
+  defaultSelectedItemId?: string | null;
+  onSelectItem?: (id: string | null) => void;
+  /** Иконка в аватаре по умолчанию, если у элемента нет `imageUrl` и `avatarIcon`. */
+  defaultListItemIcon?: LucideIcon;
+  /** Текст в свёрнутом виде, если ничего не выбрано. */
+  emptySelectionLabel?: string;
+  /**
+   * Mobile (&lt;768px): одна колонка карточек, тулбар в {@link AprilMobileShellBar}, листы вместо центрированных модалок.
+   * По умолчанию `off` — поведение как на десктопе (без регрессий в узком iframe). `auto` — по `(max-width: 47.99em)`.
+   */
+  mobileLayout?: CardListColumnMobileLayout;
+  /** Позиция капсулы: `absolute` — внутри ближайшего `position: relative` контейнера колонки; `fixed` — к низу viewport. */
+  mobileShellBarPosition?: AprilMobileShellBarPosition;
+  /** Ведущий слот нижней панели в режиме «экран колонки» (например «Назад»). При открытом листе обычно не передаётся. */
+  mobileShellLeading?: ReactNode;
+  /** Рамка вокруг колонки (`Paper`). По умолчанию `true`; на узком экране без отступов контейнера можно передать `false`. */
+  withPaperBorder?: boolean;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -134,19 +170,25 @@ const getStableFilterKey = (filter: CardListColumnFilter | undefined) => {
   return JSON.stringify(orderedEntries);
 };
 
-function DefaultCard({ item, cardHeight }: { item: CardListColumnItem; cardHeight: number }) {
-  return (
-    <Card withBorder radius="md" p="sm" style={{ height: cardHeight, overflow: 'hidden' }}>
-      <Text fw={600} lineClamp={1}>
-        {item.title}
-      </Text>
-      {item.description ? (
-        <Text size="sm" c="dimmed" mt="xs" lineClamp={3}>
-          {item.description}
-        </Text>
-      ) : null}
-    </Card>
-  );
+function pseudoProgressFromId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) {
+    h = (h + id.charCodeAt(i) * 13) % 100;
+  }
+  return 18 + (h % 72);
+}
+
+function CycleViewIcon({ view }: { view: CardListColumnView }) {
+  switch (view) {
+    case 'list':
+      return <ListIcon size={14} aria-hidden />;
+    case 'grid':
+      return <LayoutGridIcon size={14} aria-hidden />;
+    case 'collapsed':
+      return <PanelLeftCloseIcon size={14} aria-hidden />;
+    default:
+      return null;
+  }
 }
 
 export function CardListColumn({
@@ -185,16 +227,39 @@ export function CardListColumn({
   onFilterChange,
   onSortChange,
   onAddItem,
+  view: viewProp,
+  defaultView = 'list',
+  onViewChange,
+  selectedItemId: selectedItemIdProp,
+  defaultSelectedItemId = null,
+  onSelectItem,
+  defaultListItemIcon: DefaultListItemIcon = FileTextIcon,
+  emptySelectionLabel = 'Ничего не выбрано',
+  mobileLayout = 'off',
+  mobileShellBarPosition = 'absolute',
+  mobileShellLeading,
+  withPaperBorder = true,
 }: CardListColumnProps) {
   const { density } = useDensity();
   const isCompactDensity = density === 'compact';
+  const matchesNarrowViewport = useMediaQuery('(max-width: 47.99em)');
+  const isMobile =
+    mobileLayout === 'on' || (mobileLayout === 'auto' && Boolean(matchesNarrowViewport));
+  const [mobileSearchExpanded, setMobileSearchExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const loadMoreTriggeredRef = useRef(false);
   const lastSyncedFilterKeyRef = useRef('');
   const lastSyncedSortKeyRef = useRef('');
   const [localQuery, setLocalQuery] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
+  const [uncontrolledView, setUncontrolledView] = useState<CardListColumnView>(defaultView);
+  const isViewControlled = viewProp !== undefined;
+  const currentView = isViewControlled ? viewProp : uncontrolledView;
+
+  const [uncontrolledSelected, setUncontrolledSelected] = useState<string | null>(defaultSelectedItemId);
+  const isSelectedControlled = selectedItemIdProp !== undefined;
+  const effectiveSelectedId = (isSelectedControlled ? selectedItemIdProp : uncontrolledSelected) ?? null;
+
   const [overlayOpened, setOverlayOpened] = useState(mode === 'overlay');
   const [filterOpened, setFilterOpened] = useState(false);
   const [sortOpened, setSortOpened] = useState(false);
@@ -211,6 +276,31 @@ export function CardListColumn({
     () => JSON.stringify(sortValue ?? { field: 'createdAt', direction: 'desc' }),
     [sortValue]
   );
+
+  const setView = (next: CardListColumnView) => {
+    onViewChange?.(next);
+    if (!isViewControlled) {
+      setUncontrolledView(next);
+    }
+  };
+
+  const selectItem = (id: string) => {
+    const next = effectiveSelectedId === id ? null : id;
+    onSelectItem?.(next);
+    if (!isSelectedControlled) {
+      setUncontrolledSelected(next);
+    }
+  };
+
+  const nextView = getNextCardListColumnView(currentView);
+  const nextViewLabel = cardListColumnViewLabelRu(nextView);
+  const cycleAriaLabel = `Следующий вид: ${nextViewLabel}`;
+
+  const selectedItem = useMemo(
+    () => items.find((i) => i.id === effectiveSelectedId),
+    [items, effectiveSelectedId]
+  );
+  const collapsedSelectedTitle = selectedItem?.title ?? emptySelectionLabel;
 
   useEffect(() => {
     if (filterOpened) {
@@ -340,152 +430,619 @@ export function CardListColumn({
   );
 
   const listHeight = heightMode === 'fill' ? '100%' : fixedHeight;
+  const isCollapsed = currentView === 'collapsed' && !isMobile;
+  const isGrid = currentView === 'grid' || isMobile;
+  const showListChrome = currentView === 'list' && !isMobile;
+  const showGridChrome = currentView === 'grid' || isMobile;
+  /** Узкая полоса: подпись выбранного элемента идёт вертикально (`writing-mode`). */
+  const collapsedRailWidth = 48;
+  const paperWidth = isCollapsed ? collapsedRailWidth : isGrid ? '100%' : `${widthPercent}%`;
+  const paperMinWidth = isCollapsed ? collapsedRailWidth : isGrid ? 0 : 200;
 
-  const body = (
-    <Paper
-      withBorder
-      radius="md"
-      p="sm"
+  const cycleControl = (
+    <Tooltip label={`Следующий вид: ${nextViewLabel}`} withArrow openDelay={400}>
+      <ActionIcon
+        variant="subtle"
+        color="gray"
+        aria-label={cycleAriaLabel}
+        onClick={() => setView(getNextCardListColumnView(currentView))}
+      >
+        <CycleViewIcon view={nextView} />
+      </ActionIcon>
+    </Tooltip>
+  );
+
+  const listAndGridFooter = (
+    <Text size="xs" c="dimmed" mt="sm">
+      Загружено {loadedItemsCount} из {totalItems}.
+    </Text>
+  );
+
+  const listScrollContent = (
+    <Stack gap="sm">
+      {!loading && items.length === 0 ? (
+        <Text size="sm" c="dimmed">
+          Нет элементов для текущего запроса.
+        </Text>
+      ) : null}
+      {items.map((item) => {
+        const selected = effectiveSelectedId === item.id;
+        return (
+          <Box key={item.id} style={{ height: cardHeight }}>
+            {renderCard ? (
+              <Box
+                role="button"
+                tabIndex={0}
+                onClick={() => selectItem(item.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectItem(item.id);
+                  }
+                }}
+                style={{
+                  height: cardHeight,
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  borderRadius: 'var(--mantine-radius-md)',
+                  outline: selected ? '2px solid var(--mantine-color-teal-filled)' : undefined,
+                  outlineOffset: 0,
+                }}
+              >
+                {renderCard(item)}
+              </Box>
+            ) : (
+              <DefaultListCard
+                item={item}
+                cardHeight={cardHeight}
+                selected={selected}
+                isCompactDensity={isCompactDensity}
+                FallbackIcon={DefaultListItemIcon}
+                onSelect={() => selectItem(item.id)}
+              />
+            )}
+          </Box>
+        );
+      })}
+      {loading ? (
+        <Text size="sm" c="dimmed">
+          Обновление: 1…{loadedItemsCount} с сервера…
+        </Text>
+      ) : null}
+      {!loading && loadedItemsCount < totalItems ? (
+        <Text size="xs" c="dimmed">
+          Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
+        </Text>
+      ) : null}
+    </Stack>
+  );
+
+  /** В режиме сетки карточка не шире этого значения (px) и центрируется в ячейке грида. */
+  const gridCardMaxWidthPx = 440;
+
+  const gridScrollContent = (
+    <Box
       style={{
-        width: collapsed ? 72 : `${widthPercent}%`,
-        minWidth: collapsed ? 72 : 200,
-        height: listHeight,
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
-      {collapsed ? (
-        <Stack align="center" gap="sm" mt="xs">
+        display: 'grid',
+        gridTemplateColumns: isMobile
+          ? 'minmax(0, 1fr)'
+          : 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))',
+        gap: 'var(--mantine-spacing-sm)',
+        alignContent: 'start',
+        justifyItems: 'center',
+      }}
+    >
+      {!loading && items.length === 0 ? (
+        <Text size="sm" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Нет элементов для текущего запроса.
+        </Text>
+      ) : null}
+      {items.map((item) => {
+        const selected = effectiveSelectedId === item.id;
+        const gridItemShellStyle = {
+          minHeight: 148,
+          width: `min(100%, ${gridCardMaxWidthPx}px)`,
+          maxWidth: '100%',
+        };
+        return (
+          <Box key={item.id} style={gridItemShellStyle}>
+            {renderCard ? (
+              <Box
+                role="button"
+                tabIndex={0}
+                onClick={() => selectItem(item.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectItem(item.id);
+                  }
+                }}
+                h="100%"
+                style={{
+                  cursor: 'pointer',
+                  borderRadius: 'var(--mantine-radius-md)',
+                  outline: selected ? '2px solid var(--mantine-color-teal-filled)' : undefined,
+                }}
+              >
+                {renderCard(item)}
+              </Box>
+            ) : (
+              <GridItemCard
+                item={item}
+                selected={selected}
+                isCompactDensity={isCompactDensity}
+                FallbackIcon={DefaultListItemIcon}
+                onSelect={() => selectItem(item.id)}
+                progressPercent={pseudoProgressFromId(item.id)}
+              />
+            )}
+          </Box>
+        );
+      })}
+      {loading ? (
+        <Text size="sm" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Обновление: 1…{loadedItemsCount} с сервера…
+        </Text>
+      ) : null}
+      {!loading && loadedItemsCount < totalItems ? (
+        <Text size="xs" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
+        </Text>
+      ) : null}
+    </Box>
+  );
+
+  useEffect(() => {
+    if (!isMobile) {
+      return;
+    }
+    if (filterOpened || sortOpened || addOpened) {
+      setMobileSearchExpanded(false);
+    }
+  }, [isMobile, filterOpened, sortOpened, addOpened]);
+
+  const sheetOpen = filterOpened || sortOpened || addOpened;
+
+  const shellIconGroupStyle = { width: '100%', justifyContent: 'flex-end' } as const;
+
+  const shellCenterIdle = (
+    <Group gap="xs" wrap="nowrap" align="center" style={shellIconGroupStyle}>
+      {withFilter ? (
+        <Tooltip label="Фильтры" withArrow openDelay={400}>
           <ActionIcon
-            variant="subtle"
-            color="gray"
-            aria-label="Развернуть список"
-            onClick={() => setCollapsed(false)}>
-            <ArrowRightToLineIcon size={14} />
+            variant="default"
+            styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+            size="lg"
+            radius="md"
+            aria-label="Открыть фильтры"
+            onClick={() => setFilterOpened(true)}>
+            <FilterIcon size={20} aria-hidden />
           </ActionIcon>
-          <Badge variant="light" color="teal">
+        </Tooltip>
+      ) : null}
+      {withSort ? (
+        <Tooltip label="Сортировка" withArrow openDelay={400}>
+          <ActionIcon
+            variant="default"
+            styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+            size="lg"
+            radius="md"
+            aria-label="Открыть сортировку"
+            onClick={() => setSortOpened(true)}>
+            <ListFilterIcon size={20} aria-hidden />
+          </ActionIcon>
+        </Tooltip>
+      ) : null}
+      {withAdd ? (
+        <Tooltip label="Добавить" withArrow openDelay={400}>
+          <ActionIcon
+            variant="default"
+            styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+            size="lg"
+            radius="md"
+            aria-label="Добавить элемент"
+            onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
+            <PlusIcon size={20} aria-hidden />
+          </ActionIcon>
+        </Tooltip>
+      ) : null}
+    </Group>
+  );
+
+  const shellCenterFilter = renderFilterModal ? (
+    <Group gap="xs" wrap="nowrap" justify="flex-end" style={shellIconGroupStyle}>
+      <Tooltip label="Закрыть" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть фильтр"
+          onClick={() => setFilterOpened(false)}>
+          <XIcon size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  ) : (
+    <Group gap="xs" wrap="nowrap" justify="flex-end" style={shellIconGroupStyle}>
+      <Tooltip label="Сбросить" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          onClick={resetFilter}
+          aria-label="Сбросить фильтр"
+          title="Сбросить">
+          <AprilIconRotateCcw size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Применить" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          onClick={applyFilter}
+          aria-label="Применить фильтр"
+          title="Применить">
+          <AprilIconCheck size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Закрыть" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть без сохранения"
+          onClick={() => setFilterOpened(false)}>
+          <XIcon size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  );
+
+  const shellCenterSort = renderSortModal ? (
+    <Group gap="xs" wrap="nowrap" justify="flex-end" style={shellIconGroupStyle}>
+      <Tooltip label="Закрыть" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть сортировку"
+          onClick={() => setSortOpened(false)}>
+          <XIcon size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  ) : (
+    <Group gap="xs" wrap="nowrap" justify="flex-end" style={shellIconGroupStyle}>
+      <Tooltip label="Сбросить" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          onClick={resetSort}
+          aria-label="Сбросить сортировку"
+          title="Сбросить">
+          <AprilIconRotateCcw size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Применить" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          onClick={applySort}
+          aria-label="Применить сортировку"
+          title="Применить">
+          <AprilIconCheck size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Закрыть" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть без сохранения"
+          onClick={() => setSortOpened(false)}>
+          <XIcon size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  );
+
+  const shellCenterAdd = (
+    <Group gap="xs" wrap="nowrap" justify="flex-end" style={shellIconGroupStyle}>
+      <Tooltip label="Закрыть" withArrow openDelay={400}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть"
+          onClick={() => setAddOpened(false)}>
+          <XIcon size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  );
+
+  const shellCenterActive = filterOpened
+    ? shellCenterFilter
+    : sortOpened
+      ? shellCenterSort
+      : addOpened
+        ? shellCenterAdd
+        : shellCenterIdle;
+
+  const paperStyle = {
+    width: paperWidth,
+    minWidth: paperMinWidth,
+    maxWidth: isGrid ? '100%' : undefined,
+    height: (isMobile ? '100%' : listHeight) as string | number,
+    flex: isMobile ? ('1 1 auto' as const) : undefined,
+    minHeight: isMobile ? 0 : undefined,
+    position: 'relative' as const,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    boxSizing: 'border-box' as const,
+  };
+
+  const paperBody = (
+    <Paper
+      withBorder={withPaperBorder}
+      radius={withPaperBorder ? 'md' : 0}
+      p={isCollapsed ? 'xs' : 'sm'}
+      style={paperStyle}>
+      {isCollapsed ? (
+        <Stack align="center" gap={6} mt={4} style={{ flex: 1, minHeight: 0, width: '100%' }}>
+          {cycleControl}
+          <Badge variant="light" color="teal" size="xs">
             {totalItems}
           </Badge>
-          <Text size="xs" fw={600} ta="center" style={{ writingMode: 'vertical-rl' }}>
+          <Tooltip label={collapsedSelectedTitle} disabled={collapsedSelectedTitle.length < 20} withArrow>
+            <Text
+              size="xs"
+              fw={600}
+              ta="center"
+              title={collapsedSelectedTitle}
+              style={{
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                maxWidth: '100%',
+                maxHeight: 'min(280px, 45vh)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                flex: '1 1 auto',
+                marginTop: 4,
+              }}
+            >
+              {collapsedSelectedTitle}
+            </Text>
+          </Tooltip>
+          <Text
+            size="xs"
+            c="dimmed"
+            ta="center"
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', marginTop: 'auto', maxHeight: 120 }}
+            title={title}
+          >
             {title}
           </Text>
         </Stack>
-      ) : (
+      ) : null}
+
+      {showListChrome ? (
         <>
-          <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--mantine-spacing-xs)' }}>
-            <Text fw={600}>{title}</Text>
-            <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Badge variant="light" color="teal">
-                {totalItems}
-              </Badge>
-              {mode === 'inline' ? (
-                <ActionIcon
-                  variant="subtle"
-                  color="gray"
-                  aria-label="Свернуть список"
-                  onClick={() => setCollapsed(true)}>
-                  <ArrowLeftToLineIcon size={14} />
-                </ActionIcon>
-              ) : null}
-              {mode === 'overlay' ? (
-                <ActionIcon
-                  variant="subtle"
-                  color="gray"
-                  aria-label="Закрыть список поверх страницы"
-                  onClick={() => setOverlayOpened(false)}>
-                  <XIcon size={14} />
-                </ActionIcon>
-              ) : null}
-            </Box>
-          </Box>
           <Box
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              flexWrap: 'nowrap',
-              gap: 'var(--mantine-spacing-xs)',
               marginBottom: 'var(--mantine-spacing-xs)',
-            }}>
-            <TextInput
-              leftSection={<SearchIcon size={14} />}
-              aria-label="Поиск по карточкам"
-              placeholder="Поиск по карточкам"
-              size={isCompactDensity ? 'xs' : 'sm'}
-              value={query}
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-                setLocalQuery(value);
-                onSearchChange?.(value);
-              }}
-              style={{ flex: 1 }}
-            />
-            <Box style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
-              {withFilter ? (
-                <ActionIcon
-                  variant="light"
-                  color="gray"
-                  aria-label="Открыть фильтры"
-                  onClick={() => setFilterOpened(true)}>
-                  <FilterIcon size={14} />
-                </ActionIcon>
-              ) : null}
-              {withSort ? (
-                <ActionIcon
-                  variant="light"
-                  color="gray"
-                  aria-label="Открыть сортировку"
-                  onClick={() => setSortOpened(true)}>
-                  <ListFilterIcon size={14} />
-                </ActionIcon>
-              ) : null}
-              {withAdd ? (
-                <ActionIcon
-                  variant="filled"
-                  color="teal"
-                  aria-label="Добавить элемент"
-                  onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
-                  <PlusIcon size={14} />
-                </ActionIcon>
+            }}
+          >
+            <Text fw={600}>{title}</Text>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Badge variant="light" color="teal">
+                {totalItems}
+              </Badge>
+              {!isMobile && mode === 'inline' ? cycleControl : null}
+              {!isMobile && mode === 'overlay' ? (
+                <>
+                  {cycleControl}
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    aria-label="Закрыть список поверх страницы"
+                    onClick={() => setOverlayOpened(false)}>
+                    <XIcon size={14} />
+                  </ActionIcon>
+                </>
               ) : null}
             </Box>
           </Box>
+          {!isMobile ? (
+            <Box
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'nowrap',
+                gap: 'var(--mantine-spacing-xs)',
+                marginBottom: 'var(--mantine-spacing-xs)',
+              }}
+            >
+              <TextInput
+                leftSection={<SearchIcon size={14} />}
+                aria-label="Поиск по карточкам"
+                placeholder="Поиск по карточкам"
+                size={isCompactDensity ? 'xs' : 'sm'}
+                value={query}
+                onChange={(e) => {
+                  const value = e.currentTarget.value;
+                  setLocalQuery(value);
+                  onSearchChange?.(value);
+                }}
+                style={{ flex: 1 }}
+              />
+              <Box style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
+                {withFilter ? (
+                  <ActionIcon
+                    variant="light"
+                    color="gray"
+                    aria-label="Открыть фильтры"
+                    onClick={() => setFilterOpened(true)}>
+                    <FilterIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+                {withSort ? (
+                  <ActionIcon
+                    variant="light"
+                    color="gray"
+                    aria-label="Открыть сортировку"
+                    onClick={() => setSortOpened(true)}>
+                    <ListFilterIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+                {withAdd ? (
+                  <ActionIcon
+                    variant="filled"
+                    color="teal"
+                    aria-label="Добавить элемент"
+                    onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
+                    <PlusIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+              </Box>
+            </Box>
+          ) : null}
           <Box style={{ flex: 1, minHeight: 0 }}>
-            <ScrollArea h="100%" viewportRef={viewportRef} onScrollPositionChange={onScroll}>
-              <Stack gap="sm">
-                {!loading && items.length === 0 ? (
-                  <Text size="sm" c="dimmed">
-                    Нет элементов для текущего запроса.
-                  </Text>
-                ) : null}
-                {items.map((item) => (
-                  <Box key={item.id} style={{ height: cardHeight }}>
-                    {renderCard ? (
-                      <Box style={{ height: cardHeight, overflow: 'hidden' }}>{renderCard(item)}</Box>
-                    ) : (
-                      <DefaultCard item={item} cardHeight={cardHeight} />
-                    )}
-                  </Box>
-                ))}
-                {loading ? (
-                  <Text size="sm" c="dimmed">
-                    Обновление: 1…{loadedItemsCount} с сервера…
-                  </Text>
-                ) : null}
-                {!loading && loadedItemsCount < totalItems ? (
-                  <Text size="xs" c="dimmed">
-                    Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
-                  </Text>
-                ) : null}
-              </Stack>
+            <ScrollArea
+              h="100%"
+              viewportRef={viewportRef}
+              onScrollPositionChange={onScroll}
+              styles={
+                isMobile
+                  ? { viewport: { paddingBottom: aprilMobileShellBarContentPaddingBottom() } }
+                  : undefined
+              }>
+              {listScrollContent}
             </ScrollArea>
           </Box>
-          <Text size="xs" c="dimmed" mt="sm">
-            Загружено {loadedItemsCount} из {totalItems}.
-          </Text>
+          {listAndGridFooter}
         </>
-      )}
-      {!collapsed ? (
+      ) : null}
+
+      {showGridChrome ? (
+        <>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 'var(--mantine-spacing-xs)',
+            }}
+          >
+            <Text fw={600}>{title}</Text>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Badge variant="light" color="teal">
+                {totalItems}
+              </Badge>
+              {!isMobile && mode === 'inline' ? cycleControl : null}
+              {!isMobile && mode === 'overlay' ? (
+                <>
+                  {cycleControl}
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    aria-label="Закрыть список поверх страницы"
+                    onClick={() => setOverlayOpened(false)}>
+                    <XIcon size={14} />
+                  </ActionIcon>
+                </>
+              ) : null}
+            </Box>
+          </Box>
+          {!isMobile ? (
+            <Box
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'nowrap',
+                gap: 'var(--mantine-spacing-xs)',
+                marginBottom: 'var(--mantine-spacing-xs)',
+              }}
+            >
+              <TextInput
+                leftSection={<SearchIcon size={14} />}
+                aria-label="Поиск по карточкам"
+                placeholder="Поиск по карточкам"
+                size={isCompactDensity ? 'xs' : 'sm'}
+                value={query}
+                onChange={(e) => {
+                  const value = e.currentTarget.value;
+                  setLocalQuery(value);
+                  onSearchChange?.(value);
+                }}
+                style={{ flex: 1 }}
+              />
+              <Box style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
+                {withFilter ? (
+                  <ActionIcon
+                    variant="light"
+                    color="gray"
+                    aria-label="Открыть фильтры"
+                    onClick={() => setFilterOpened(true)}>
+                    <FilterIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+                {withSort ? (
+                  <ActionIcon
+                    variant="light"
+                    color="gray"
+                    aria-label="Открыть сортировку"
+                    onClick={() => setSortOpened(true)}>
+                    <ListFilterIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+                {withAdd ? (
+                  <ActionIcon
+                    variant="filled"
+                    color="teal"
+                    aria-label="Добавить элемент"
+                    onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
+                    <PlusIcon size={14} />
+                  </ActionIcon>
+                ) : null}
+              </Box>
+            </Box>
+          ) : null}
+          <Box style={{ flex: 1, minHeight: 0 }}>
+            <ScrollArea
+              h="100%"
+              viewportRef={viewportRef}
+              onScrollPositionChange={onScroll}
+              styles={
+                isMobile
+                  ? { viewport: { paddingBottom: aprilMobileShellBarContentPaddingBottom() } }
+                  : undefined
+              }>
+              {gridScrollContent}
+            </ScrollArea>
+          </Box>
+          {listAndGridFooter}
+        </>
+      ) : null}
+
+      {showListChrome ? (
         <Box
           role="separator"
           aria-label="Изменить ширину списка"
@@ -501,6 +1058,37 @@ export function CardListColumn({
         />
       ) : null}
     </Paper>
+  );
+
+  const body = isMobile ? (
+    <Box
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: listHeight,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 0,
+        boxSizing: 'border-box',
+      }}>
+      <Box style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>{paperBody}</Box>
+      <AprilMobileShellBar
+        position={mobileShellBarPosition}
+        leading={sheetOpen ? undefined : mobileShellLeading}
+        center={shellCenterActive}
+        withSearch={!sheetOpen}
+        searchPlaceholder="Поиск по карточкам"
+        searchValue={query}
+        onSearchValueChange={(value) => {
+          setLocalQuery(value);
+          onSearchChange?.(value);
+        }}
+        searchExpanded={mobileSearchExpanded}
+        onSearchExpandedChange={setMobileSearchExpanded}
+      />
+    </Box>
+  ) : (
+    paperBody
   );
 
   return (
@@ -531,77 +1119,112 @@ export function CardListColumn({
           ) : null}
         </>
       )}
-      <AprilModal
-        opened={filterOpened}
-        onClose={() => setFilterOpened(false)}
-        headerTitle={filterModalTitle}
-        headerActions={
-          renderFilterModal ? undefined : (
-            <>
-              <ActionIcon
-                variant="light"
-                color="gray"
-                size={isCompactDensity ? 'md' : 'lg'}
-                onClick={resetFilter}
-                aria-label="Сбросить фильтр"
-                title="Сбросить"
-              >
-                <AprilIconRotateCcw size={18} aria-hidden />
-              </ActionIcon>
-              <ActionIcon
-                variant="filled"
-                color="teal"
-                size={isCompactDensity ? 'md' : 'lg'}
-                onClick={applyFilter}
-                aria-label="Применить фильтр"
-                title="Применить"
-              >
-                <AprilIconCheck size={18} aria-hidden />
-              </ActionIcon>
-            </>
-          )
-        }
-      >
-        {filterModalBody}
-      </AprilModal>
-      <AprilModal
-        opened={sortOpened}
-        onClose={() => setSortOpened(false)}
-        headerTitle={sortModalTitle}
-        headerActions={
-          renderSortModal ? undefined : (
-            <>
-              <ActionIcon
-                variant="light"
-                color="gray"
-                size={isCompactDensity ? 'md' : 'lg'}
-                onClick={resetSort}
-                aria-label="Сбросить сортировку"
-                title="Сбросить"
-              >
-                <AprilIconRotateCcw size={18} aria-hidden />
-              </ActionIcon>
-              <ActionIcon
-                variant="filled"
-                color="teal"
-                size={isCompactDensity ? 'md' : 'lg'}
-                onClick={applySort}
-                aria-label="Применить сортировку"
-                title="Применить"
-              >
-                <AprilIconCheck size={18} aria-hidden />
-              </ActionIcon>
-            </>
-          )
-        }
-      >
-        {sortModalBody}
-      </AprilModal>
-      <AprilModal opened={addOpened} onClose={() => setAddOpened(false)} headerTitle="Новый элемент">
-        <Text size="sm" c="dimmed">
-          Сценарий добавления можно реализовать полями, специфичными для продукта.
-        </Text>
-      </AprilModal>
+      {!isMobile ? (
+        <AprilModal
+          opened={filterOpened}
+          onClose={() => setFilterOpened(false)}
+          headerTitle={filterModalTitle}
+          headerActions={
+            renderFilterModal ? undefined : (
+              <>
+                <ActionIcon
+                  variant="light"
+                  color="gray"
+                  size={isCompactDensity ? 'md' : 'lg'}
+                  onClick={resetFilter}
+                  aria-label="Сбросить фильтр"
+                  title="Сбросить"
+                >
+                  <AprilIconRotateCcw size={18} aria-hidden />
+                </ActionIcon>
+                <ActionIcon
+                  variant="filled"
+                  color="teal"
+                  size={isCompactDensity ? 'md' : 'lg'}
+                  onClick={applyFilter}
+                  aria-label="Применить фильтр"
+                  title="Применить"
+                >
+                  <AprilIconCheck size={18} aria-hidden />
+                </ActionIcon>
+              </>
+            )
+          }
+        >
+          {filterModalBody}
+        </AprilModal>
+      ) : (
+        <AprilVaulBottomSheet
+          opened={filterOpened}
+          onClose={() => setFilterOpened(false)}
+          headerTitle={filterModalTitle}
+          withCloseButton={false}
+        >
+          {filterModalBody}
+        </AprilVaulBottomSheet>
+      )}
+      {!isMobile ? (
+        <AprilModal
+          opened={sortOpened}
+          onClose={() => setSortOpened(false)}
+          headerTitle={sortModalTitle}
+          headerActions={
+            renderSortModal ? undefined : (
+              <>
+                <ActionIcon
+                  variant="light"
+                  color="gray"
+                  size={isCompactDensity ? 'md' : 'lg'}
+                  onClick={resetSort}
+                  aria-label="Сбросить сортировку"
+                  title="Сбросить"
+                >
+                  <AprilIconRotateCcw size={18} aria-hidden />
+                </ActionIcon>
+                <ActionIcon
+                  variant="filled"
+                  color="teal"
+                  size={isCompactDensity ? 'md' : 'lg'}
+                  onClick={applySort}
+                  aria-label="Применить сортировку"
+                  title="Применить"
+                >
+                  <AprilIconCheck size={18} aria-hidden />
+                </ActionIcon>
+              </>
+            )
+          }
+        >
+          {sortModalBody}
+        </AprilModal>
+      ) : (
+        <AprilVaulBottomSheet
+          opened={sortOpened}
+          onClose={() => setSortOpened(false)}
+          headerTitle={sortModalTitle}
+          withCloseButton={false}
+        >
+          {sortModalBody}
+        </AprilVaulBottomSheet>
+      )}
+      {!isMobile ? (
+        <AprilModal opened={addOpened} onClose={() => setAddOpened(false)} headerTitle="Новый элемент">
+          <Text size="sm" c="dimmed">
+            Сценарий добавления можно реализовать полями, специфичными для продукта.
+          </Text>
+        </AprilModal>
+      ) : (
+        <AprilVaulBottomSheet
+          opened={addOpened}
+          onClose={() => setAddOpened(false)}
+          headerTitle="Новый элемент"
+          withCloseButton={false}
+        >
+          <Text size="sm" c="dimmed">
+            Сценарий добавления можно реализовать полями, специфичными для продукта.
+          </Text>
+        </AprilVaulBottomSheet>
+      )}
     </Box>
   );
 }

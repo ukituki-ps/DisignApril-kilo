@@ -8,6 +8,28 @@ export { AprilGradientSegmentedControl } from './components/AprilGradientSegment
 export type { AprilGradientSegmentedControlProps } from './components/AprilGradientSegmentedControl';
 export { AprilModal } from './components/AprilModal';
 export type { AprilModalProps } from './components/AprilModal';
+export {
+  APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX,
+  APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BORDER,
+  APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
+  APRIL_MOBILE_SHELL_BAR_Z_INDEX,
+  aprilMobileShellBarContentPaddingBottom,
+  aprilMobileShellBarDarkGreenActionStyles,
+  aprilMobileShellBarGhostWhiteBorderActionStyles,
+  aprilMobileVaulBottomMaxHeight,
+} from './components/aprilMobileShellBarLayout';
+export { AprilMobileBottomSheet } from './components/AprilMobileBottomSheet';
+export type { AprilMobileBottomSheetProps } from './components/AprilMobileBottomSheet';
+export { AprilVaulBottomSheet } from './components/AprilVaulBottomSheet';
+export type { AprilVaulBottomSheetProps } from './components/AprilVaulBottomSheet';
+export { AprilMobileShellBar } from './components/AprilMobileShellBar';
+export type {
+  AprilMobileShellBarPosition,
+  AprilMobileShellBarProps,
+} from './components/AprilMobileShellBar';
+export { MobileShellBarSurfaceVariantsSection } from './components/MobileShellBarSurfaceVariantsSection';
 export { AprilEcosystemSimpleCards } from './components/AprilEcosystemSimpleCards';
 export type {
   AprilEcosystemSimpleCardsProps,
@@ -32,12 +54,14 @@ export type {
   CardListColumnFilterModalRenderProps,
   CardListColumnFilterOption,
   CardListColumnItem,
+  CardListColumnMobileLayout,
   CardListColumnMode,
   CardListColumnProps,
   CardListColumnSortDirectionOption,
   CardListColumnSortModalRenderProps,
   CardListColumnSortOption,
   CardListColumnSort,
+  CardListColumnView,
 } from './components/CardListColumn';
 export { AprilJsonTreeEditor } from './json/AprilJsonTreeEditor';
 export type { AprilJsonTreeEditorProps } from './json/AprilJsonTreeEditor';
