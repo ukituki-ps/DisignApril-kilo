@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AppShell,
   Group,
@@ -5,13 +6,23 @@ import {
   ActionIcon,
   useMantineColorScheme,
   useComputedColorScheme,
-  Button
+  Button,
+  Tabs
 } from '@mantine/core';
 import { SunIcon, MoonIcon } from 'lucide-react';
 import { logoFilters } from '@ukituki-ps/april-tokens';
 import { AprilProviders, UIKit, useDensity } from '@ukituki-ps/april-ui';
+import { MobileShowcase } from './MobileShowcase';
 
-function TopBar() {
+type ShowcaseMode = 'uikit' | 'mobile';
+
+function TopBar({
+  mode,
+  onModeChange
+}: {
+  mode: ShowcaseMode;
+  onModeChange: (mode: ShowcaseMode) => void;
+}) {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
   const { density, toggleDensity } = useDensity();
@@ -26,18 +37,34 @@ function TopBar() {
         borderBottom: '1px solid var(--mantine-color-default-border)'
       }}>
       <Group justify="space-between" h="100%">
-        <Group>
-          <img
-            src="/logo-icon.svg"
-            alt="Логотип April"
-            style={{
-              height: 28,
-              width: 28,
-              objectFit: 'contain',
-              filter: logoFilters.primary
+        <Group wrap="nowrap" align="center" gap="lg">
+          <Group wrap="nowrap">
+            <img
+              src="/logo-icon.svg"
+              alt="Логотип April"
+              style={{
+                height: 28,
+                width: 28,
+                objectFit: 'contain',
+                filter: logoFilters.primary
+              }}
+            />
+            <Title order={3}>April — дизайн-система</Title>
+          </Group>
+          <Tabs
+            value={mode}
+            onChange={(v) => {
+              if (v === 'uikit' || v === 'mobile') {
+                onModeChange(v);
+              }
             }}
-          />
-          <Title order={3}>April — дизайн-система</Title>
+            variant="pills"
+            radius="md">
+            <Tabs.List>
+              <Tabs.Tab value="uikit">UIKit</Tabs.Tab>
+              <Tabs.Tab value="mobile">Mobile lab</Tabs.Tab>
+            </Tabs.List>
+          </Tabs>
         </Group>
         <Group>
           <Button variant="light" color="gray" onClick={toggleDensity} size="sm">
@@ -61,15 +88,17 @@ function TopBar() {
 }
 
 function Shell() {
+  const [mode, setMode] = useState<ShowcaseMode>('uikit');
+
   return (
     <AppShell
       header={{
         height: 60
       }}
       padding="md">
-      <TopBar />
+      <TopBar mode={mode} onModeChange={setMode} />
       <AppShell.Main bg="var(--mantine-color-body)">
-        <UIKit />
+        {mode === 'uikit' ? <UIKit /> : <MobileShowcase />}
       </AppShell.Main>
     </AppShell>
   );

@@ -8,6 +8,16 @@ export { AprilGradientSegmentedControl } from './components/AprilGradientSegment
 export type { AprilGradientSegmentedControlProps } from './components/AprilGradientSegmentedControl';
 export { AprilModal } from './components/AprilModal';
 export type { AprilModalProps } from './components/AprilModal';
+export {
+  APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
+  APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
+  aprilMobileShellBarContentPaddingBottom,
+} from './components/aprilMobileShellBarLayout';
+export { AprilMobileShellBar } from './components/AprilMobileShellBar';
+export type {
+  AprilMobileShellBarPosition,
+  AprilMobileShellBarProps,
+} from './components/AprilMobileShellBar';
 export { AprilEcosystemSimpleCards } from './components/AprilEcosystemSimpleCards';
 export type {
   AprilEcosystemSimpleCardsProps,
