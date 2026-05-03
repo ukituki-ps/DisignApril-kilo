@@ -38,6 +38,7 @@ export type {
   CardListColumnSortModalRenderProps,
   CardListColumnSortOption,
   CardListColumnSort,
+  CardListColumnView,
 } from './components/CardListColumn';
 export { AprilJsonTreeEditor } from './json/AprilJsonTreeEditor';
 export type { AprilJsonTreeEditorProps } from './json/AprilJsonTreeEditor';

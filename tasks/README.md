@@ -22,6 +22,7 @@
 
 ## Текущие задачи
 
+- `ds-011-card-list-column-views` - done — `CardListColumn`: три вида (свернуто / список / сетка), выбор, аватар, документация и витрина.
 - `ds-009-gradient-segmented-control` - градиентный `SegmentedControl` (паттерн Mantine UI + бренд April), обёртка, витрина, документация.
 - `ds-008-april-icons` - коллекция UI-иконок (Lucide), обёртка, витрина в `UIKit`, документация.
 - `ds-001-card-list-column` - реализация компонента Card List Column.

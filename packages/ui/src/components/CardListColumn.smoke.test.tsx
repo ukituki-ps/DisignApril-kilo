@@ -121,16 +121,24 @@ describe('CardListColumn', () => {
     expect(onSearchChange).toHaveBeenLastCalledWith('abc');
   });
 
-  it('handles inline collapse and expand', async () => {
+  it('cycles inline views list → grid → collapsed → list', async () => {
     const user = userEvent.setup();
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />);
 
-    await user.click(screen.getByLabelText('Свернуть список'));
-    expect(screen.getByLabelText('Развернуть список')).toBeTruthy();
+    expect(screen.getByLabelText('Поиск по карточкам')).toBeTruthy();
+    await user.click(screen.getByLabelText('Следующий вид: сетку карточек'));
+    expect(screen.getByLabelText('Следующий вид: свёрнутую колонку')).toBeTruthy();
+    expect(screen.queryByRole('separator', { name: 'Изменить ширину списка' })).toBeNull();
 
-    await user.click(screen.getByLabelText('Развернуть список'));
-    expect(screen.getByLabelText('Свернуть список')).toBeTruthy();
+    await user.click(screen.getByLabelText('Следующий вид: свёрнутую колонку'));
+    expect(screen.queryByLabelText('Поиск по карточкам')).toBeNull();
+    expect(screen.getByLabelText('Следующий вид: список')).toBeTruthy();
+
+    await user.click(screen.getByLabelText('Следующий вид: список'));
+    expect(screen.getByLabelText('Поиск по карточкам')).toBeTruthy();
+    expect(screen.getByLabelText('Следующий вид: сетку карточек')).toBeTruthy();
+    expect(screen.getByRole('separator', { name: 'Изменить ширину списка' })).toBeTruthy();
   });
 
   it('handles overlay open and close flow', async () => {
@@ -599,5 +607,21 @@ describe('CardListColumn', () => {
     expect(screen.getByLabelText('Открыть сортировку')).toBeTruthy();
     expect(screen.getByLabelText('Добавить элемент')).toBeTruthy();
     expect(screen.getByRole('separator', { name: 'Изменить ширину списка' })).toBeTruthy();
+    expect(screen.getByLabelText('Следующий вид: сетку карточек')).toBeTruthy();
+  });
+
+  it('selects and deselects item by click', async () => {
+    const user = userEvent.setup();
+    const onSelectItem = vi.fn();
+
+    renderCardListColumn(
+      <CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} onSelectItem={onSelectItem} />
+    );
+
+    await user.click(screen.getByRole('button', { name: /Первая задача/i }));
+    expect(onSelectItem).toHaveBeenLastCalledWith('1');
+
+    await user.click(screen.getByRole('button', { name: /Первая задача/i }));
+    expect(onSelectItem).toHaveBeenLastCalledWith(null);
   });
 });

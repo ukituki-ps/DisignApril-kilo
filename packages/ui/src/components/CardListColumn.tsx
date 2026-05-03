@@ -5,18 +5,21 @@ import {
   Badge,
   Box,
   Button,
-  Card,
   Paper,
   ScrollArea,
   Select,
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
+import type { LucideIcon } from 'lucide-react';
 import {
-  ArrowLeftToLineIcon,
-  ArrowRightToLineIcon,
+  FileTextIcon,
   FilterIcon,
+  LayoutGridIcon,
+  ListIcon,
+  PanelLeftCloseIcon,
   ListFilterIcon,
   PlusIcon,
   SearchIcon,
@@ -25,16 +28,15 @@ import {
 import { AprilIconCheck, AprilIconRotateCcw } from '../icons';
 import { useDensity } from '../DensityContext';
 import { AprilModal } from './AprilModal';
+import { DefaultListCard } from './cardListColumn/DefaultListCard';
+import { GridItemCard } from './cardListColumn/GridItemCard';
+import type { CardListColumnItem } from './cardListColumn/types';
+import { cardListColumnViewLabelRu, getNextCardListColumnView, type CardListColumnView } from './cardListColumn/viewCycle';
+
+export type { CardListColumnItem } from './cardListColumn/types';
+export type { CardListColumnView } from './cardListColumn/viewCycle';
 
 export type CardListColumnMode = 'inline' | 'overlay';
-export interface CardListColumnItem {
-  id: string;
-  title: string;
-  description?: string;
-  searchText?: string;
-  status?: string;
-  createdAt?: string;
-}
 export type CardListColumnFilter = Record<string, string | undefined>;
 export interface CardListColumnSort {
   field: 'title' | 'createdAt';
@@ -108,6 +110,19 @@ export interface CardListColumnProps {
   onFilterChange?: (value: CardListColumnFilter) => void;
   onSortChange?: (value: CardListColumnSort) => void;
   onAddItem?: () => void;
+  /** Вид колонки: список, сетка или свёрнутая полоса. Управляемый режим вместе с `onViewChange`. */
+  view?: CardListColumnView;
+  /** Начальный вид при неуправляемом `view`. По умолчанию `list`. */
+  defaultView?: CardListColumnView;
+  onViewChange?: (view: CardListColumnView) => void;
+  /** Выбранный элемент (управляемый режим вместе с `onSelectItem`). */
+  selectedItemId?: string | null;
+  defaultSelectedItemId?: string | null;
+  onSelectItem?: (id: string | null) => void;
+  /** Иконка в аватаре по умолчанию, если у элемента нет `imageUrl` и `avatarIcon`. */
+  defaultListItemIcon?: LucideIcon;
+  /** Текст в свёрнутом виде, если ничего не выбрано. */
+  emptySelectionLabel?: string;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -134,19 +149,25 @@ const getStableFilterKey = (filter: CardListColumnFilter | undefined) => {
   return JSON.stringify(orderedEntries);
 };
 
-function DefaultCard({ item, cardHeight }: { item: CardListColumnItem; cardHeight: number }) {
-  return (
-    <Card withBorder radius="md" p="sm" style={{ height: cardHeight, overflow: 'hidden' }}>
-      <Text fw={600} lineClamp={1}>
-        {item.title}
-      </Text>
-      {item.description ? (
-        <Text size="sm" c="dimmed" mt="xs" lineClamp={3}>
-          {item.description}
-        </Text>
-      ) : null}
-    </Card>
-  );
+function pseudoProgressFromId(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) {
+    h = (h + id.charCodeAt(i) * 13) % 100;
+  }
+  return 18 + (h % 72);
+}
+
+function CycleViewIcon({ view }: { view: CardListColumnView }) {
+  switch (view) {
+    case 'list':
+      return <ListIcon size={14} aria-hidden />;
+    case 'grid':
+      return <LayoutGridIcon size={14} aria-hidden />;
+    case 'collapsed':
+      return <PanelLeftCloseIcon size={14} aria-hidden />;
+    default:
+      return null;
+  }
 }
 
 export function CardListColumn({
@@ -185,6 +206,14 @@ export function CardListColumn({
   onFilterChange,
   onSortChange,
   onAddItem,
+  view: viewProp,
+  defaultView = 'list',
+  onViewChange,
+  selectedItemId: selectedItemIdProp,
+  defaultSelectedItemId = null,
+  onSelectItem,
+  defaultListItemIcon: DefaultListItemIcon = FileTextIcon,
+  emptySelectionLabel = 'Ничего не выбрано',
 }: CardListColumnProps) {
   const { density } = useDensity();
   const isCompactDensity = density === 'compact';
@@ -194,7 +223,14 @@ export function CardListColumn({
   const lastSyncedFilterKeyRef = useRef('');
   const lastSyncedSortKeyRef = useRef('');
   const [localQuery, setLocalQuery] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
+  const [uncontrolledView, setUncontrolledView] = useState<CardListColumnView>(defaultView);
+  const isViewControlled = viewProp !== undefined;
+  const currentView = isViewControlled ? viewProp : uncontrolledView;
+
+  const [uncontrolledSelected, setUncontrolledSelected] = useState<string | null>(defaultSelectedItemId);
+  const isSelectedControlled = selectedItemIdProp !== undefined;
+  const effectiveSelectedId = (isSelectedControlled ? selectedItemIdProp : uncontrolledSelected) ?? null;
+
   const [overlayOpened, setOverlayOpened] = useState(mode === 'overlay');
   const [filterOpened, setFilterOpened] = useState(false);
   const [sortOpened, setSortOpened] = useState(false);
@@ -211,6 +247,31 @@ export function CardListColumn({
     () => JSON.stringify(sortValue ?? { field: 'createdAt', direction: 'desc' }),
     [sortValue]
   );
+
+  const setView = (next: CardListColumnView) => {
+    onViewChange?.(next);
+    if (!isViewControlled) {
+      setUncontrolledView(next);
+    }
+  };
+
+  const selectItem = (id: string) => {
+    const next = effectiveSelectedId === id ? null : id;
+    onSelectItem?.(next);
+    if (!isSelectedControlled) {
+      setUncontrolledSelected(next);
+    }
+  };
+
+  const nextView = getNextCardListColumnView(currentView);
+  const nextViewLabel = cardListColumnViewLabelRu(nextView);
+  const cycleAriaLabel = `Следующий вид: ${nextViewLabel}`;
+
+  const selectedItem = useMemo(
+    () => items.find((i) => i.id === effectiveSelectedId),
+    [items, effectiveSelectedId]
+  );
+  const collapsedSelectedTitle = selectedItem?.title ?? emptySelectionLabel;
 
   useEffect(() => {
     if (filterOpened) {
@@ -340,61 +401,236 @@ export function CardListColumn({
   );
 
   const listHeight = heightMode === 'fill' ? '100%' : fixedHeight;
+  const isCollapsed = currentView === 'collapsed';
+  const isGrid = currentView === 'grid';
+  /** Узкая полоса: подпись выбранного элемента идёт вертикально (`writing-mode`). */
+  const collapsedRailWidth = 48;
+  const paperWidth = isCollapsed ? collapsedRailWidth : isGrid ? '100%' : `${widthPercent}%`;
+  const paperMinWidth = isCollapsed ? collapsedRailWidth : isGrid ? 0 : 200;
+
+  const cycleControl = (
+    <Tooltip label={`Следующий вид: ${nextViewLabel}`} withArrow openDelay={400}>
+      <ActionIcon
+        variant="subtle"
+        color="gray"
+        aria-label={cycleAriaLabel}
+        onClick={() => setView(getNextCardListColumnView(currentView))}
+      >
+        <CycleViewIcon view={nextView} />
+      </ActionIcon>
+    </Tooltip>
+  );
+
+  const listAndGridFooter = (
+    <Text size="xs" c="dimmed" mt="sm">
+      Загружено {loadedItemsCount} из {totalItems}.
+    </Text>
+  );
+
+  const listScrollContent = (
+    <Stack gap="sm">
+      {!loading && items.length === 0 ? (
+        <Text size="sm" c="dimmed">
+          Нет элементов для текущего запроса.
+        </Text>
+      ) : null}
+      {items.map((item) => {
+        const selected = effectiveSelectedId === item.id;
+        return (
+          <Box key={item.id} style={{ height: cardHeight }}>
+            {renderCard ? (
+              <Box
+                role="button"
+                tabIndex={0}
+                onClick={() => selectItem(item.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectItem(item.id);
+                  }
+                }}
+                style={{
+                  height: cardHeight,
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  borderRadius: 'var(--mantine-radius-md)',
+                  outline: selected ? '2px solid var(--mantine-color-teal-filled)' : undefined,
+                  outlineOffset: 0,
+                }}
+              >
+                {renderCard(item)}
+              </Box>
+            ) : (
+              <DefaultListCard
+                item={item}
+                cardHeight={cardHeight}
+                selected={selected}
+                isCompactDensity={isCompactDensity}
+                FallbackIcon={DefaultListItemIcon}
+                onSelect={() => selectItem(item.id)}
+              />
+            )}
+          </Box>
+        );
+      })}
+      {loading ? (
+        <Text size="sm" c="dimmed">
+          Обновление: 1…{loadedItemsCount} с сервера…
+        </Text>
+      ) : null}
+      {!loading && loadedItemsCount < totalItems ? (
+        <Text size="xs" c="dimmed">
+          Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
+        </Text>
+      ) : null}
+    </Stack>
+  );
+
+  const gridScrollContent = (
+    <Box
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))',
+        gap: 'var(--mantine-spacing-sm)',
+        alignContent: 'start',
+      }}
+    >
+      {!loading && items.length === 0 ? (
+        <Text size="sm" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Нет элементов для текущего запроса.
+        </Text>
+      ) : null}
+      {items.map((item) => {
+        const selected = effectiveSelectedId === item.id;
+        return (
+          <Box key={item.id} style={{ minHeight: 148 }}>
+            {renderCard ? (
+              <Box
+                role="button"
+                tabIndex={0}
+                onClick={() => selectItem(item.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectItem(item.id);
+                  }
+                }}
+                h="100%"
+                style={{
+                  cursor: 'pointer',
+                  borderRadius: 'var(--mantine-radius-md)',
+                  outline: selected ? '2px solid var(--mantine-color-teal-filled)' : undefined,
+                }}
+              >
+                {renderCard(item)}
+              </Box>
+            ) : (
+              <GridItemCard
+                item={item}
+                selected={selected}
+                isCompactDensity={isCompactDensity}
+                FallbackIcon={DefaultListItemIcon}
+                onSelect={() => selectItem(item.id)}
+                progressPercent={pseudoProgressFromId(item.id)}
+              />
+            )}
+          </Box>
+        );
+      })}
+      {loading ? (
+        <Text size="sm" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Обновление: 1…{loadedItemsCount} с сервера…
+        </Text>
+      ) : null}
+      {!loading && loadedItemsCount < totalItems ? (
+        <Text size="xs" c="dimmed" style={{ gridColumn: '1 / -1' }}>
+          Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
+        </Text>
+      ) : null}
+    </Box>
+  );
 
   const body = (
     <Paper
       withBorder
       radius="md"
-      p="sm"
+      p={isCollapsed ? 'xs' : 'sm'}
       style={{
-        width: collapsed ? 72 : `${widthPercent}%`,
-        minWidth: collapsed ? 72 : 200,
+        width: paperWidth,
+        minWidth: paperMinWidth,
+        maxWidth: isGrid ? '100%' : undefined,
         height: listHeight,
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-      }}>
-      {collapsed ? (
-        <Stack align="center" gap="sm" mt="xs">
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            aria-label="Развернуть список"
-            onClick={() => setCollapsed(false)}>
-            <ArrowRightToLineIcon size={14} />
-          </ActionIcon>
-          <Badge variant="light" color="teal">
+        boxSizing: 'border-box',
+      }}
+    >
+      {isCollapsed ? (
+        <Stack align="center" gap={6} mt={4} style={{ flex: 1, minHeight: 0, width: '100%' }}>
+          {cycleControl}
+          <Badge variant="light" color="teal" size="xs">
             {totalItems}
           </Badge>
-          <Text size="xs" fw={600} ta="center" style={{ writingMode: 'vertical-rl' }}>
+          <Tooltip label={collapsedSelectedTitle} disabled={collapsedSelectedTitle.length < 20} withArrow>
+            <Text
+              size="xs"
+              fw={600}
+              ta="center"
+              title={collapsedSelectedTitle}
+              style={{
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                maxWidth: '100%',
+                maxHeight: 'min(280px, 45vh)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                flex: '1 1 auto',
+                marginTop: 4,
+              }}
+            >
+              {collapsedSelectedTitle}
+            </Text>
+          </Tooltip>
+          <Text
+            size="xs"
+            c="dimmed"
+            ta="center"
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', marginTop: 'auto', maxHeight: 120 }}
+            title={title}
+          >
             {title}
           </Text>
         </Stack>
-      ) : (
+      ) : null}
+
+      {currentView === 'list' ? (
         <>
-          <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--mantine-spacing-xs)' }}>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 'var(--mantine-spacing-xs)',
+            }}
+          >
             <Text fw={600}>{title}</Text>
             <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <Badge variant="light" color="teal">
                 {totalItems}
               </Badge>
-              {mode === 'inline' ? (
-                <ActionIcon
-                  variant="subtle"
-                  color="gray"
-                  aria-label="Свернуть список"
-                  onClick={() => setCollapsed(true)}>
-                  <ArrowLeftToLineIcon size={14} />
-                </ActionIcon>
-              ) : null}
+              {mode === 'inline' ? cycleControl : null}
               {mode === 'overlay' ? (
-                <ActionIcon
-                  variant="subtle"
-                  color="gray"
-                  aria-label="Закрыть список поверх страницы"
-                  onClick={() => setOverlayOpened(false)}>
-                  <XIcon size={14} />
-                </ActionIcon>
+                <>
+                  {cycleControl}
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    aria-label="Закрыть список поверх страницы"
+                    onClick={() => setOverlayOpened(false)}>
+                    <XIcon size={14} />
+                  </ActionIcon>
+                </>
               ) : null}
             </Box>
           </Box>
@@ -406,7 +642,8 @@ export function CardListColumn({
               flexWrap: 'nowrap',
               gap: 'var(--mantine-spacing-xs)',
               marginBottom: 'var(--mantine-spacing-xs)',
-            }}>
+            }}
+          >
             <TextInput
               leftSection={<SearchIcon size={14} />}
               aria-label="Поиск по карточкам"
@@ -452,40 +689,106 @@ export function CardListColumn({
           </Box>
           <Box style={{ flex: 1, minHeight: 0 }}>
             <ScrollArea h="100%" viewportRef={viewportRef} onScrollPositionChange={onScroll}>
-              <Stack gap="sm">
-                {!loading && items.length === 0 ? (
-                  <Text size="sm" c="dimmed">
-                    Нет элементов для текущего запроса.
-                  </Text>
-                ) : null}
-                {items.map((item) => (
-                  <Box key={item.id} style={{ height: cardHeight }}>
-                    {renderCard ? (
-                      <Box style={{ height: cardHeight, overflow: 'hidden' }}>{renderCard(item)}</Box>
-                    ) : (
-                      <DefaultCard item={item} cardHeight={cardHeight} />
-                    )}
-                  </Box>
-                ))}
-                {loading ? (
-                  <Text size="sm" c="dimmed">
-                    Обновление: 1…{loadedItemsCount} с сервера…
-                  </Text>
-                ) : null}
-                {!loading && loadedItemsCount < totalItems ? (
-                  <Text size="xs" c="dimmed">
-                    Прокрутите до конца, чтобы подгрузить 1…{Math.min(loadedItemsCount + 50, totalItems)}.
-                  </Text>
-                ) : null}
-              </Stack>
+              {listScrollContent}
             </ScrollArea>
           </Box>
-          <Text size="xs" c="dimmed" mt="sm">
-            Загружено {loadedItemsCount} из {totalItems}.
-          </Text>
+          {listAndGridFooter}
         </>
-      )}
-      {!collapsed ? (
+      ) : null}
+
+      {currentView === 'grid' ? (
+        <>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 'var(--mantine-spacing-xs)',
+            }}
+          >
+            <Text fw={600}>{title}</Text>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Badge variant="light" color="teal">
+                {totalItems}
+              </Badge>
+              {mode === 'inline' ? cycleControl : null}
+              {mode === 'overlay' ? (
+                <>
+                  {cycleControl}
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    aria-label="Закрыть список поверх страницы"
+                    onClick={() => setOverlayOpened(false)}>
+                    <XIcon size={14} />
+                  </ActionIcon>
+                </>
+              ) : null}
+            </Box>
+          </Box>
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'nowrap',
+              gap: 'var(--mantine-spacing-xs)',
+              marginBottom: 'var(--mantine-spacing-xs)',
+            }}
+          >
+            <TextInput
+              leftSection={<SearchIcon size={14} />}
+              aria-label="Поиск по карточкам"
+              placeholder="Поиск по карточкам"
+              size={isCompactDensity ? 'xs' : 'sm'}
+              value={query}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setLocalQuery(value);
+                onSearchChange?.(value);
+              }}
+              style={{ flex: 1 }}
+            />
+            <Box style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
+              {withFilter ? (
+                <ActionIcon
+                  variant="light"
+                  color="gray"
+                  aria-label="Открыть фильтры"
+                  onClick={() => setFilterOpened(true)}>
+                  <FilterIcon size={14} />
+                </ActionIcon>
+              ) : null}
+              {withSort ? (
+                <ActionIcon
+                  variant="light"
+                  color="gray"
+                  aria-label="Открыть сортировку"
+                  onClick={() => setSortOpened(true)}>
+                  <ListFilterIcon size={14} />
+                </ActionIcon>
+              ) : null}
+              {withAdd ? (
+                <ActionIcon
+                  variant="filled"
+                  color="teal"
+                  aria-label="Добавить элемент"
+                  onClick={() => (onAddItem ? onAddItem() : setAddOpened(true))}>
+                  <PlusIcon size={14} />
+                </ActionIcon>
+              ) : null}
+            </Box>
+          </Box>
+          <Box style={{ flex: 1, minHeight: 0 }}>
+            <ScrollArea h="100%" viewportRef={viewportRef} onScrollPositionChange={onScroll}>
+              {gridScrollContent}
+            </ScrollArea>
+          </Box>
+          {listAndGridFooter}
+        </>
+      ) : null}
+
+      {currentView === 'list' ? (
         <Box
           role="separator"
           aria-label="Изменить ширину списка"
