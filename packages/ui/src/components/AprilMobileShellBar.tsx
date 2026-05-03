@@ -13,6 +13,7 @@ import { AprilIconClose, AprilIconSearch } from '../icons';
 import {
   APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
   APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
+  APRIL_MOBILE_SHELL_BAR_Z_INDEX,
 } from './aprilMobileShellBarLayout';
 
 export type AprilMobileShellBarPosition = 'fixed' | 'absolute';
@@ -100,6 +101,7 @@ const defaultPaperStyle: CSSProperties = {
  * Built-in search expands the center into a `TextInput`; **Escape** collapses and returns focus to the trigger.
  *
  * For scrollable page content use {@link aprilMobileShellBarContentPaddingBottom} on your `main` (or equivalent).
+ * Stacking: uses `APRIL_MOBILE_SHELL_BAR_Z_INDEX` so the bar stays above `AprilMobileBottomSheet` overlays.
  */
 export function AprilMobileShellBar({
   leading,
@@ -162,7 +164,7 @@ export function AprilMobileShellBar({
       left: 0,
       right: 0,
       bottom: 0,
-      zIndex: 200,
+      zIndex: APRIL_MOBILE_SHELL_BAR_Z_INDEX,
       pointerEvents: 'none',
       paddingLeft: horizontalInset,
       paddingRight: horizontalInset,

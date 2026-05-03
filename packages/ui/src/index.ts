@@ -9,10 +9,14 @@ export type { AprilGradientSegmentedControlProps } from './components/AprilGradi
 export { AprilModal } from './components/AprilModal';
 export type { AprilModalProps } from './components/AprilModal';
 export {
+  APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX,
   APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
   APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
+  APRIL_MOBILE_SHELL_BAR_Z_INDEX,
   aprilMobileShellBarContentPaddingBottom,
 } from './components/aprilMobileShellBarLayout';
+export { AprilMobileBottomSheet } from './components/AprilMobileBottomSheet';
+export type { AprilMobileBottomSheetProps } from './components/AprilMobileBottomSheet';
 export { AprilMobileShellBar } from './components/AprilMobileShellBar';
 export type {
   AprilMobileShellBarPosition,

@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import {
   AprilGradientSegmentedControl,
-  AprilModal,
+  AprilMobileBottomSheet,
   AprilMobileShellBar,
   AprilIconChevronLeft,
   AprilIconClipboardList,
@@ -98,9 +98,9 @@ function DemoRootShell() {
   );
 }
 
-/** Drill-down: «Назад», действия, поиск; при открытой модалке панель скрыта (демо правила витрины). */
+/** Drill-down: «Назад», действия, поиск; нижний лист (`AprilMobileBottomSheet`) не перекрывает shell bar. */
 function DemoDrillShell() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
     <Box style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -113,11 +113,12 @@ function DemoDrillShell() {
         <Stack p="md" gap="md">
           <Title order={5}>Карточка задачи</Title>
           <Text size="sm" c="dimmed">
-            Нижняя панель скрыта, пока открыта модалка — демонстрационное правило для витрины (глобальное
-            правило продукта — отдельно).
+            Нижний лист выезжает снизу; <strong>AprilMobileShellBar</strong> остаётся поверх затемнения и
+            доступен (поиск, назад, действия). Для центрированных форм по-прежнему см.{' '}
+            <code>AprilModal</code>.
           </Text>
-          <Button variant="light" onClick={() => setModalOpen(true)}>
-            Открыть форму (AprilModal)
+          <Button variant="light" onClick={() => setSheetOpen(true)}>
+            Открыть нижний лист
           </Button>
           {Array.from({ length: 12 }, (_, i) => (
             <Text key={i} size="sm">
@@ -127,47 +128,43 @@ function DemoDrillShell() {
         </Stack>
       </ScrollArea>
 
-      {!modalOpen ? (
-        <AprilMobileShellBar
-          position="absolute"
-          leading={
-            <ActionIcon size="lg" variant="subtle" color="gray" aria-label="Назад к списку">
-              <AprilIconChevronLeft size={20} aria-hidden />
-            </ActionIcon>
-          }
-          center={
-            <Group gap="xs" justify="center" wrap="nowrap" style={{ width: '100%' }}>
-              <ActionIcon size="lg" variant="default" aria-label="Список / фильтр">
-                <AprilIconClipboardList size={20} aria-hidden />
-              </ActionIcon>
-            </Group>
-          }
-        />
-      ) : null}
-
-      <AprilModal
-        opened={modalOpen}
-        onClose={() => setModalOpen(false)}
-        headerTitle="Черновик"
-        headerActions={
-          <>
-            <Button variant="default" size="xs" onClick={() => setModalOpen(false)}>
-              Отмена
-            </Button>
-            <Button size="xs" onClick={() => setModalOpen(false)}>
-              Сохранить
-            </Button>
-          </>
+      <AprilMobileShellBar
+        position="absolute"
+        leading={
+          <ActionIcon size="lg" variant="subtle" color="gray" aria-label="Назад к списку">
+            <AprilIconChevronLeft size={20} aria-hidden />
+          </ActionIcon>
         }
-        size="sm"
-        centered>
-        <Stack gap="sm">
+        center={
+          <Group gap="xs" justify="center" wrap="nowrap" style={{ width: '100%' }}>
+            <ActionIcon size="lg" variant="default" aria-label="Список / фильтр">
+              <AprilIconClipboardList size={20} aria-hidden />
+            </ActionIcon>
+          </Group>
+        }
+      />
+
+      <AprilMobileBottomSheet
+        opened={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        title="Черновик"
+        size="72%"
+        withinPortal={false}>
+        <Stack gap="md">
           <TextInput label="Название" placeholder="Задача" size="sm" />
           <Text size="xs" c="dimmed">
             Поля с <code>size=&quot;sm&quot;</code> — проверяйте zoom на iOS при необходимости (§8 Mobile).
           </Text>
+          <Group justify="flex-end" gap="xs" pt="md">
+            <Button variant="default" size="xs" onClick={() => setSheetOpen(false)}>
+              Отмена
+            </Button>
+            <Button size="xs" onClick={() => setSheetOpen(false)}>
+              Сохранить
+            </Button>
+          </Group>
         </Stack>
-      </AprilModal>
+      </AprilMobileBottomSheet>
     </Box>
   );
 }
@@ -178,9 +175,11 @@ export function MobileShowcase() {
       <Stack gap={4}>
         <Title order={2}>Mobile lab</Title>
         <Text size="sm" c="dimmed" maw={720}>
-          Эталонные контейнеры с фиксированными размерами (логические px). Компонент{' '}
-          <code>AprilMobileShellBar</code> внутри кадра использует <code>position=&quot;absolute&quot;</code>; в
-          микрофронте на весь viewport — <code>position=&quot;fixed&quot;</code> (по умолчанию).
+          Эталонные контейнеры с фиксированными размерами (логические px).{' '}
+          <code>AprilMobileShellBar</code> внутри кадра — <code>position=&quot;absolute&quot;</code>; в микрофронте на
+          весь viewport — <code>position=&quot;fixed&quot;</code>. Нижний лист —{' '}
+          <code>AprilMobileBottomSheet</code> (<code>{'withinPortal={false}'}</code> в кадре); в проде обычно портал
+          по умолчанию.
         </Text>
       </Stack>
 

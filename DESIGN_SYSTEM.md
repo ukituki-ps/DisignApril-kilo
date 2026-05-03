@@ -295,6 +295,13 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - **Отступ контента:** `aprilMobileShellBarContentPaddingBottom()` и константы `APRIL_MOBILE_SHELL_BAR_*` из `@april/ui` — рекомендуемый `padding-bottom` для скроллящегося `main` (`calc` с `env(safe-area-inset-bottom)`). При многострочном `center` высота панели может вырасти — увеличьте отступ в продукте.
 - **Импорт:** `import { AprilMobileShellBar, aprilMobileShellBarContentPaddingBottom } from '@april/ui'`. Иконки в слотах — `AprilIcon*` с доступными именами (§10).
 
+### Нижний лист mobile (`AprilMobileBottomSheet`)
+
+- **Компонент:** `AprilMobileBottomSheet` — обёртка над Mantine **`Drawer`** с **`position="bottom"`**: выезжающая снизу панель с **скруглением верхних углов**, затемнённым оверлеем, анимацией `slide-up`. Нижний край листа сдвинут вверх на ту же величину, что и `padding-bottom` у контента под **`AprilMobileShellBar`** (`aprilMobileShellBarContentPaddingBottom()`), чтобы **плавающая панель управления оставалась видимой и кликабельной** поверх оверлея (`z-index`: лист по умолчанию **`APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX`**, панель — **`APRIL_MOBILE_SHELL_BAR_Z_INDEX`**).
+- **Когда использовать:** формы и контент «на пол-экрана» снизу (как в референсах bottom sheet); для **центрированных** подтверждений и форм с фиксированной шапкой действий — по-прежнему **`AprilModal`** (§11).
+- **Импорт:** `import { AprilMobileBottomSheet } from '@april/ui'`. Проброс пропсов Mantine (`opened`, `onClose`, `title`, `size`, `withCloseButton`, `withinPortal`, …) как у `Drawer`, кроме **`position`** — всегда `bottom`. Для витрины внутри кадра с `overflow: hidden` задайте **`withinPortal={false}`** (см. `MobileShowcase.tsx`).
+- **Фокус:** пока лист открыт, Mantine держит фокус внутри диалога (ловушка); **мышью/тач** нижняя панель остаётся доступна поверх оверлея. Для сценариев «сначала кнопка на панели» закройте лист или не открывайте лист на полный экран поверх панели.
+
 **Не входят в пакет (по необходимости в сервисе):** графики (`recharts`), тосты (`sonner`), анимации (`framer-motion`) — подключайте в продукте отдельно, визуал согласуйте с палитрой April.
 
 ### JSON tree и JSON Schema (дерево)

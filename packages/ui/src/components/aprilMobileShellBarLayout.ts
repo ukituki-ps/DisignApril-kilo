@@ -5,6 +5,15 @@ export const APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX = 12;
 export const APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX = 52;
 
 /**
+ * Shell bar sits above bottom sheets / modal overlays so it stays visible and clickable (April mobile pattern).
+ * Bottom sheet default: {@link APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX}.
+ */
+export const APRIL_MOBILE_SHELL_BAR_Z_INDEX = 400;
+
+/** Default `zIndex` for {@link AprilMobileBottomSheet} — below {@link APRIL_MOBILE_SHELL_BAR_Z_INDEX}. */
+export const APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX = 350;
+
+/**
  * Recommended `padding-bottom` for the scrollable main area so content clears the default shell bar
  * (margin + pill + safe-area). If the bar grows (multi-line center), increase padding in the product.
  */
