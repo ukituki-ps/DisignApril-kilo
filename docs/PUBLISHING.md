@@ -62,8 +62,8 @@
 ```json
 {
   "dependencies": {
-    "@april/ui": "npm:@ukituki-ps/april-ui@^0.1.8",
-    "@april/tokens": "npm:@ukituki-ps/april-tokens@^0.1.8"
+    "@april/ui": "npm:@ukituki-ps/april-ui@^0.1.9",
+    "@april/tokens": "npm:@ukituki-ps/april-tokens@^0.1.9"
   }
 }
 ```
