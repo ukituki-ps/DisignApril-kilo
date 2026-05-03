@@ -11,9 +11,13 @@ export type { AprilModalProps } from './components/AprilModal';
 export {
   APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX,
   APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BORDER,
   APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
   APRIL_MOBILE_SHELL_BAR_Z_INDEX,
   aprilMobileShellBarContentPaddingBottom,
+  aprilMobileShellBarDarkGreenActionStyles,
+  aprilMobileShellBarGhostWhiteBorderActionStyles,
   aprilMobileVaulBottomMaxHeight,
 } from './components/aprilMobileShellBarLayout';
 export { AprilMobileBottomSheet } from './components/AprilMobileBottomSheet';
@@ -25,6 +29,7 @@ export type {
   AprilMobileShellBarPosition,
   AprilMobileShellBarProps,
 } from './components/AprilMobileShellBar';
+export { MobileShellBarSurfaceVariantsSection } from './components/MobileShellBarSurfaceVariantsSection';
 export { AprilEcosystemSimpleCards } from './components/AprilEcosystemSimpleCards';
 export type {
   AprilEcosystemSimpleCardsProps,
@@ -49,6 +54,7 @@ export type {
   CardListColumnFilterModalRenderProps,
   CardListColumnFilterOption,
   CardListColumnItem,
+  CardListColumnMobileLayout,
   CardListColumnMode,
   CardListColumnProps,
   CardListColumnSortDirectionOption,

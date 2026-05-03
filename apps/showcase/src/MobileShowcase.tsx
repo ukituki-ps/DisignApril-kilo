@@ -38,10 +38,14 @@ import {
   AprilIconPlus,
   AprilIconSearch,
   aprilMobileShellBarContentPaddingBottom,
+  aprilMobileShellBarGhostWhiteBorderActionStyles,
+  CardListColumn,
+  MobileShellBarSurfaceVariantsSection,
   useDensity,
+  type CardListColumnItem,
 } from '@ukituki-ps/april-ui';
 
-type MobileSectionId = 'home' | 'list' | 'modal' | 'modal-alert';
+type MobileSectionId = 'home' | 'list' | 'modal' | 'modal-alert' | 'card-column' | 'shell-variants';
 
 type MobileSection = {
   id: MobileSectionId;
@@ -70,7 +74,26 @@ const SECTIONS: MobileSection[] = [
     title: 'Bottom sheet — алерт',
     description: 'Подтверждение с опасным действием',
   },
+  {
+    id: 'card-column',
+    title: 'Колонка карточек',
+    description: 'CardListColumn: сетка в одну колонку, AprilMobileShellBar, Vaul',
+  },
+  {
+    id: 'shell-variants',
+    title: 'Панели — варианты',
+    description: 'Поверхности и слоты: табы, бесцветные иконки, кнопки как в UIKit',
+  },
 ];
+
+const MOBILE_CARD_LIST_ITEMS: CardListColumnItem[] = Array.from({ length: 18 }, (_, i) => {
+  const n = i + 1;
+  return {
+    id: `mobile-lab-card-${n}`,
+    title: `Задача ${n}`,
+    description: `Демо mobile: элемент ${n} колонки списка карточек.`,
+  };
+});
 
 /** Плотность, тема и выход в UIKit — дублируем в «системной» шапке mobile-lab (глобальный TopBar скрыт). */
 function MobileLabToolbar({ onOpenUIKit }: { onOpenUIKit: () => void }) {
@@ -147,7 +170,12 @@ function MobileSectionLayout({
   children: ReactNode;
 }) {
   const defaultLeading = (
-    <ActionIcon size="lg" variant="subtle" color="gray" aria-label="К разделам" onClick={onBackToMenu}>
+    <ActionIcon
+      size="lg"
+      variant="default"
+      styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+      aria-label="К разделам"
+      onClick={onBackToMenu}>
       <AprilIconChevronLeft size={20} aria-hidden />
     </ActionIcon>
   );
@@ -260,7 +288,12 @@ function PageHome({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar
 
   const shellLeading = (
     <Tooltip label="К разделам" events={{ hover: true, focus: true, touch: true }}>
-      <ActionIcon size="lg" variant="subtle" color="gray" aria-label="К разделам" onClick={onBackToMenu}>
+      <ActionIcon
+        size="lg"
+        variant="default"
+        styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+        aria-label="К разделам"
+        onClick={onBackToMenu}>
         <Menu size={20} aria-hidden />
       </ActionIcon>
     </Tooltip>
@@ -287,7 +320,11 @@ function PageHome({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar
               ]}
             />
           </Box>
-          <ActionIcon variant="light" color="teal" size="lg" aria-label="Добавить">
+          <ActionIcon
+            variant="default"
+            styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+            size="lg"
+            aria-label="Добавить">
             <AprilIconPlus size={20} aria-hidden />
           </ActionIcon>
         </Group>
@@ -315,7 +352,11 @@ function PageList({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar
       toolbar={toolbar}
       shellCenter={
         <Group gap="xs" justify="center" wrap="nowrap" style={{ width: '100%' }}>
-          <ActionIcon size="lg" variant="default" aria-label="Фильтр списка">
+          <ActionIcon
+            size="lg"
+            variant="default"
+            styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+            aria-label="Фильтр списка">
             <AprilIconClipboardList size={20} aria-hidden />
           </ActionIcon>
         </Group>
@@ -357,23 +398,41 @@ function PageModal({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolba
   const shellCenter = opened ? (
     <Group justify="flex-end" wrap="nowrap" gap={4} style={{ width: '100%' }}>
       <Tooltip label="Отмена" events={{ hover: true, focus: true, touch: true }}>
-        <ActionIcon variant="default" size="lg" radius="md" aria-label="Отмена" onClick={closeSheet}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Отмена"
+          onClick={closeSheet}>
           <CircleX size={20} aria-hidden />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Сохранить" events={{ hover: true, focus: true, touch: true }}>
-        <ActionIcon variant="filled" color="teal" size="lg" radius="md" aria-label="Сохранить" onClick={closeSheet}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Сохранить"
+          onClick={closeSheet}>
           <Check size={20} aria-hidden />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Закрыть" events={{ hover: true, focus: true, touch: true }}>
-        <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Закрыть" onClick={closeSheet}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть"
+          onClick={closeSheet}>
           <X size={20} aria-hidden />
         </ActionIcon>
       </Tooltip>
     </Group>
   ) : (
-    <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
+    <Text size="sm" truncate ta="center" style={{ width: '100%', color: 'rgba(255, 255, 255, 0.88)' }}>
       Демо формы
     </Text>
   );
@@ -410,6 +469,91 @@ function PageModal({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolba
   );
 }
 
+function PageShellVariants({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar: ReactNode }) {
+  return (
+    <Box
+      style={{
+        flex: 1,
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        height: '100%',
+        width: '100%',
+      }}>
+      <AprilProductHeader
+        sticky
+        left={
+          <Group gap="sm" wrap="nowrap" align="center">
+            <ActionIcon
+              variant="default"
+              size="md"
+              radius="md"
+              aria-label="К меню разделов"
+              onClick={onBackToMenu}>
+              <AprilIconChevronLeft size={20} aria-hidden />
+            </ActionIcon>
+            <Text fw={700} size="md" truncate>
+              Панели — варианты
+            </Text>
+          </Group>
+        }
+        logoSrc={null}
+        right={toolbar}
+      />
+      <ScrollArea type="auto" style={{ flex: 1, minHeight: 0 }}>
+        <Box px="md" py="sm" pb="xl">
+          <MobileShellBarSurfaceVariantsSection />
+        </Box>
+      </ScrollArea>
+    </Box>
+  );
+}
+
+function PageCardListColumn({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar: ReactNode }) {
+  const shellLeading = (
+    <Tooltip label="К разделам" events={{ hover: true, focus: true, touch: true }}>
+      <ActionIcon
+        size="lg"
+        variant="default"
+        styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+        aria-label="К разделам"
+        onClick={onBackToMenu}>
+        <AprilIconChevronLeft size={20} aria-hidden />
+      </ActionIcon>
+    </Tooltip>
+  );
+
+  return (
+    <Box
+      style={{
+        flex: 1,
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        height: '100%',
+        width: '100%',
+      }}>
+      <AprilProductHeader sticky productName="Колонка карточек" right={toolbar} />
+      <Box style={{ flex: 1, minHeight: 0, position: 'relative', boxSizing: 'border-box' }}>
+        <CardListColumn
+          title="Бэклог"
+          mode="inline"
+          items={MOBILE_CARD_LIST_ITEMS}
+          heightMode="fill"
+          mobileLayout="on"
+          mobileShellBarPosition="fixed"
+          mobileShellLeading={shellLeading}
+          withPaperBorder={false}
+          totalItems={MOBILE_CARD_LIST_ITEMS.length}
+          loadedItemsCount={MOBILE_CARD_LIST_ITEMS.length}
+        />
+      </Box>
+    </Box>
+  );
+}
+
 function PageModalAlert({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar: ReactNode }) {
   const [opened, setOpened] = useState(false);
 
@@ -420,7 +564,13 @@ function PageModalAlert({ onBackToMenu, toolbar }: { onBackToMenu: () => void; t
   const shellCenter = opened ? (
     <Group justify="flex-end" wrap="nowrap" gap={4} style={{ width: '100%' }}>
       <Tooltip label="Отмена" events={{ hover: true, focus: true, touch: true }}>
-        <ActionIcon variant="default" size="lg" radius="md" aria-label="Отмена" onClick={closeSheet}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Отмена"
+          onClick={closeSheet}>
           <CircleX size={20} aria-hidden />
         </ActionIcon>
       </Tooltip>
@@ -430,13 +580,19 @@ function PageModalAlert({ onBackToMenu, toolbar }: { onBackToMenu: () => void; t
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Закрыть" events={{ hover: true, focus: true, touch: true }}>
-        <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Закрыть" onClick={closeSheet}>
+        <ActionIcon
+          variant="default"
+          styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
+          size="lg"
+          radius="md"
+          aria-label="Закрыть"
+          onClick={closeSheet}>
           <X size={20} aria-hidden />
         </ActionIcon>
       </Tooltip>
     </Group>
   ) : (
-    <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
+    <Text size="sm" truncate ta="center" style={{ width: '100%', color: 'rgba(255, 255, 255, 0.88)' }}>
       Подтверждение
     </Text>
   );
@@ -487,6 +643,10 @@ export function MobileShowcase({ onRequestUIKit }: MobileShowcaseProps) {
         <PageList onBackToMenu={() => setView('menu')} toolbar={toolbar} />
       ) : view === 'modal' ? (
         <PageModal onBackToMenu={() => setView('menu')} toolbar={toolbar} />
+      ) : view === 'card-column' ? (
+        <PageCardListColumn onBackToMenu={() => setView('menu')} toolbar={toolbar} />
+      ) : view === 'shell-variants' ? (
+        <PageShellVariants onBackToMenu={() => setView('menu')} toolbar={toolbar} />
       ) : (
         <PageModalAlert onBackToMenu={() => setView('menu')} toolbar={toolbar} />
       )}

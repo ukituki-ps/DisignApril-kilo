@@ -610,6 +610,28 @@ describe('CardListColumn', () => {
     expect(screen.getByLabelText('Следующий вид: сетку карточек')).toBeTruthy();
   });
 
+  it('mobileLayout on: AprilMobileShellBar and no inline search in Paper', () => {
+    renderCardListColumn(
+      <div style={{ height: 480 }}>
+        <CardListColumn
+          title="Inbox"
+          mode="inline"
+          items={items}
+          withAdd={false}
+          mobileLayout="on"
+          heightMode="fill"
+        />
+      </div>
+    );
+
+    expect(document.querySelector('[data-april-mobile-shell-bar]')).toBeTruthy();
+    const paper = screen.getByText('Inbox').closest('.mantine-Paper-root');
+    expect(paper).toBeTruthy();
+    expect(within(paper as HTMLElement).queryByLabelText('Поиск по карточкам')).toBeNull();
+    expect(screen.queryByLabelText('Следующий вид: сетку карточек')).toBeNull();
+    expect(screen.getByLabelText('Открыть фильтры')).toBeTruthy();
+  });
+
   it('selects and deselects item by click', async () => {
     const user = userEvent.setup();
     const onSelectItem = vi.fn();

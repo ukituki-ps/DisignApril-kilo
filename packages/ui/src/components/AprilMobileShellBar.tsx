@@ -12,8 +12,11 @@ import { ActionIcon, Box, Group, Paper, TextInput } from '@mantine/core';
 import { AprilIconClose, AprilIconSearch } from '../icons';
 import {
   APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND,
+  APRIL_MOBILE_SHELL_BAR_PAPER_BORDER,
   APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
   APRIL_MOBILE_SHELL_BAR_Z_INDEX,
+  aprilMobileShellBarGhostWhiteBorderActionStyles,
 } from './aprilMobileShellBarLayout';
 
 export type AprilMobileShellBarPosition = 'fixed' | 'absolute';
@@ -94,13 +97,14 @@ const PAPER_SHADOW = 'var(--mantine-shadow-md)';
 const defaultPaperStyle: CSSProperties = {
   pointerEvents: 'auto',
   minHeight: APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
-  border: '1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4))',
-  backgroundColor: 'light-dark(var(--mantine-color-white), var(--mantine-color-dark-6))',
+  border: APRIL_MOBILE_SHELL_BAR_PAPER_BORDER,
+  backgroundColor: APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND,
   boxShadow: PAPER_SHADOW,
 };
 
 /**
  * April mobile shell: **single** floating bottom bar (§8 Mobile) with **leading | center | search** slots.
+ * Панель — бирюза 9; встроенные кнопки поиска — бесцветные с белой границей ({@link aprilMobileShellBarGhostWhiteBorderActionStyles}).
  * Built-in search expands the center into a `TextInput`; **Escape** collapses and returns focus to the trigger.
  *
  * **Single active context (DS norm):** at any time, `leading` / `center` / search must reflect **one** UI layer only —
@@ -223,10 +227,10 @@ export function AprilMobileShellBar({
           {withSearch ? (
             showExpandedSearch ? (
               <ActionIcon
-                variant="subtle"
-                color="gray"
+                variant="default"
                 size="lg"
                 radius="xl"
+                styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
                 aria-label="Закрыть поиск"
                 onClick={() => {
                   setSearchExpanded(false);
@@ -237,10 +241,10 @@ export function AprilMobileShellBar({
             ) : (
               <ActionIcon
                 ref={searchTriggerRef}
-                variant="light"
-                color="teal"
+                variant="default"
                 size="lg"
                 radius="xl"
+                styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
                 aria-label="Открыть поиск"
                 aria-expanded={false}
                 onClick={() => setSearchExpanded(true)}>

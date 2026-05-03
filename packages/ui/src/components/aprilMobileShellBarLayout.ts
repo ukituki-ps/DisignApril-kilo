@@ -1,3 +1,5 @@
+import type { ActionIconProps } from '@mantine/core';
+
 /** Default margin from viewport bottom to the floating pill (above `env(safe-area-inset-bottom)`). */
 export const APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX = 12;
 
@@ -28,3 +30,35 @@ export function aprilMobileShellBarContentPaddingBottom(): string {
 export function aprilMobileVaulBottomMaxHeight(): string {
   return `calc(100dvh - ${APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX}px - ${APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX}px - env(safe-area-inset-bottom, 0px))`;
 }
+
+/** Панель: «Бирюза 9» (DESIGN_SYSTEM / ColorPalette). */
+export const APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND = 'var(--mantine-color-teal-9)';
+
+/** Лёгкая кромка на насыщенном teal. */
+export const APRIL_MOBILE_SHELL_BAR_PAPER_BORDER = '1px solid rgba(255, 255, 255, 0.2)';
+
+/**
+ * Кнопки на нижней панели при фоне {@link APRIL_MOBILE_SHELL_BAR_PAPER_BACKGROUND} (teal.9): без заливки, белая кромка, светлая иконка.
+ * Используйте с `variant="default"` (корень переопределяется стилями).
+ */
+export const aprilMobileShellBarGhostWhiteBorderActionStyles: NonNullable<ActionIconProps['styles']> = {
+  root: {
+    backgroundColor: 'transparent',
+    color: 'rgba(255, 255, 255, 0.92)',
+    border: '1px solid rgba(255, 255, 255, 0.55)',
+    '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+  },
+};
+
+/**
+ * Тёмно-зелёная заливка (демо «продуктовые иконки» в витрине вариантов панели).
+ * В основном UI панели см. {@link aprilMobileShellBarGhostWhiteBorderActionStyles}.
+ */
+export const aprilMobileShellBarDarkGreenActionStyles: NonNullable<ActionIconProps['styles']> = {
+  root: {
+    backgroundColor: 'var(--mantine-color-green-9)',
+    color: 'var(--mantine-color-white)',
+    border: 'none',
+    '&:hover': { backgroundColor: 'var(--mantine-color-green-8)' },
+  },
+};

@@ -1,7 +1,7 @@
 ## Мета
 - ID / ветка: `DS-013` / `feature/ds-013-card-list-column-mobile`
 - Приоритет: medium
-- Статус: todo
+- Статус: done
 - Связанные документы: `DESIGN_SYSTEM.md` (§6 плотность / touch, §8 Mobile, §10 a11y, §11 `AprilMobileShellBar`, `AprilVaulBottomSheet`, `AprilModal`, паттерн форм mobile), `docs/COMPONENT_STANDARDS.md`, `docs/AGENT_TASK_TEMPLATE.md`, `docs/DEVELOPMENT_WORKFLOW.md`, `tasks/ds-011-card-list-column-views/TASK.md`, `tasks/ds-012-mobile-bottom-panel/TASK.md`, `tasks/ds-010-modal-header-actions/TASK.md`, §13 паттерн Card List Column
 
 ## Цель
@@ -50,11 +50,11 @@
 - Не смешивать в **`AprilMobileShellBar`** глобальные табы приложения с кнопками модалки колонки на одном экране-демо без явного сценария «только контекст колонки».
 
 ## Критерии готовности
-- [ ] На узком viewport (или по пропу) колонка ведёт себя согласно постановке: одна колонка карточек, тулбар в нижней панели по паттерну DS.
-- [ ] Модалки/листы сценариев колонки на mobile согласованы с §11 и правилом одного контекста в панели.
-- [ ] Обновлены `DESIGN_SYSTEM.md` §13 (и при необходимости §8), Mobile lab, smoke-тесты.
-- [ ] `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test` проходят.
-- [ ] Отчёт: `tasks/ds-013-card-list-column-mobile/REPORT.md` по `docs/AGENT_REPORT_TEMPLATE.md`.
+- [x] На узком viewport (или по пропу) колонка ведёт себя согласно постановке: одна колонка карточек, тулбар в нижней панели по паттерну DS.
+- [x] Модалки/листы сценариев колонки на mobile согласованы с §11 и правилом одного контекста в панели.
+- [x] Обновлены `DESIGN_SYSTEM.md` §13 (и при необходимости §8), Mobile lab, smoke-тесты.
+- [x] `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test` проходят.
+- [x] Отчёт: `tasks/ds-013-card-list-column-mobile/REPORT.md` по `docs/AGENT_REPORT_TEMPLATE.md`.
 
 ## Проверка
 ```bash
