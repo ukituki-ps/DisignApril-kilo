@@ -120,13 +120,33 @@ function Shell() {
 
   return (
     <AppShell
-      header={{
-        height: 60
-      }}
-      padding="md">
-      <TopBar mode={mode} onModeChange={setMode} />
+      header={mode === 'uikit' ? { height: 60 } : undefined}
+      padding={mode === 'uikit' ? 'md' : 0}
+      styles={{
+        root: {
+          minHeight: '100dvh',
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        ...(mode === 'mobile'
+          ? {
+              main: {
+                flex: 1,
+                minHeight: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                padding: 0,
+              },
+            }
+          : {}),
+      }}>
+      {mode === 'uikit' ? <TopBar mode={mode} onModeChange={setMode} /> : null}
       <AppShell.Main bg="var(--mantine-color-body)">
-        {mode === 'uikit' ? <UIKit /> : <MobileShowcase />}
+        {mode === 'uikit' ? (
+          <UIKit />
+        ) : (
+          <MobileShowcase onRequestUIKit={() => setMode('uikit')} />
+        )}
       </AppShell.Main>
     </AppShell>
   );

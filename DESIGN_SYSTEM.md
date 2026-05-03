@@ -216,7 +216,7 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 
 #### Витрина и проверка
 
-В `@april/showcase` — вкладка **Mobile lab** в шапке витрины: `apps/showcase/src/MobileShowcase.tsx` — **список разделов** (главная, список, модалка, модалка-алерт) и по нажатию **полноэкранное демо** в области просмотра (рамка до ~430px, `AprilMobileShellBar` с `position="absolute"` внутри неё); сценарии: нижняя панель, нижний лист, `AprilModal` с повышенным `z-index`. Для нижней панели и поиска — §10. Опционально — точечные **e2e** / **a11y**-прогоны (как в §10 «Рост библиотеки»).
+В `@april/showcase` — режим **Mobile lab** (`apps/showcase/src/MobileShowcase.tsx`): глобальная шапка витрины **скрыта**, внутри — **список разделов** и демо-экраны с **`AprilProductHeader`** (системная шапка), прокруткой контента и **`AprilMobileShellBar`** с **`position="fixed"`** у низа viewport; «Назад» — в слоте `leading` панели. Сценарии: нижний лист (`AprilMobileBottomSheet`), `AprilModal` с повышенным `z-index`. Для нижней панели и поиска — §10. Опционально — **e2e** / **a11y** (как в §10 «Рост библиотеки»).
 
 ---
 
