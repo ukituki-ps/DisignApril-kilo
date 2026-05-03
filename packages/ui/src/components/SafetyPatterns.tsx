@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Stack, Group, Button, Text, TextInput, Notification, Box } from '@mantine/core';
+import { Stack, Group, Button, Text, TextInput, Notification, Box, ActionIcon } from '@mantine/core';
 import { TrashIcon, RotateCcwIcon } from 'lucide-react';
-import { AprilIconTrash, AprilIconWarning } from '../icons';
+import { AprilIconClose, AprilIconTrash, AprilIconWarning } from '../icons';
 import { useDensity } from '../DensityContext';
 import { AprilModal } from './AprilModal';
 export function SafetyPatterns() {
@@ -11,6 +11,7 @@ export function SafetyPatterns() {
   const { density } = useDensity();
   const isCompact = density === 'compact';
   const size = isCompact ? 'xs' : 'sm';
+  const actionIconSize = isCompact ? 'md' : 'lg';
   const projectName = 'Альфа';
   const handleDelete = () => {
     setDeleteModalOpened(false);
@@ -81,18 +82,25 @@ export function SafetyPatterns() {
         }
         headerActions={
           <>
-            <Button variant="default" onClick={() => setDeleteModalOpened(false)} size={size}>
-              Отмена
-            </Button>
-            <Button
+            <ActionIcon
+              variant="default"
+              size={actionIconSize}
+              onClick={() => setDeleteModalOpened(false)}
+              aria-label="Отменить удаление"
+              title="Отмена"
+            >
+              <AprilIconClose size={18} aria-hidden />
+            </ActionIcon>
+            <ActionIcon
               color="red"
+              size={actionIconSize}
               disabled={confirmText !== projectName}
               onClick={handleDelete}
-              size={size}
-              leftSection={<AprilIconTrash size={16} aria-hidden />}
+              aria-label="Удалить проект безвозвратно"
+              title="Удалить безвозвратно"
             >
-              Удалить
-            </Button>
+              <AprilIconTrash size={18} aria-hidden />
+            </ActionIcon>
           </>
         }
         centered

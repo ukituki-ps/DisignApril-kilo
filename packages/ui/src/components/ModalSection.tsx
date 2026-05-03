@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button, TextInput, Textarea, Stack, Select, Text } from '@mantine/core';
-import { AprilIconCheck } from '../icons';
+import { ActionIcon, Button, TextInput, Textarea, Stack, Select, Text } from '@mantine/core';
+import { AprilIconCheck, AprilIconClose } from '../icons';
 import { useDensity } from '../DensityContext';
 import { AprilModal } from './AprilModal';
 
@@ -9,6 +9,7 @@ export function ModalSection() {
   const { density } = useDensity();
   const isCompact = density === 'compact';
   const size = isCompact ? 'xs' : 'sm';
+  const actionIconSize = isCompact ? 'md' : 'lg';
   return (
     <>
       <Button onClick={() => setOpened(true)}>Открыть пример модального окна</Button>
@@ -19,12 +20,25 @@ export function ModalSection() {
         headerTitle="Создать проект"
         headerActions={
           <>
-            <Button variant="default" onClick={() => setOpened(false)} size={size}>
-              Отмена
-            </Button>
-            <Button onClick={() => setOpened(false)} size={size} leftSection={<AprilIconCheck size={16} aria-hidden />}>
-              Создать проект
-            </Button>
+            <ActionIcon
+              variant="default"
+              size={actionIconSize}
+              onClick={() => setOpened(false)}
+              aria-label="Отменить создание проекта"
+              title="Отмена"
+            >
+              <AprilIconClose size={18} aria-hidden />
+            </ActionIcon>
+            <ActionIcon
+              variant="filled"
+              color="teal"
+              size={actionIconSize}
+              onClick={() => setOpened(false)}
+              aria-label="Создать проект"
+              title="Создать проект"
+            >
+              <AprilIconCheck size={18} aria-hidden />
+            </ActionIcon>
           </>
         }
         size="md"

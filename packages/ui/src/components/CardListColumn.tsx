@@ -22,6 +22,7 @@ import {
   SearchIcon,
   XIcon,
 } from 'lucide-react';
+import { AprilIconCheck, AprilIconRotateCcw } from '../icons';
 import { useDensity } from '../DensityContext';
 import { AprilModal } from './AprilModal';
 
@@ -537,12 +538,26 @@ export function CardListColumn({
         headerActions={
           renderFilterModal ? undefined : (
             <>
-              <Button size={isCompactDensity ? 'xs' : 'sm'} variant="light" onClick={resetFilter}>
-                Сбросить
-              </Button>
-              <Button size={isCompactDensity ? 'xs' : 'sm'} onClick={applyFilter}>
-                Применить
-              </Button>
+              <ActionIcon
+                variant="light"
+                color="gray"
+                size={isCompactDensity ? 'md' : 'lg'}
+                onClick={resetFilter}
+                aria-label="Сбросить фильтр"
+                title="Сбросить"
+              >
+                <AprilIconRotateCcw size={18} aria-hidden />
+              </ActionIcon>
+              <ActionIcon
+                variant="filled"
+                color="teal"
+                size={isCompactDensity ? 'md' : 'lg'}
+                onClick={applyFilter}
+                aria-label="Применить фильтр"
+                title="Применить"
+              >
+                <AprilIconCheck size={18} aria-hidden />
+              </ActionIcon>
             </>
           )
         }
@@ -556,12 +571,26 @@ export function CardListColumn({
         headerActions={
           renderSortModal ? undefined : (
             <>
-              <Button size={isCompactDensity ? 'xs' : 'sm'} variant="light" onClick={resetSort}>
-                Сбросить
-              </Button>
-              <Button size={isCompactDensity ? 'xs' : 'sm'} onClick={applySort}>
-                Применить
-              </Button>
+              <ActionIcon
+                variant="light"
+                color="gray"
+                size={isCompactDensity ? 'md' : 'lg'}
+                onClick={resetSort}
+                aria-label="Сбросить сортировку"
+                title="Сбросить"
+              >
+                <AprilIconRotateCcw size={18} aria-hidden />
+              </ActionIcon>
+              <ActionIcon
+                variant="filled"
+                color="teal"
+                size={isCompactDensity ? 'md' : 'lg'}
+                onClick={applySort}
+                aria-label="Применить сортировку"
+                title="Применить"
+              >
+                <AprilIconCheck size={18} aria-hidden />
+              </ActionIcon>
             </>
           )
         }
