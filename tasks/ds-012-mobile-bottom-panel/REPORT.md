@@ -11,7 +11,7 @@
 - **[ui]** Добавлен `AprilMobileShellBar`: слоты `leading` / `center`, встроенный поиск (`withSearch`), `Escape`, safe-area, `position` `fixed` | `absolute`, контролируемые и неконтролируемые режимы для раскрытия поиска и строки запроса.
 - **[ui]** Вынесены константы и `aprilMobileShellBarContentPaddingBottom()` в `aprilMobileShellBarLayout.ts` (без предупреждения react-refresh о смешении констант и компонента в одном файле).
 - **[ui]** Smoke-тест `AprilMobileShellBar.smoke.test.tsx`.
-- **[showcase]** `MobileShowcase.tsx`: два кадра **390×844** и **360×800**, демо «корень» (табы + действие + поиск) и drill-down (назад + действие + поиск + `AprilModal`; панель скрыта при открытой модалке — демо-правило витрины).
+- **[showcase]** `MobileShowcase.tsx`: эволюция — **меню разделов** и полноэкранные демо-страницы в рамке ~430px (ранее два фиксированных кадра 390×844 / 360×800).
 - **[showcase]** В `App.tsx` вкладки **UIKit** / **Mobile lab** в шапке.
 - **[docs]** `DESIGN_SYSTEM.md` §11 подпункт про `AprilMobileShellBar`; §8 «Витрина» — ссылка на `MobileShowcase.tsx` и вкладку Mobile lab.
 - **[tasks]** `PLAN.md` актуализирован; `TASK.md` — критерии выполнены.
