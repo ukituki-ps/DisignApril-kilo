@@ -14,11 +14,22 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
-import { AlignJustify, LayoutGrid, Menu, Moon, Rows3, Sun } from 'lucide-react';
+import {
+  AlignJustify,
+  Check,
+  CircleX,
+  LayoutGrid,
+  Menu,
+  Moon,
+  Rows3,
+  Sun,
+  Trash2,
+  X,
+} from 'lucide-react';
 import {
   AprilGradientSegmentedControl,
-  AprilModal,
   AprilMobileBottomSheet,
+  AprilVaulBottomSheet,
   AprilMobileShellBar,
   AprilProductHeader,
   AprilIconChevronLeft,
@@ -51,12 +62,12 @@ const SECTIONS: MobileSection[] = [
   },
   {
     id: 'modal',
-    title: 'Модалка',
-    description: 'AprilModal — форма, действия в шапке',
+    title: 'Bottom sheet',
+    description: 'AprilVaulBottomSheet — форма, действия в шапке',
   },
   {
     id: 'modal-alert',
-    title: 'Модалка — алерт',
+    title: 'Bottom sheet — алерт',
     description: 'Подтверждение с опасным действием',
   },
 ];
@@ -121,13 +132,17 @@ function MobileSectionLayout({
   onBackToMenu,
   shellLeading,
   shellCenter,
+  shellWithSearch = true,
   toolbar,
   children,
 }: {
   title: string;
   onBackToMenu: () => void;
-  shellLeading?: ReactNode;
+  /** `undefined` — стрелка «к разделам»; `null` — без ведущего слота (например лист открыт, действия справа). */
+  shellLeading?: ReactNode | null;
   shellCenter: ReactNode;
+  /** Пока лист открыт — часто `false`, чтобы в `center` поместились кнопки без конкуренции с поиском. */
+  shellWithSearch?: boolean;
   toolbar: ReactNode;
   children: ReactNode;
 }) {
@@ -179,7 +194,12 @@ function MobileSectionLayout({
             {children}
           </Box>
         </ScrollArea>
-        <AprilMobileShellBar position="fixed" leading={shellLeading ?? defaultLeading} center={shellCenter} />
+        <AprilMobileShellBar
+          position="fixed"
+          leading={shellLeading === undefined ? defaultLeading : shellLeading}
+          center={shellCenter}
+          withSearch={shellWithSearch}
+        />
       </Box>
     </Box>
   );
@@ -313,7 +333,7 @@ function PageList({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar
           </Text>
         </Group>
       ))}
-      <AprilMobileBottomSheet opened={sheetOpen} onClose={() => setSheetOpen(false)} title="Детали" size="70%">
+      <AprilMobileBottomSheet opened={sheetOpen} onClose={() => setSheetOpen(false)} title="Детали" size="85%">
         <Stack gap="md">
           <Text size="sm">Контент нижнего листа. Нижняя панель остаётся на месте.</Text>
           <Group justify="flex-end" gap="xs" pt="md">
@@ -330,51 +350,62 @@ function PageList({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar
 function PageModal({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar: ReactNode }) {
   const [opened, setOpened] = useState(false);
 
+  const closeSheet = () => setOpened(false);
+
+  const shellLeading = opened ? null : undefined;
+
+  const shellCenter = opened ? (
+    <Group justify="flex-end" wrap="nowrap" gap={4} style={{ width: '100%' }}>
+      <Tooltip label="Отмена" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="default" size="lg" radius="md" aria-label="Отмена" onClick={closeSheet}>
+          <CircleX size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Сохранить" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="filled" color="teal" size="lg" radius="md" aria-label="Сохранить" onClick={closeSheet}>
+          <Check size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Закрыть" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Закрыть" onClick={closeSheet}>
+          <X size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  ) : (
+    <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
+      Демо формы
+    </Text>
+  );
+
   return (
     <MobileSectionLayout
-      title="Модалка"
+      title="Bottom sheet"
       onBackToMenu={onBackToMenu}
+      shellLeading={shellLeading}
       toolbar={toolbar}
-      shellCenter={
-        <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
-          Демо формы
-        </Text>
-      }>
+      shellCenter={shellCenter}
+      shellWithSearch={!opened}>
       <Text size="sm" c="dimmed">
-        <code>AprilModal</code> с <code>{'zIndex={520}'}</code> поверх панели.
+        <code>AprilVaulBottomSheet</code> (mantine-vaul): выезд снизу, свайп. Пока лист открыт — иконки действий и
+        закрытие в <code>AprilMobileShellBar</code> справа (как вторичное / основное / крестик у десктоп-модалки).
       </Text>
       <Button mt="md" onClick={() => setOpened(true)}>
-        Открыть модальное окно
+        Открыть bottom sheet
       </Button>
       {Array.from({ length: 12 }, (_, i) => (
         <Text key={i} size="sm" mt="sm">
           Строка {i + 1}
         </Text>
       ))}
-      <AprilModal
-        zIndex={520}
-        opened={opened}
-        onClose={() => setOpened(false)}
-        headerTitle="Новая запись"
-        headerActions={
-          <>
-            <Button variant="default" size="xs" onClick={() => setOpened(false)}>
-              Отмена
-            </Button>
-            <Button size="xs" onClick={() => setOpened(false)}>
-              Сохранить
-            </Button>
-          </>
-        }
-        size="md"
-        centered>
+      <AprilVaulBottomSheet opened={opened} onClose={closeSheet} headerTitle="Новая запись" withCloseButton={false}>
         <Stack gap="sm">
           <TextInput label="Название" placeholder="Введите текст" size="sm" />
           <Text size="xs" c="dimmed">
-            Действия в шапке — DS-010.
+            Крестик и кнопки — только в нижней панели.
           </Text>
         </Stack>
-      </AprilModal>
+      </AprilVaulBottomSheet>
     </MobileSectionLayout>
   );
 }
@@ -382,39 +413,49 @@ function PageModal({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolba
 function PageModalAlert({ onBackToMenu, toolbar }: { onBackToMenu: () => void; toolbar: ReactNode }) {
   const [opened, setOpened] = useState(false);
 
+  const closeSheet = () => setOpened(false);
+
+  const shellLeading = opened ? null : undefined;
+
+  const shellCenter = opened ? (
+    <Group justify="flex-end" wrap="nowrap" gap={4} style={{ width: '100%' }}>
+      <Tooltip label="Отмена" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="default" size="lg" radius="md" aria-label="Отмена" onClick={closeSheet}>
+          <CircleX size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Удалить" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="filled" color="red" size="lg" radius="md" aria-label="Удалить" onClick={closeSheet}>
+          <Trash2 size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Закрыть" events={{ hover: true, focus: true, touch: true }}>
+        <ActionIcon variant="subtle" color="gray" size="lg" radius="md" aria-label="Закрыть" onClick={closeSheet}>
+          <X size={20} aria-hidden />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
+  ) : (
+    <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
+      Подтверждение
+    </Text>
+  );
+
   return (
     <MobileSectionLayout
-      title="Модалка — алерт"
+      title="Bottom sheet — алерт"
       onBackToMenu={onBackToMenu}
+      shellLeading={shellLeading}
       toolbar={toolbar}
-      shellCenter={
-        <Text size="sm" c="dimmed" truncate ta="center" style={{ width: '100%' }}>
-          Подтверждение
-        </Text>
-      }>
-      <Text size="sm">Компактный диалог удаления.</Text>
+      shellCenter={shellCenter}
+      shellWithSearch={!opened}>
+      <Text size="sm">Компактный диалог удаления; иконки справа в нижней панели.</Text>
       <Button color="red" variant="light" mt="md" onClick={() => setOpened(true)}>
         Удалить объект…
       </Button>
-      <AprilModal
-        zIndex={520}
-        opened={opened}
-        onClose={() => setOpened(false)}
-        headerTitle="Удалить запись?"
-        headerActions={
-          <>
-            <Button variant="default" size="xs" onClick={() => setOpened(false)}>
-              Отмена
-            </Button>
-            <Button color="red" size="xs" onClick={() => setOpened(false)}>
-              Удалить
-            </Button>
-          </>
-        }
-        size="sm"
-        centered>
+      <AprilVaulBottomSheet opened={opened} onClose={closeSheet} headerTitle="Удалить запись?" withCloseButton={false}>
         <Text size="sm">Это действие нельзя отменить. Продолжить?</Text>
-      </AprilModal>
+      </AprilVaulBottomSheet>
     </MobileSectionLayout>
   );
 }

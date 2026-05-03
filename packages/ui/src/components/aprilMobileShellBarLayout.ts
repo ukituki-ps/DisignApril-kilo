@@ -20,3 +20,11 @@ export const APRIL_MOBILE_BOTTOM_SHEET_Z_INDEX = 350;
 export function aprilMobileShellBarContentPaddingBottom(): string {
   return `calc(${APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX}px + ${APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX}px + env(safe-area-inset-bottom, 0px))`;
 }
+
+/**
+ * Max height for a fixed bottom sheet (e.g. Vaul) so it does not extend under {@link AprilMobileShellBar}.
+ * Pairs with `bottom: {@link aprilMobileShellBarContentPaddingBottom}` on the sheet container.
+ */
+export function aprilMobileVaulBottomMaxHeight(): string {
+  return `calc(100dvh - ${APRIL_MOBILE_SHELL_BAR_MARGIN_BOTTOM_PX}px - ${APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX}px - env(safe-area-inset-bottom, 0px))`;
+}

@@ -11,7 +11,7 @@
 ## 2. Документы по развитию
 
 - `docs/PUBLISHING.md` - выпуск `@ukituki-ps/april-*` в GitHub Packages, npm-алиасы для импортов `@april/*`, `.npmrc`.
-- `docs/COMPONENT_STANDARDS.md` - критерии качества API компонента до merge.
+- `docs/COMPONENT_STANDARDS.md` - критерии качества API компонента до merge (в т.ч. mobile: нижняя панель — один контекст, см. `DESIGN_SYSTEM.md` §8).
 - `docs/TESTING_STRATEGY.md` - уровни тестирования, quality gate и команды запуска тестов.
 - `docs/ROADMAP.md` - инициативы по развитию и ожидаемый результат.
 

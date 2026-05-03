@@ -14,9 +14,12 @@ export {
   APRIL_MOBILE_SHELL_BAR_PILL_MIN_HEIGHT_PX,
   APRIL_MOBILE_SHELL_BAR_Z_INDEX,
   aprilMobileShellBarContentPaddingBottom,
+  aprilMobileVaulBottomMaxHeight,
 } from './components/aprilMobileShellBarLayout';
 export { AprilMobileBottomSheet } from './components/AprilMobileBottomSheet';
 export type { AprilMobileBottomSheetProps } from './components/AprilMobileBottomSheet';
+export { AprilVaulBottomSheet } from './components/AprilVaulBottomSheet';
+export type { AprilVaulBottomSheetProps } from './components/AprilVaulBottomSheet';
 export { AprilMobileShellBar } from './components/AprilMobileShellBar';
 export type {
   AprilMobileShellBarPosition,

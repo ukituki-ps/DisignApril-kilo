@@ -21,7 +21,10 @@ export type AprilMobileShellBarPosition = 'fixed' | 'absolute';
 export type AprilMobileShellBarProps = {
   /** Left slot (e.g. back `ActionIcon`). */
   leading?: ReactNode;
-  /** Center: tabs and/or contextual actions; hidden while search is expanded (built-in search). */
+  /**
+   * Center: tabs and/or contextual actions; hidden while search is expanded (built-in search).
+   * When a modal/sheet is open, pass **only** that layer’s actions here (see §8 «one active context» in DESIGN_SYSTEM.md).
+   */
   center?: ReactNode;
   /** When true (default), renders the trailing search trigger and expand/collapse behavior. */
   withSearch?: boolean;
@@ -99,6 +102,10 @@ const defaultPaperStyle: CSSProperties = {
 /**
  * April mobile shell: **single** floating bottom bar (§8 Mobile) with **leading | center | search** slots.
  * Built-in search expands the center into a `TextInput`; **Escape** collapses and returns focus to the trigger.
+ *
+ * **Single active context (DS norm):** at any time, `leading` / `center` / search must reflect **one** UI layer only —
+ * either the **current screen** (tabs, screen actions, search) **or**, while a modal / form sheet is the top layer,
+ * **only that layer’s actions** — never app tabs and dialog actions together in the bar.
  *
  * For scrollable page content use {@link aprilMobileShellBarContentPaddingBottom} on your `main` (or equivalent).
  * Stacking: uses `APRIL_MOBILE_SHELL_BAR_Z_INDEX` so the bar stays above `AprilMobileBottomSheet` overlays.

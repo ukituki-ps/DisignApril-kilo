@@ -11,10 +11,22 @@ const BASE_STYLES: DrawerStyles = {
   inner: {
     bottom: aprilMobileShellBarContentPaddingBottom(),
     top: 'auto',
+    height: 'auto',
+    alignItems: 'flex-end',
   },
   content: {
     borderTopLeftRadius: 'var(--mantine-radius-xl)',
     borderTopRightRadius: 'var(--mantine-radius-xl)',
+    height: 'auto',
+    maxHeight: 'var(--drawer-size)',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 0,
+  },
+  body: {
+    flex: '1 1 auto',
+    minHeight: 0,
+    overflowY: 'auto',
   },
 };
 
@@ -58,6 +70,9 @@ export type AprilMobileBottomSheetProps = Omit<DrawerProps, 'position'>;
  * Bottom **sheet** (Mantine `Drawer` with `position="bottom"`) for mobile flows: slides up from the bottom,
  * rounded top corners, dimmed overlay. The sheet stops **above** {@link AprilMobileShellBar} so the shell
  * bar stays visible and clickable (higher `z-index` than this drawer).
+ *
+ * Height follows **content** up to the Mantine **`size`** cap (`maxHeight: var(--drawer-size)`); use `size`
+ * as a maximum (for example `85%` or `min(90dvh, …)`), not a fixed fill, for compact sheets.
  *
  * Pair with {@link aprilMobileShellBarContentPaddingBottom} on scrollable `main` as for the bar alone.
  */

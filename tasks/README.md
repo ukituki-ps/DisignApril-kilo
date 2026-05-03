@@ -22,7 +22,8 @@
 
 ## Текущие задачи
 
-- `ds-012-mobile-bottom-panel` - done — `AprilMobileShellBar`, `AprilMobileBottomSheet`, inset; **Mobile lab** — список разделов + полноэкранные демо в `MobileShowcase.tsx`; см. `TASK.md`, `REPORT.md`.
+- `ds-013-card-list-column-mobile` - todo — `CardListColumn` на &lt;768px: одна колонка карточек, тулбар в `AprilMobileShellBar`, модалки по mobile-паттерну §11; Mobile lab; см. `TASK.md`.
+- `ds-012-mobile-bottom-panel` - done — `AprilMobileShellBar`, `AprilMobileBottomSheet`, inset; **Mobile lab** — список разделов + полноэкранные демо в `MobileShowcase.tsx`; норма **один активный контекст** в нижней панели — `DESIGN_SYSTEM.md` §8; см. `TASK.md`, `REPORT.md`.
 - `ds-011-card-list-column-views` - done — `CardListColumn`: три вида (свернуто / список / сетка), выбор, аватар, документация и витрина.
 - `ds-009-gradient-segmented-control` - градиентный `SegmentedControl` (паттерн Mantine UI + бренд April), обёртка, витрина, документация.
 - `ds-008-april-icons` - коллекция UI-иконок (Lucide), обёртка, витрина в `UIKit`, документация.
