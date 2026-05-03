@@ -107,10 +107,9 @@ export function CardListColumnSection() {
   const controlsBlock = (
     <Stack gap="xs">
       <Text size="sm" c="dimmed">
-        Виды: список → сетка → свёрнутая полоса. В свёрнутом виде название выбранной карточки идёт{' '}
-        <strong>вертикально</strong> (узкая колонка). В списке ширина — проценты (по умолчанию 32%, ресайз 15–50%). В
-        режиме <strong>сетки</strong> колонка по умолчанию занимает <strong>100% ширины</strong> карточки-демо; отдельная
-        кнопка включает полноэкранный режим на весь viewport.
+        Виды: список ↔ сетка (одна кнопка цикла). В списке ширина — проценты (по умолчанию 32%, ресайз 15–50%). В режиме{' '}
+        <strong>сетки</strong> колонка по умолчанию занимает <strong>100% ширины</strong> карточки-демо; отдельная кнопка
+        включает полноэкранный режим на весь viewport.
       </Text>
       <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
         <SegmentedControl

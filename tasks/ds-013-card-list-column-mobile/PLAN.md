@@ -22,3 +22,7 @@
 |------|-----------|
 | Двойная нижняя панель в lab | Отдельный layout раздела без `MobileSectionLayout` shell |
 | `useMediaQuery` в тестах | По умолчанию `mobileLayout="off"`; явный `on` в тесте mobile |
+
+## Дополнение (после закрытия DS-013)
+
+- Вид **`collapsed`** у `CardListColumn` снят с публичного API; на десктопе остаётся цикл **`list` ↔ `grid`** (см. `REPORT.md` этой же папки).

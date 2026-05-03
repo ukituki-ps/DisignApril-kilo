@@ -21,7 +21,6 @@ import {
   FilterIcon,
   LayoutGridIcon,
   ListIcon,
-  PanelLeftCloseIcon,
   ListFilterIcon,
   PlusIcon,
   SearchIcon,
@@ -120,7 +119,7 @@ export interface CardListColumnProps {
   onFilterChange?: (value: CardListColumnFilter) => void;
   onSortChange?: (value: CardListColumnSort) => void;
   onAddItem?: () => void;
-  /** Вид колонки: список, сетка или свёрнутая полоса. Управляемый режим вместе с `onViewChange`. */
+  /** Вид колонки: список или сетка. Управляемый режим вместе с `onViewChange`. */
   view?: CardListColumnView;
   /** Начальный вид при неуправляемом `view`. По умолчанию `list`. */
   defaultView?: CardListColumnView;
@@ -131,8 +130,6 @@ export interface CardListColumnProps {
   onSelectItem?: (id: string | null) => void;
   /** Иконка в аватаре по умолчанию, если у элемента нет `imageUrl` и `avatarIcon`. */
   defaultListItemIcon?: LucideIcon;
-  /** Текст в свёрнутом виде, если ничего не выбрано. */
-  emptySelectionLabel?: string;
   /**
    * Mobile (&lt;768px): одна колонка карточек, тулбар в {@link AprilMobileShellBar}, листы вместо центрированных модалок.
    * По умолчанию `off` — поведение как на десктопе (без регрессий в узком iframe). `auto` — по `(max-width: 47.99em)`.
@@ -184,8 +181,6 @@ function CycleViewIcon({ view }: { view: CardListColumnView }) {
       return <ListIcon size={14} aria-hidden />;
     case 'grid':
       return <LayoutGridIcon size={14} aria-hidden />;
-    case 'collapsed':
-      return <PanelLeftCloseIcon size={14} aria-hidden />;
     default:
       return null;
   }
@@ -234,7 +229,6 @@ export function CardListColumn({
   defaultSelectedItemId = null,
   onSelectItem,
   defaultListItemIcon: DefaultListItemIcon = FileTextIcon,
-  emptySelectionLabel = 'Ничего не выбрано',
   mobileLayout = 'off',
   mobileShellBarPosition = 'absolute',
   mobileShellLeading,
@@ -295,12 +289,6 @@ export function CardListColumn({
   const nextView = getNextCardListColumnView(currentView);
   const nextViewLabel = cardListColumnViewLabelRu(nextView);
   const cycleAriaLabel = `Следующий вид: ${nextViewLabel}`;
-
-  const selectedItem = useMemo(
-    () => items.find((i) => i.id === effectiveSelectedId),
-    [items, effectiveSelectedId]
-  );
-  const collapsedSelectedTitle = selectedItem?.title ?? emptySelectionLabel;
 
   useEffect(() => {
     if (filterOpened) {
@@ -430,14 +418,11 @@ export function CardListColumn({
   );
 
   const listHeight = heightMode === 'fill' ? '100%' : fixedHeight;
-  const isCollapsed = currentView === 'collapsed' && !isMobile;
   const isGrid = currentView === 'grid' || isMobile;
   const showListChrome = currentView === 'list' && !isMobile;
   const showGridChrome = currentView === 'grid' || isMobile;
-  /** Узкая полоса: подпись выбранного элемента идёт вертикально (`writing-mode`). */
-  const collapsedRailWidth = 48;
-  const paperWidth = isCollapsed ? collapsedRailWidth : isGrid ? '100%' : `${widthPercent}%`;
-  const paperMinWidth = isCollapsed ? collapsedRailWidth : isGrid ? 0 : 200;
+  const paperWidth = isGrid ? '100%' : `${widthPercent}%`;
+  const paperMinWidth = isGrid ? 0 : 200;
 
   const cycleControl = (
     <Tooltip label={`Следующий вид: ${nextViewLabel}`} withArrow openDelay={400}>
@@ -798,46 +783,8 @@ export function CardListColumn({
     <Paper
       withBorder={withPaperBorder}
       radius={withPaperBorder ? 'md' : 0}
-      p={isCollapsed ? 'xs' : 'sm'}
+      p="sm"
       style={paperStyle}>
-      {isCollapsed ? (
-        <Stack align="center" gap={6} mt={4} style={{ flex: 1, minHeight: 0, width: '100%' }}>
-          {cycleControl}
-          <Badge variant="light" color="teal" size="xs">
-            {totalItems}
-          </Badge>
-          <Tooltip label={collapsedSelectedTitle} disabled={collapsedSelectedTitle.length < 20} withArrow>
-            <Text
-              size="xs"
-              fw={600}
-              ta="center"
-              title={collapsedSelectedTitle}
-              style={{
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                maxWidth: '100%',
-                maxHeight: 'min(280px, 45vh)',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                flex: '1 1 auto',
-                marginTop: 4,
-              }}
-            >
-              {collapsedSelectedTitle}
-            </Text>
-          </Tooltip>
-          <Text
-            size="xs"
-            c="dimmed"
-            ta="center"
-            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', marginTop: 'auto', maxHeight: 120 }}
-            title={title}
-          >
-            {title}
-          </Text>
-        </Stack>
-      ) : null}
-
       {showListChrome ? (
         <>
           <Box

@@ -121,19 +121,15 @@ describe('CardListColumn', () => {
     expect(onSearchChange).toHaveBeenLastCalledWith('abc');
   });
 
-  it('cycles inline views list → grid → collapsed → list', async () => {
+  it('cycles inline views list → grid → list', async () => {
     const user = userEvent.setup();
 
     renderCardListColumn(<CardListColumn title="Inbox" mode="inline" items={items} withAdd={false} />);
 
     expect(screen.getByLabelText('Поиск по карточкам')).toBeTruthy();
     await user.click(screen.getByLabelText('Следующий вид: сетку карточек'));
-    expect(screen.getByLabelText('Следующий вид: свёрнутую колонку')).toBeTruthy();
-    expect(screen.queryByRole('separator', { name: 'Изменить ширину списка' })).toBeNull();
-
-    await user.click(screen.getByLabelText('Следующий вид: свёрнутую колонку'));
-    expect(screen.queryByLabelText('Поиск по карточкам')).toBeNull();
     expect(screen.getByLabelText('Следующий вид: список')).toBeTruthy();
+    expect(screen.queryByRole('separator', { name: 'Изменить ширину списка' })).toBeNull();
 
     await user.click(screen.getByLabelText('Следующий вид: список'));
     expect(screen.getByLabelText('Поиск по карточкам')).toBeTruthy();

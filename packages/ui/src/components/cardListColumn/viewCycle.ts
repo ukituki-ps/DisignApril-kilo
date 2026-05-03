@@ -1,6 +1,6 @@
-export type CardListColumnView = 'collapsed' | 'list' | 'grid';
+export type CardListColumnView = 'list' | 'grid';
 
-const VIEW_ORDER: CardListColumnView[] = ['list', 'grid', 'collapsed'];
+const VIEW_ORDER: CardListColumnView[] = ['list', 'grid'];
 
 export function getNextCardListColumnView(current: CardListColumnView): CardListColumnView {
   const i = VIEW_ORDER.indexOf(current);
@@ -14,8 +14,6 @@ export function cardListColumnViewLabelRu(view: CardListColumnView): string {
       return 'список';
     case 'grid':
       return 'сетку карточек';
-    case 'collapsed':
-      return 'свёрнутую колонку';
     default:
       return view;
   }
