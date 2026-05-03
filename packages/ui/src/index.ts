@@ -6,6 +6,8 @@ export { AprilProductHeader } from './components/AprilProductHeader';
 export type { AprilProductHeaderProps } from './components/AprilProductHeader';
 export { AprilGradientSegmentedControl } from './components/AprilGradientSegmentedControl';
 export type { AprilGradientSegmentedControlProps } from './components/AprilGradientSegmentedControl';
+export { AprilModal } from './components/AprilModal';
+export type { AprilModalProps } from './components/AprilModal';
 export { AprilEcosystemSimpleCards } from './components/AprilEcosystemSimpleCards';
 export type {
   AprilEcosystemSimpleCardsProps,
