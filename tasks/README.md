@@ -22,6 +22,7 @@
 
 ## Текущие задачи
 
+- `ds-014-april-profile-1-issue-75` - done — **075** / GPR: `TASK.md`, `REPORT.md`; отчёт в `april-profile` `tasks/075-external-DisignApril-ds-packages-gpr-publish/REPORT.md`; канон публикации — DisignApril `publish-april-packages.yml` (см. отчёты).
 - `ds-013-card-list-column-mobile` - done — `CardListColumn`: `mobileLayout` off/auto/on, сетка 1 колонка, `AprilMobileShellBar` + `AprilVaulBottomSheet`; Mobile lab «Колонка карточек»; см. `TASK.md`, `REPORT.md`.
 - `ds-012-mobile-bottom-panel` - done — `AprilMobileShellBar`, `AprilMobileBottomSheet`, inset; **Mobile lab** — список разделов + полноэкранные демо в `MobileShowcase.tsx`; норма **один активный контекст** в нижней панели — `DESIGN_SYSTEM.md` §8; см. `TASK.md`, `REPORT.md`.
 - `ds-011-card-list-column-views` - done — `CardListColumn`: три вида (свернуто / список / сетка), выбор, аватар, документация и витрина.
