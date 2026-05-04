@@ -19,17 +19,30 @@ import {
   aprilMobileShellBarGhostWhiteBorderActionStyles,
 } from './aprilMobileShellBarLayout';
 
+/**
+ * Плавающая нижняя капсула mobile shell. **Нормативные правила** (MUST/MUST NOT, пропсы, `position`, z-index,
+ * `withSearch` в формах) — в корневом `DESIGN_SYSTEM.md` пакета дизайн-системы: §8 Mobile «Встраивание»,
+ * §11 «Нормативный контракт `AprilMobileShellBar`». Изменения поведения публичных пропсов — только с
+ * обновлением того контракта и semver `@april/ui`.
+ */
 export type AprilMobileShellBarPosition = 'fixed' | 'absolute';
 
 export type AprilMobileShellBarProps = {
-  /** Left slot (e.g. back `ActionIcon`). */
+  /**
+   * Левый слот (часто «Назад» на drill-down). На вершине стека overlay **SHOULD** закрывать текущий слой
+   * (см. DESIGN_SYSTEM §8 стратегия A). **MUST NOT** дублировать бессмысленно второй «Назад» в шапке листа.
+   */
   leading?: ReactNode;
   /**
-   * Center: tabs and/or contextual actions; hidden while search is expanded (built-in search).
-   * When a modal/sheet is open, pass **only** that layer’s actions here (see §8 «one active context» in DESIGN_SYSTEM.md).
+   * Центр: табы и/или действия; скрывается при раскрытом встроенном поиске. **MUST** содержать только
+   * действия **текущего** контекста панели (§8 «один активный контекст»). Группа с первичным действием
+   * справа: `justify: flex-end`, порядок в DOM — вторичное → первичное → закрытие.
    */
   center?: ReactNode;
-  /** When true (default), renders the trailing search trigger and expand/collapse behavior. */
+  /**
+   * Встроенный поиск справа. По умолчанию `true`. Для форм/алертов и плотных toolbar — **MUST** `false`
+   * (см. DESIGN_SYSTEM §11 нормативный контракт).
+   */
   withSearch?: boolean;
   searchPlaceholder?: string;
   /** Controlled search query. */
@@ -42,8 +55,8 @@ export type AprilMobileShellBarProps = {
   defaultSearchExpanded?: boolean;
   onSearchExpandedChange?: (expanded: boolean) => void;
   /**
-   * `fixed` — viewport-relative (microfrontend root). `absolute` — parent must be `position: relative`
-   * (e.g. device frame on the showcase).
+   * `fixed` — к viewport корня микрофронта/host. `absolute` — **обязательно** для панели внутри тела sheet
+   * или колонки: родитель с `position: relative`. Правила выбора — DESIGN_SYSTEM §11 нормативный контракт.
    */
   position?: AprilMobileShellBarPosition;
   /** Horizontal inset from viewport (theme spacing string or px). */
