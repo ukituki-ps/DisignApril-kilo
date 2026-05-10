@@ -2,9 +2,10 @@
 
 - Статус: ✅
 - Задача: DS-015 — контракт и тесты `AprilMobileShellBar` (april-profile **078**, не GitHub #78)
-- Ветка: `feat/ds-015-mobile-shell-bar-0-1-10` → merge в `main`
-- Коммиты / PR: см. вывод `gh` после выполнения
-- Публикация GPR: workflow **Publish @april packages** (`both`) после merge
+- Ветка: `feat/ds-015-mobile-shell-bar-0-1-10` → squash-merge в `main`
+- PR: https://github.com/ukituki-ps/DisignApril/pull/34 (merged)
+- Коммит на `main`: `94f126c` — `feat(ui): AprilMobileShellBar a11y and tests; release 0.1.10 (#34)`
+- Публикация GPR: workflow **Publish @april packages** (`both`) — https://github.com/ukituki-ps/DisignApril/actions/runs/25639729831 (success)
 
 ## 2) Что сделано
 
@@ -45,12 +46,12 @@ pnpm test
 
 ## 5) Риски и ограничения
 
-- **GPR:** версия **0.1.10** в монорепо зафиксирована в `package.json`; фактическая публикация в GitHub Packages — после merge и запуска workflow (см. `docs/PUBLISHING.md`). До публикации потребители с `^0.1.9` не получат правки автоматически до bump.
+- **GPR:** **0.1.10** опубликована для `@ukituki-ps/april-tokens` и `@ukituki-ps/april-ui` (workflow run в §1). Потребителям с `^0.1.9` для UI достаточно обновить lock; для явного выравнивания токенов — `^0.1.10`.
 - **Showcase:** сценарий «Bottom sheet» в `MobileShowcase.tsx` уже использует `shellWithSearch={!opened}` — норма «один активный контекст» сохранена; визуальных правок не потребовалось.
 - Объём **079/080** (profile-ui, Hub) и **docs-site** april-profile не затрагивался (опциональный блок в task-story-074 — на усмотрение команды).
 
 ## 6) Что осталось
 
-- [ ] Закоммитить изменения, открыть PR в `DisignApril`, смержить и **опубликовать** `@ukituki-ps/april-ui@0.1.10` в GPR.
-- [ ] В репозитории **april-profile** обновить трекинг задачи **078** (файл `tasks/078-external-DisignApril-april-mobile-shell-bar-refactor/REPORT.md` — черновик добавлен локально при наличии клона).
-- [ ] Опционально: поднять lock потребителей (**076/077** или follow-up) на **^0.1.10** после публикации.
+- [x] PR смержен, `@ukituki-ps/april-ui@0.1.10` и `@ukituki-ps/april-tokens@0.1.10` опубликованы в GPR (см. run выше).
+- [ ] В репозитории **april-profile** закоммитить `tasks/078-…/REPORT.md`, если ещё не синхронизировано.
+- [ ] Опционально: поднять lock потребителей (**076/077** или follow-up) на **^0.1.10**.
