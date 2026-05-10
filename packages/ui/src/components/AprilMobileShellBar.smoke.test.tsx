@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { ActionIcon, Text } from '@mantine/core';
 import { AprilProviders } from '../providers';
 import { AprilIconChevronLeft } from '../icons';
@@ -60,5 +60,88 @@ describe('AprilMobileShellBar', () => {
     );
     expect(screen.queryByLabelText('Открыть поиск')).not.toBeInTheDocument();
     expect(screen.getByText('Только центр')).toBeInTheDocument();
+  });
+
+  it('exposes aria-expanded on the search trigger while collapsed', async () => {
+    const user = userEvent.setup();
+    render(
+      wrap(
+        <AprilMobileShellBar
+          center={<Text>Центр</Text>}
+          searchPlaceholder="Поле поиска"
+        />,
+      ),
+    );
+    const openBtn = screen.getByLabelText('Открыть поиск');
+    expect(openBtn).toHaveAttribute('aria-expanded', 'false');
+    await user.click(openBtn);
+    expect(screen.getByLabelText('Поле поиска')).toBeInTheDocument();
+  });
+
+  it('uses position absolute on the root bar when requested', () => {
+    const { container } = render(
+      wrap(
+        <AprilMobileShellBar
+          position="absolute"
+          withSearch={false}
+          center={<Text>Abs</Text>}
+        />,
+      ),
+    );
+    const root = container.querySelector('[data-april-mobile-shell-bar]');
+    expect(root).not.toBeNull();
+    expect(root).toHaveStyle({ position: 'absolute' });
+  });
+
+  it('respects controlled searchExpanded and hides center while expanded', async () => {
+    const user = userEvent.setup();
+
+    function Controlled() {
+      const [expanded, setExpanded] = useState(true);
+      return (
+        <AprilMobileShellBar
+          center={<Text>Слот центра</Text>}
+          searchPlaceholder="Q"
+          searchExpanded={expanded}
+          onSearchExpandedChange={setExpanded}
+        />
+      );
+    }
+
+    render(wrap(<Controlled />));
+    expect(screen.queryByText('Слот центра')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('Q')).toBeInTheDocument();
+
+    await user.click(screen.getByLabelText('Закрыть поиск'));
+    expect(screen.getByText('Слот центра')).toBeInTheDocument();
+    const openAgain = screen.getByLabelText('Открыть поиск');
+    expect(openAgain).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('forwards search query changes when searchValue is controlled', async () => {
+    const user = userEvent.setup();
+    const onSearchValueChange = vi.fn();
+
+    function ControlledValue() {
+      const [q, setQ] = useState('');
+      return (
+        <AprilMobileShellBar
+          center={<Text>c</Text>}
+          searchPlaceholder="Find"
+          searchExpanded
+          searchValue={q}
+          onSearchValueChange={(v) => {
+            onSearchValueChange(v);
+            setQ(v);
+          }}
+        />
+      );
+    }
+
+    render(wrap(<ControlledValue />));
+    const field = screen.getByLabelText('Find');
+    await user.type(field, 'ab');
+    expect(onSearchValueChange).toHaveBeenCalled();
+    expect(field).toHaveValue('ab');
   });
 });

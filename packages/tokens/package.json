@@ -1,6 +1,6 @@
 {
   "name": "@ukituki-ps/april-tokens",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Design tokens (colors, density, logo) for April corporate UI",
   "repository": {
     "type": "git",

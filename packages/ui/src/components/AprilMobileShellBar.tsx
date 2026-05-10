@@ -240,6 +240,7 @@ export function AprilMobileShellBar({
           {withSearch ? (
             showExpandedSearch ? (
               <ActionIcon
+                type="button"
                 variant="default"
                 size="lg"
                 radius="xl"
@@ -254,12 +255,13 @@ export function AprilMobileShellBar({
             ) : (
               <ActionIcon
                 ref={searchTriggerRef}
+                type="button"
                 variant="default"
                 size="lg"
                 radius="xl"
                 styles={aprilMobileShellBarGhostWhiteBorderActionStyles}
                 aria-label="Открыть поиск"
-                aria-expanded={false}
+                aria-expanded={searchExpanded}
                 onClick={() => setSearchExpanded(true)}>
                 <AprilIconSearch size={20} aria-hidden />
               </ActionIcon>
