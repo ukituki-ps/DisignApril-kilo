@@ -1,6 +1,6 @@
 # Publish @ukituki-ps/april-{tokens,ui} to GitHub Packages (private npm registry).
-# Self-hosted runner on Dev laptop (labels: ci,profile).
-# GITHUB_TOKEN from workflow permissions has packages:write scope.
+# Self-hosted runner: labels ci,profile + self-hosted,Linux,X64 (default).
+# GITHUB_TOKEN from permissions:write scope handles npm publish auth.
 name: Publish DS to GPR
 
 on:
@@ -24,44 +24,19 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Node 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Build packages (pnpm via corepack)
+      - name: Verify dist exists
         shell: bash
         run: |
-          set -ex
-          corepack enable || true
-          corepack prepare pnpm@latest --activate || true
-          pnpm install --frozen-lockfile || pnpm install
-          pnpm build
+          for pkg in packages/tokens packages/ui; do
+            if [ ! -d "$pkg/dist" ]; then
+              echo "ERROR: $pkg/dist missing — run pnpm build locally before publishing"
+              exit 1
+            fi
+          done
+          echo "OK: dist directories present"
 
-      - name: Configure npm auth for GPR publish
-        shell: bash
-        run: |
-          set -ex
-          # Per-publish .npmrc — does NOT affect pnpm workspace resolution
-          cat > .npmrc-publish <<'EOF'
-          @ukituki-ps:registry=https://npm.pkg.github.com
-          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-          EOF
-
-      - name: Publish @ukituki-ps/april-tokens
-        working-directory: packages/tokens
+      - name: Publish @ukituki-ps/april-{tokens,ui} to GPR
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -ex
-          npm publish --access restricted --registry=https://npm.pkg.github.com \
-            --.npmrc=$(pwd)/../../.npmrc-publish 2>&1 || echo "SKIP: version already published"
-
-      - name: Publish @ukituki-ps/april-ui
-        working-directory: packages/ui
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -ex
-          npm publish --access restricted --registry=https://npm.pkg.github.com \
-            --.npmrc=$(pwd)/../../.npmrc-publish 2>&1 || echo "SKIP: version already published"
+          bash scripts/publish-gpr.sh
