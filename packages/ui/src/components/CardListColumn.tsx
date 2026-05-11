@@ -139,6 +139,8 @@ export interface CardListColumnProps {
   mobileShellBarPosition?: AprilMobileShellBarPosition;
   /** Ведущий слот нижней панели в режиме «экран колонки» (например «Назад»). При открытом листе обычно не передаётся. */
   mobileShellLeading?: ReactNode;
+  /** Скрыть нижнюю мобильную панель entirely (норма «один активный контекст» — ADR-0006). По умолчанию `false`. */
+  hideMobileShellBar?: boolean;
   /** Рамка вокруг колонки (`Paper`). По умолчанию `true`; на узком экране без отступов контейнера можно передать `false`. */
   withPaperBorder?: boolean;
 }
@@ -232,6 +234,7 @@ export function CardListColumn({
   mobileLayout = 'off',
   mobileShellBarPosition = 'absolute',
   mobileShellLeading,
+  hideMobileShellBar = false,
   withPaperBorder = true,
 }: CardListColumnProps) {
   const { density } = useDensity();
@@ -1019,20 +1022,22 @@ export function CardListColumn({
         boxSizing: 'border-box',
       }}>
       <Box style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>{paperBody}</Box>
-      <AprilMobileShellBar
-        position={mobileShellBarPosition}
-        leading={sheetOpen ? undefined : mobileShellLeading}
-        center={shellCenterActive}
-        withSearch={!sheetOpen}
-        searchPlaceholder="Поиск по карточкам"
-        searchValue={query}
-        onSearchValueChange={(value) => {
-          setLocalQuery(value);
-          onSearchChange?.(value);
-        }}
-        searchExpanded={mobileSearchExpanded}
-        onSearchExpandedChange={setMobileSearchExpanded}
-      />
+       {!hideMobileShellBar ? (
+             <AprilMobileShellBar
+               position={mobileShellBarPosition}
+               leading={sheetOpen ? undefined : mobileShellLeading}
+               center={shellCenterActive}
+               withSearch={!sheetOpen}
+               searchPlaceholder="Поиск по карточкам"
+               searchValue={query}
+               onSearchValueChange={(value) => {
+                 setLocalQuery(value);
+                 onSearchChange?.(value);
+               }}
+               searchExpanded={mobileSearchExpanded}
+               onSearchExpandedChange={setMobileSearchExpanded}
+             />
+           ) : null}
     </Box>
   ) : (
     paperBody
