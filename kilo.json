@@ -1,0 +1,25 @@
+{
+  "snapshot": true,
+  "permission": {
+    "bash": "ask",
+    "edit": {
+      "packages/**": "allow",
+      "apps/**": "allow",
+      "tasks/**": "allow",
+      "docs/**": "allow",
+      "*.md": "allow",
+      "*.tsx": "allow",
+      "*.ts": "allow",
+      "*.json": "allow",
+      "*.yaml": "ask",
+      "*.lock*": "deny",
+      "*": "ask"
+    }
+  },
+  "instructions": [
+    "DESIGN_SYSTEM.md",
+    "docs/COMPONENT_STANDARDS.md",
+    "docs/DEVELOPMENT_WORKFLOW.md",
+    "docs/TESTING_STRATEGY.md"
+  ]
+}
