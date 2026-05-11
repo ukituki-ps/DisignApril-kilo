@@ -24,16 +24,28 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Verify dist exists
+      - name: Setup pnpm + GPR auth
         shell: bash
         run: |
-          for pkg in packages/tokens packages/ui; do
-            if [ ! -d "$pkg/dist" ]; then
-              echo "ERROR: $pkg/dist missing — run pnpm build locally before publishing"
-              exit 1
-            fi
-          done
-          echo "OK: dist directories present"
+          set -ex
+          corepack enable || true
+          corepack prepare pnpm@9.15.9 --activate || true
+
+      - name: Configure GPR auth for pnpm workspace resolve
+        shell: bash
+        run: |
+          set -ex
+          cat >> .npmrc <<EOF
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          EOF
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install and build
+        shell: bash
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm build
 
       - name: Publish @ukituki-ps/april-{tokens,ui} to GPR
         env:

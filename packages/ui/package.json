@@ -61,7 +61,7 @@
     "@rjsf/core": "^6.5.1",
     "@rjsf/utils": "^6.5.1",
     "@rjsf/validator-ajv8": "^6.5.1",
-    "@ukituki-ps/april-tokens": "^0.1.12",
+    "@ukituki-ps/april-tokens": "workspace:^",
     "@xyflow/react": "^12.3.0",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
