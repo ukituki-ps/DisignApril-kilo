@@ -1,7 +1,7 @@
 {
   "snapshot": true,
   "permission": {
-    "bash": "ask",
+    "bash": "allow",
     "external_directory": "allow",
     "edit": {
       "packages/**": "allow",
@@ -14,7 +14,7 @@
       "*.json": "allow",
       "*.yaml": "ask",
       "*.lock*": "deny",
-      "*": "ask"
+      "*": "allow"
     }
   },
   "instructions": [
