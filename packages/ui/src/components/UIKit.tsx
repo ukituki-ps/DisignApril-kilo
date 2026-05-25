@@ -28,6 +28,13 @@ import { AchievementBadgeSection } from './AchievementBadgeSection';
 import { EmptyStateIllustrationSection } from './EmptyStateIllustrationSection';
 import { SmartBundleSection } from './SmartBundleSection';
 import { FacetedSearchSection } from './FacetedSearchSection';
+import { BalancePillSection } from './BalancePillSection';
+import { FilterPillsSection } from './FilterPillsSection';
+import { StatCardSection } from './StatCardSection';
+import { PolicyCardSection } from './PolicyCardSection';
+import { ClinicMapListSection } from './ClinicMapListSection';
+import { SupportFAQSection } from './SupportFAQSection';
+import { DocumentRowSection } from './DocumentRowSection';
 
 export function UIKit() {
   return (
@@ -207,6 +214,48 @@ export function UIKit() {
           title="28. FacetedSearch"
           description="Фильтры каталога: checkbox, radio, range, select facets. Inline / drawer / auto mode. На mobile — AprilVaulBottomSheet. Сверено с прототипом ЛК физика (.catalog-toolbar, .filter-pills, .search-box).">
           <FacetedSearchSection />
+        </Section>
+
+        <Section
+          title="29. BalancePill"
+          description="Компактный pill-индикатор баланса для header: значение,单位, иконка, hover, onClick. Цвета из theme.colors.teal.">
+          <BalancePillSection />
+        </Section>
+
+        <Section
+          title="30. FilterPills"
+          description="Inline фильтр-пили (категории) для каталога льгот: controlled pills, active state через teal, count, scrollable контейнер, поддержка плотности и light/dark.">
+          <FilterPillsSection />
+        </Section>
+
+        <Section
+          title="30. StatCard"
+          description="Компактная карточка с числовой метрикой для Dashboard: label, value, icon, hint, density. Вариants default и accent (teal фон).">
+          <StatCardSection />
+        </Section>
+
+        <Section
+          title="31. PolicyCard"
+          description="Градиентная карточка полиса ДМС для модалки льготы: type, policyNumber, meta-поля, кнопки Download / Share. Градиент через Mantine teal/green scale.">
+          <PolicyCardSection />
+        </Section>
+
+        <Section
+          title="31. ClinicMapList"
+          description="Карта + список клиник: iframe-карта сверху, скrollable список клиник снизу с MapPin-иконками, schedule, empty state.">
+          <ClinicMapListSection />
+        </Section>
+
+        <Section
+          title="32. SupportFAQ"
+          description="FAQ-аккордеон для раздела «Поддержка»: вопросы-ответы, hover teal, chevron rotation, single и multiple режимы.">
+          <SupportFAQSection />
+        </Section>
+
+        <Section
+          title="33. DocumentRow"
+          description="Строка документа для таблицы раздела «Документы»: название, тип, дата, статус (badge), кнопка скачивания. Поддержка плотности и light/dark.">
+          <DocumentRowSection />
         </Section>
       </Stack>
     </Container>

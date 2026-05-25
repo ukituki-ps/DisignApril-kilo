@@ -129,7 +129,19 @@ export type {
   SmartBundleProps,
   BundleItem,
 } from './components/SmartBundle';
+export { FilterPills } from './components/FilterPills';
+export type {
+  FilterPillsProps,
+  FilterPillItem,
+} from './components/FilterPills';
 export * from './icons';
+export { TransactionList } from './components/TransactionList';
+export type {
+  TransactionListProps,
+  TransactionItem,
+  TransactionType,
+  TransactionFilter,
+} from './components/TransactionList';
 export { FacetedSearch } from './components/FacetedSearch';
 export type {
   FacetedSearchProps,
@@ -139,3 +151,28 @@ export type {
   FacetOption,
   FacetType,
 } from './components/FacetedSearch';
+export { BalancePill } from './components/BalancePill';
+export type { BalancePillProps } from './components/BalancePill';
+export { StatCard } from './components/StatCard';
+export type {
+  StatCardProps,
+  StatCardVariant,
+} from './components/StatCard';
+export { WizardContainer } from './components/WizardContainer';
+export type { WizardContainerProps, WizardStepConfig } from './components/WizardContainer';
+export { WizardProgress } from './components/WizardProgress';
+export type { WizardProgressProps } from './components/WizardProgress';
+export { WizardFooter } from './components/WizardFooter';
+export type { WizardFooterProps } from './components/WizardFooter';
+export { ClinicMapList } from './components/ClinicMapList';
+export type { ClinicMapListProps, ClinicItem } from './components/ClinicMapList';
+export { PolicyCard } from './components/PolicyCard';
+export type { PolicyCardProps, PolicyField } from './components/PolicyCard';
+export { TopTabNavigation } from './components/TopTabNavigation';
+export type { TopTabNavigationProps, TopTabItem } from './components/TopTabNavigation';
+export { SupportFAQ } from './components/SupportFAQ';
+export type { SupportFAQProps, FAQItem } from './components/SupportFAQ';
+export { DocumentRow } from './components/DocumentRow';
+export type { DocumentRowProps, DocumentRowData } from './components/DocumentRow';
+export { EventsFeed } from './components/EventsFeed';
+export type { EventsFeedProps, EventItem, EventIconVariant } from './components/EventsFeed';
