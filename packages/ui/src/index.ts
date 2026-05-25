@@ -90,4 +90,52 @@ export type {
   AprilJsonValidationListItem,
   AprilJsonValidationSummaryProps,
 } from './json/AprilJsonValidationSummary';
+export { StatusChip } from './components/StatusChip';
+export type {
+  StatusChipProps,
+  StatusChipStatus,
+  StatusChipSize,
+  StatusChipVariant,
+} from './components/StatusChip';
+export { BenefitCard } from './components/BenefitCard';
+export type {
+  BenefitCardProps,
+  BenefitCardStatus,
+} from './components/BenefitCard';
+export { QuickActionsGrid } from './components/QuickActionsGrid';
+export type {
+  QuickActionsGridProps,
+  QuickActionItem,
+} from './components/QuickActionsGrid';
+export { GamifiedProgress } from './components/GamifiedProgress';
+export type {
+  GamifiedProgressProps,
+  GamifiedProgressSize,
+} from './components/GamifiedProgress';
+export { AchievementBadge } from './components/AchievementBadge';
+export type {
+  AchievementBadgeProps,
+  AchievementBadgeVariant,
+  AchievementBadgeSize,
+} from './components/AchievementBadge';
+export { EmptyStateIllustration } from './components/EmptyStateIllustration';
+export type {
+  EmptyStateIllustrationProps,
+  EmptyStateIconSize,
+  EmptyStateAlign,
+} from './components/EmptyStateIllustration';
+export { SmartBundle } from './components/SmartBundle';
+export type {
+  SmartBundleProps,
+  BundleItem,
+} from './components/SmartBundle';
 export * from './icons';
+export { FacetedSearch } from './components/FacetedSearch';
+export type {
+  FacetedSearchProps,
+  FacetedSearchSelected,
+  FacetedSearchMode,
+  Facet,
+  FacetOption,
+  FacetType,
+} from './components/FacetedSearch';

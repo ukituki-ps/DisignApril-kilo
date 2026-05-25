@@ -20,6 +20,14 @@ import { CardListColumnSection } from './CardListColumnSection';
 import { JsonTreeEditorSection } from './JsonTreeEditorSection';
 import { IconsSection } from './IconsSection';
 import { GradientSegmentedControlSection } from './GradientSegmentedControlSection';
+import { StatusChipSection } from './StatusChipSection';
+import { BenefitCardSection } from './BenefitCardSection';
+import { QuickActionsGridSection } from './QuickActionsGridSection';
+import { GamifiedProgressSection } from './GamifiedProgressSection';
+import { AchievementBadgeSection } from './AchievementBadgeSection';
+import { EmptyStateIllustrationSection } from './EmptyStateIllustrationSection';
+import { SmartBundleSection } from './SmartBundleSection';
+import { FacetedSearchSection } from './FacetedSearchSection';
 
 export function UIKit() {
   return (
@@ -151,6 +159,54 @@ export function UIKit() {
           title="20. Градиентный SegmentedControl"
           description="AprilGradientSegmentedControl — Mantine SegmentedControl со стилями по рецепту Mantine UI и палитрой teal April; см. DESIGN_SYSTEM §11.">
           <GradientSegmentedControlSection />
+        </Section>
+
+        <Section
+          title="21. StatusChip"
+          description="Компактный индикатор состояния: статусы, пульсация, dot/chip variant, density. Базовый компонент для BenefitCard, SmartBundle, каталога.">
+          <StatusChipSection />
+        </Section>
+
+        <Section
+          title="22. BenefitCard"
+          description="Универсальная карточка льготы/активности: статус, цена, прогресс, CTA. Адаптивный layout (desktop/mobile).">
+          <BenefitCardSection />
+        </Section>
+
+        <Section
+          title="23. QuickActionsGrid"
+          description="Адаптивная сетка быстрых действий для главной страницы: иконка в круге, подпись, badge, hover. Сверено с прототипом ЛК физика (.quick-grid / .quick-btn).">
+          <QuickActionsGridSection />
+        </Section>
+
+        <Section
+          title="24. GamifiedProgress"
+          description="Прогресс с наградой: текущее/целевое значение, иконка награды, CSS-анимация, completed state. Сверено с прототипом ЛК физика (.progress-bar / .progress-fill).">
+          <GamifiedProgressSection />
+        </Section>
+
+        <Section
+          title="25. AchievementBadge"
+          description="Значок достижения с тултипом: bronze/silver/gold/platinum/custom, earned/unearned, disabled, размеры, touch-тултип.">
+          <AchievementBadgeSection />
+        </Section>
+
+        <Section
+          title="26. EmptyStateIllustration"
+          description="Компонент пустых состояний: иконка, заголовок, описание, CTA. Выравнивание center/left, размеры иконки. Сверено с прототипом ЛК физика (пустые состояния в каталоге/секциях).">
+          <EmptyStateIllustrationSection />
+        </Section>
+
+        <Section
+          title="27. SmartBundle"
+          description="Пакет льгот (сценарий): состав пакета визуально, expandable список, статусы элементов через StatusChip, скидка, CTA. Desktop — раскрыт, mobile — свёрнут.">
+          <SmartBundleSection />
+        </Section>
+
+        <Section
+          title="28. FacetedSearch"
+          description="Фильтры каталога: checkbox, radio, range, select facets. Inline / drawer / auto mode. На mobile — AprilVaulBottomSheet. Сверено с прототипом ЛК физика (.catalog-toolbar, .filter-pills, .search-box).">
+          <FacetedSearchSection />
         </Section>
       </Stack>
     </Container>
