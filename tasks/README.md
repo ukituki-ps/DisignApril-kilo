@@ -20,6 +20,17 @@
 - Validation:
 - Notes:
 
+## P1 — Расширение для LKFL (каталог + геймификация)
+
+- `ds-016-status-chip` — todo — **StatusChip**: индикатор состояния с цветовой индикацией, пульсацией, dot/chip variant, mobile-адаптив; Showcase секция 21.
+- `ds-017-benefit-card` — todo — **BenefitCard**: карточка льготы/активности (title, status, price, progress, quickAction); mobile — полноширинный стек; Showcase секция 22. Зависит от ds-016.
+- `ds-018-quick-actions-grid` — todo — **QuickActionsGrid**: адаптивная сетка быстрых действий (2/3/4 колонки); Showcase секция 23.
+- `ds-019-gamified-progress` — todo — **GamifiedProgress**: визуальный прогресс с наградой, CSS animation, ARIA progressbar; Showcase секция 24.
+- `ds-020-achievement-badge` — todo — **AchievementBadge**: значок достижения (bronze/silver/gold/platinum) с тултипом; Showcase секция 25.
+- `ds-021-empty-state-illustration` — todo — **EmptyStateIllustration**: пустые состояния (title + description + CTA + optional icon); Showcase секция 26.
+- `ds-022-smart-bundle` — todo — **SmartBundle**: пакет льгот (expandable список, discount badge, CTA); mobile — свёрнуто по умолчанию; Showcase секция 27. Зависит от ds-016.
+- `ds-023-faceted-search` — todo — **FacetedSearch**: фильтры каталога (checkbox/radio/range/select); desktop — inline/drawer, mobile — BottomSheet; Showcase секция 28.
+
 ## Текущие задачи
 
 - `ds-015-april-profile-task-078-mobile-shell-bar` - done — **april-profile задача 078**: a11y триггер поиска, тесты controlled/`position`, patch **0.1.10**; `TASK.md`, `PLAN.md`, `REPORT.md`.
