@@ -19,6 +19,14 @@
   --april-neutral-border: #dee2e6;
   --april-neutral-text: #212529;
   --april-neutral-text-muted: #868e96;
+
+  /* LKFL-derived shared tokens */
+  --april-row: #F9FAFB;
+  --april-border: #EBEBEB;
+  --april-text-subtle: #9CA3AF;
+  --april-radius-card: 14px;
+  --april-radius-btn: 6px;
+  --april-shadow-card: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 /* Совпадает с `data-mantine-color-scheme` у Mantine — чистый CSS рядом с React-оболочкой */
@@ -32,4 +40,10 @@
   --april-neutral-border: #373a40;
   --april-neutral-text: #c1c2c5;
   --april-neutral-text-muted: #909296;
+
+  /* LKFL-derived shared tokens — dark */
+  --april-row: #25262B;
+  --april-border: #373A40;
+  --april-text-subtle: #909296;
+  --april-shadow-card: 0 1px 4px rgba(0,0,0,0.25);
 }

@@ -35,6 +35,8 @@ import { PolicyCardSection } from './PolicyCardSection';
 import { ClinicMapListSection } from './ClinicMapListSection';
 import { SupportFAQSection } from './SupportFAQSection';
 import { DocumentRowSection } from './DocumentRowSection';
+import { TopNavbarSection } from './TopNavbarSection';
+import { LkflComponentsSection } from './LkflComponentsSection';
 
 export function UIKit() {
   return (
@@ -256,6 +258,18 @@ export function UIKit() {
           title="33. DocumentRow"
           description="Строка документа для таблицы раздела «Документы»: название, тип, дата, статус (badge), кнопка скачивания. Поддержка плотности и light/dark.">
           <DocumentRowSection />
+        </Section>
+
+        <Section
+          title="34. Top navbar (AprilTopNavbar)"
+          description="Вид shell «хеддер + навбар» для портальных приложений: sticky-панель с логотипом, горизонтальной навигацией (табы с underline) и правым слотом (баланс, уведомления, аватар). Мобильный fallback: <768px — иконки, <480px — скрыты.">
+          <TopNavbarSection />
+        </Section>
+
+        <Section
+          title="35. LKFL-компоненты"
+          description="Белые компоненты для продуктов April: AprilFilterPills, AprilWizard, AprilWizardProgress, AprilStatCard, AprilCard, AprilBenefitRow, AprilEventRow, AprilQuickButton, AprilBalanceCard, AprilTransactionRow, AprilFaqItem, AprilOptionCard, AprilPayOptionCard, AprilFormInput, AprilFormTextarea, AprilFormSelect, AprilConfirmCheckbox, AprilSuccessScreen, AprilConfirmDoc.">
+          <LkflComponentsSection />
         </Section>
       </Stack>
     </Container>

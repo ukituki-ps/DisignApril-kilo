@@ -176,3 +176,89 @@ export { DocumentRow } from './components/DocumentRow';
 export type { DocumentRowProps, DocumentRowData } from './components/DocumentRow';
 export { EventsFeed } from './components/EventsFeed';
 export type { EventsFeedProps, EventItem, EventIconVariant } from './components/EventsFeed';
+export { AprilTopNavbar } from './components/AprilTopNavbar';
+export type { AprilTopNavbarProps, AprilTopNavbarItem } from './components/AprilTopNavbar';
+
+/* ─── LKFL-derived white-label components ─── */
+
+export { AprilFilterPills } from './components/AprilFilterPills';
+export type {
+  AprilFilterPillsProps,
+  AprilFilterPillItem,
+} from './components/AprilFilterPills';
+
+export { AprilWizard } from './components/AprilWizard';
+export type {
+  AprilWizardProps,
+  AprilWizardStep,
+} from './components/AprilWizard';
+
+export { AprilWizardProgress } from './components/AprilWizardProgress';
+export type {
+  AprilWizardProgressProps,
+  AprilWizardProgressStep,
+  AprilWizardProgressStepStatus,
+} from './components/AprilWizardProgress';
+
+export { AprilStatCard } from './components/AprilStatCard';
+export type {
+  AprilStatCardProps,
+  AprilStatCardVariant,
+} from './components/AprilStatCard';
+
+export { AprilCard } from './components/AprilCard';
+export type { AprilCardProps } from './components/AprilCard';
+
+export { AprilBenefitRow } from './components/AprilBenefitRow';
+export type { AprilBenefitRowProps } from './components/AprilBenefitRow';
+
+export { AprilEventRow } from './components/AprilEventRow';
+export type {
+  AprilEventRowProps,
+  AprilEventRowVariant,
+} from './components/AprilEventRow';
+
+export { AprilQuickButton } from './components/AprilQuickButton';
+export type { AprilQuickButtonProps } from './components/AprilQuickButton';
+
+export { AprilBalanceCard } from './components/AprilBalanceCard';
+export type {
+  AprilBalanceCardProps,
+  AprilBalanceCategory,
+} from './components/AprilBalanceCard';
+
+export { AprilTransactionRow } from './components/AprilTransactionRow';
+export type {
+  AprilTransactionRowProps,
+  AprilTransactionRowType,
+} from './components/AprilTransactionRow';
+
+export { AprilFaqItem } from './components/AprilFaqItem';
+export type { AprilFaqItemProps } from './components/AprilFaqItem';
+
+export { AprilOptionCard } from './components/AprilOptionCard';
+export type { AprilOptionCardProps } from './components/AprilOptionCard';
+
+export { AprilPayOptionCard } from './components/AprilPayOptionCard';
+export type { AprilPayOptionCardProps } from './components/AprilPayOptionCard';
+
+export {
+  AprilFormInput,
+  AprilFormTextarea,
+  AprilFormSelect,
+} from './components/AprilFormInput';
+export type {
+  AprilFormInputProps,
+  AprilFormTextareaProps,
+  AprilFormSelectProps,
+  AprilFormSelectOption,
+} from './components/AprilFormInput';
+
+export { AprilConfirmCheckbox } from './components/AprilConfirmCheckbox';
+export type { AprilConfirmCheckboxProps } from './components/AprilConfirmCheckbox';
+
+export { AprilSuccessScreen } from './components/AprilSuccessScreen';
+export type { AprilSuccessScreenProps } from './components/AprilSuccessScreen';
+
+export { AprilConfirmDoc } from './components/AprilConfirmDoc';
+export type { AprilConfirmDocProps } from './components/AprilConfirmDoc';
