@@ -397,6 +397,18 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 - **Когда использовать форму:** известная JSON Schema, нужны стандартные поля ввода (строка, число, enum, вложенные объекты, массивы) и предсказуемый UX формы без ручной вёрстки каждого поля.
 - **Ограничения:** не подключать `@rjsf/mantine` до отдельного эпика на Mantine 8+; состав кастомных виджетов в April ограничен (например, **multi-select enum** в текущей версии не поддержан — явный запасной UI).
 
+### Top navbar (`AprilTopNavbar`)
+
+- **Компонент:** `AprilTopNavbar` — sticky-панель «хеддер + навбар» для портальных приложений: единая строка с логотипом слева, горизонтальной навигацией (табы с underline-индикатором) и правым слотом (баланс, уведомления, аватар).
+- **3-й вид shell April** (дополнение к `AprilProductHeader` + `ProductSidebarNavigation` и `ProductHeaderToolbar`):
+  - `AprilProductHeader` + `ProductSidebarNavigation` — enterprise-приложения с боковой панелью
+  - `ProductHeaderToolbar` — хеддер с глобальным поиском
+  - `AprilTopNavbar` — портальные ЛК, каталоги, личные кабинеты (горизонтальная навигация в одной строке)
+- **API:** `logo` (ReactNode), `onClickLogo`, `tabs` (`AprilTopNavbarItem[]`), `activeTab`, `onTabChange`, `rightSection`, `maxWidth` (1100px), `height` (58px), `sticky` (true).
+- **Цвета:** active tab — `teal[6]` underline; hover — `green[6]`; inactive — `gray[6]`; текст активного — `gray[9]`.
+- **Мобильный fallback:** <768px — тексты табов скрыты, только иконки; <480px — табы полностью скрыты (приложение использует `AprilMobileShellBar`).
+- **Импорт:** `import { AprilTopNavbar } from '@april/ui'`.
+
 ### Кнопки
 
 | Variant | Назначение |
