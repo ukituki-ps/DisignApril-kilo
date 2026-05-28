@@ -51,5 +51,5 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pnpm --filter @ukituki-ps/april-tokens publish --access restricted
-          pnpm --filter @ukituki-ps/april-ui publish --access restricted 
+          pnpm --filter @ukituki-ps/april-tokens publish --access restricted --no-git-checks
+          pnpm --filter @ukituki-ps/april-ui publish --access restricted --no-git-checks 
