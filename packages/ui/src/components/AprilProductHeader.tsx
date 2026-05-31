@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import type { MantineSpacing } from '@mantine/core';
 import { Box, Group, Text } from '@mantine/core';
 import { useDensity } from '../DensityContext';
 
@@ -18,6 +19,18 @@ export type AprilProductHeaderProps = {
   logoSrc?: string | null;
   /** Закрепить шапку у верхнего края viewport */
   sticky?: boolean;
+  /**
+   * Горизонтальный padding корневого элемента.
+   * По умолчанию зависит от плотности: `md` (comfortable) / `sm` (compact).
+   */
+  px?: MantineSpacing;
+  /** CSS-класс корневого элемента (проброс на `header`). */
+  className?: string;
+  /**
+   * Дополнительные inline-стили, накладываются поверх базовых.
+   * Внимание: переопределение `height`, `display`, `zIndex` может нарушить layout.
+   */
+  style?: CSSProperties;
   'data-testid'?: string;
 };
 
@@ -32,6 +45,9 @@ export function AprilProductHeader({
   productName = 'April',
   logoSrc = '/logo-icon.svg',
   sticky = false,
+  px,
+  className,
+  style,
   'data-testid': dataTestId,
 }: AprilProductHeaderProps) {
   const { density } = useDensity();
@@ -62,10 +78,11 @@ export function AprilProductHeader({
   return (
     <Box
       component="header"
+      className={className}
       data-testid={dataTestId}
       pos={sticky ? 'sticky' : undefined}
       top={sticky ? 0 : undefined}
-      px={isCompact ? 'sm' : 'md'}
+      px={px ?? (isCompact ? 'sm' : 'md')}
       style={{
         height: h,
         display: 'flex',
@@ -75,6 +92,7 @@ export function AprilProductHeader({
         borderBottom: '1px solid var(--mantine-color-default-border)',
         backgroundColor: 'var(--mantine-color-body)',
         ...(sticky ? { zIndex: 200 } : {}),
+        ...style,
       }}
     >
       <Box style={{ flexShrink: 0 }}>{left ?? defaultLeft}</Box>
