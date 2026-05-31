@@ -39,7 +39,7 @@ jobs:
           //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
           EOF
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Install and build
         shell: bash
@@ -49,7 +49,7 @@ jobs:
 
       - name: Publish @ukituki-ps/april-{tokens,ui} to GPR
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: |
           pnpm --filter @ukituki-ps/april-tokens publish --access restricted --no-git-checks
           pnpm --filter @ukituki-ps/april-ui publish --access restricted --no-git-checks 

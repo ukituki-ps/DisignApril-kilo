@@ -49,19 +49,19 @@ jobs:
 
       - name: Configure npm auth for GitHub Packages (publish)
         run: |
-          echo "@april:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "@ukituki-ps:registry=https://npm.pkg.github.com" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Publish @ukituki-ps/april-tokens
         if: github.event.inputs.packages == 'tokens' || github.event.inputs.packages == 'both'
         run: pnpm --filter @ukituki-ps/april-tokens publish --no-git-checks --access restricted
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Publish @ukituki-ps/april-ui
         if: github.event.inputs.packages == 'ui' || github.event.inputs.packages == 'both'
         run: pnpm --filter @ukituki-ps/april-ui publish --no-git-checks --access restricted
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
