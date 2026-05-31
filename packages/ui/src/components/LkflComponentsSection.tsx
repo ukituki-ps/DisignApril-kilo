@@ -358,6 +358,7 @@ export function LkflComponentsSection() {
               label="Поле с ошибкой"
               placeholder="Некорректное значение"
               value="wrong"
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
               onChange={() => {}}
               error="Значение некорректно"
             />
