@@ -26,6 +26,12 @@ function wrap(
   );
 }
 
+function findHeader(container: HTMLElement) {
+  const header = container.querySelector('header');
+  expect(header).not.toBeNull();
+  return header as HTMLElement;
+}
+
 describe('AprilProductHeader', () => {
   it('рендерит productName по умолчанию', () => {
     render(wrap(<AprilProductHeader data-testid="header" />));
@@ -41,23 +47,23 @@ describe('AprilProductHeader', () => {
     const { container } = render(
       wrap(<AprilProductHeader className="custom-header" data-testid="header" />),
     );
-    const header = container.querySelector('header');
+    const header = findHeader(container);
     expect(header).toHaveClass('custom-header');
   });
 
   it('использует дефолтный px="md" в comfortable режиме', () => {
     const { container } = render(wrap(<AprilProductHeader data-testid="header" />, 'comfortable'));
-    const header = container.querySelector('header');
-    const style = header!.getAttribute('style') || '';
-    // Mantine Box px="md" → padding-inline: var(--mantine-spacing-md)
+    const header = findHeader(container);
+    const style = header.getAttribute('style') || '';
+    // Mantine Box px="md" -> padding-inline: var(--mantine-spacing-md)
     expect(style).toContain('--mantine-spacing-md');
   });
 
   it('использует дефолтный px="sm" в compact режиме', () => {
     const { container } = render(wrap(<AprilProductHeader data-testid="header" />, 'compact'));
-    const header = container.querySelector('header');
-    const style = header!.getAttribute('style') || '';
-    // Mantine Box px="sm" → padding-inline: var(--mantine-spacing-sm)
+    const header = findHeader(container);
+    const style = header.getAttribute('style') || '';
+    // Mantine Box px="sm" -> padding-inline: var(--mantine-spacing-sm)
     expect(style).toContain('--mantine-spacing-sm');
   });
 
@@ -65,8 +71,8 @@ describe('AprilProductHeader', () => {
     const { container } = render(
       wrap(<AprilProductHeader px={0} data-testid="header" />, 'comfortable'),
     );
-    const header = container.querySelector('header');
-    const style = header!.getAttribute('style') || '';
+    const header = findHeader(container);
+    const style = header.getAttribute('style') || '';
     expect(style).toMatch(/padding-inline\s*:\s*0/);
     // не должен содержать дефолтную переменную
     expect(style).not.toContain('--mantine-spacing-md');
@@ -76,8 +82,8 @@ describe('AprilProductHeader', () => {
     const { container } = render(
       wrap(<AprilProductHeader px="xl" data-testid="header" />, 'compact'),
     );
-    const header = container.querySelector('header');
-    const style = header!.getAttribute('style') || '';
+    const header = findHeader(container);
+    const style = header.getAttribute('style') || '';
     expect(style).toContain('--mantine-spacing-xl');
   });
 
@@ -90,8 +96,8 @@ describe('AprilProductHeader', () => {
         />,
       ),
     );
-    const header = container.querySelector('header');
-    const style = header!.getAttribute('style') || '';
+    const header = findHeader(container);
+    const style = header.getAttribute('style') || '';
     expect(style).toContain('red');
   });
 });
