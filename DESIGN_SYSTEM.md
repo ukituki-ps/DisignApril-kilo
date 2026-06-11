@@ -434,6 +434,13 @@ CSS-only (микросервис без React): `import '@april/tokens/css'` —
 
 Полосатые строки, hover, чекбоксы, бейджи статусов, действия справа — с учётом режима плотности.
 
+### CardAppearance (баннер + карточка каталога + редактор)
+
+- **Компоненты:** `AprilCardBanner`, `AprilCatalogCard`, `AprilCardAppearanceEditor`
+- **Типы:** `AprilCardAppearanceState`, `AprilCatalogCardContent`
+- **Назначение:** настройка визуального оформления карточек каталога льгот (цвет/градиент, CSS-узор, контент баннера)
+- **Импорт:** `import { AprilCardBanner, AprilCatalogCard, AprilCardAppearanceEditor } from '@april/ui'`
+
 ---
 
 ## 12. Safety patterns

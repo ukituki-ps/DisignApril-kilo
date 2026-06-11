@@ -179,6 +179,25 @@ export type { EventsFeedProps, EventItem, EventIconVariant } from './components/
 export { AprilTopNavbar } from './components/AprilTopNavbar';
 export type { AprilTopNavbarProps, AprilTopNavbarItem } from './components/AprilTopNavbar';
 
+/* ─── Card Appearance (LKFLv2 catalog card customization) ─── */
+export {
+  APRIL_CARD_APPEARANCE_COLORS,
+  DEFAULT_CARD_APPEARANCE,
+  validateCardAppearanceState,
+} from './components/aprilCardAppearance/aprilCardAppearance.types';
+export type {
+  AprilCardAppearanceState,
+  AprilCatalogCardContent,
+} from './components/aprilCardAppearance/aprilCardAppearance.types';
+export { AprilIconPicker, BANNER_ICON_NAMES } from './components/aprilCardAppearance/AprilIconPicker';
+export type { AprilIconPickerProps } from './components/aprilCardAppearance/AprilIconPicker';
+export { AprilCardBanner } from './components/aprilCardAppearance/AprilCardBanner';
+export type { AprilCardBannerProps } from './components/aprilCardAppearance/AprilCardBanner';
+export { AprilCatalogCard } from './components/aprilCardAppearance/AprilCatalogCard';
+export type { AprilCatalogCardProps } from './components/aprilCardAppearance/AprilCatalogCard';
+export { AprilCardAppearanceEditor } from './components/aprilCardAppearance/AprilCardAppearanceEditor';
+export type { AprilCardAppearanceEditorProps } from './components/aprilCardAppearance/AprilCardAppearanceEditor';
+
 /* ─── LKFL-derived white-label components ─── */
 
 export { AprilFilterPills } from './components/AprilFilterPills';

@@ -33,6 +33,8 @@
 
 ## Текущие задачи
 
+- `ds-031-card-appearance` — done — **CardAppearance**: `AprilCardBanner`, `AprilCatalogCard`, `AprilCardAppearanceEditor`, типы + валидаторы, CSS-паттерны, Showcase секция 36; запрос от LKFLv2.
+- `ds-024-product-header-padding` — todo — **AprilProductHeader**: проп `px` (переопределение горизонтального padding), проброс `className`/`style` на корневой `Box`; non-breaking; Showcase + тесты; запрос от LKFL.
 - `ds-015-april-profile-task-078-mobile-shell-bar` - done — **april-profile задача 078**: a11y триггер поиска, тесты controlled/`position`, patch **0.1.10**; `TASK.md`, `PLAN.md`, `REPORT.md`.
 - `ds-014-april-profile-1-issue-75` - done — **075** / GPR: `TASK.md`, `REPORT.md`; отчёт в `april-profile` `tasks/075-external-DisignApril-ds-packages-gpr-publish/REPORT.md`; канон публикации — DisignApril `publish-april-packages.yml` (см. отчёты).
 - `ds-013-card-list-column-mobile` - done — `CardListColumn`: `mobileLayout` off/auto/on, сетка 1 колонка, `AprilMobileShellBar` + `AprilVaulBottomSheet`; Mobile lab «Колонка карточек»; см. `TASK.md`, `REPORT.md`.

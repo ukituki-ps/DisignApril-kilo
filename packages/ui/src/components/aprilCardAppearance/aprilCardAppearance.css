@@ -1,0 +1,281 @@
+/* ─── AprilCardAppearance: баннер + карточка каталога + редактор ─── */
+
+/* ===== Баннер ===== */
+
+.april-card-banner {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Контент баннера */
+
+.april-card-banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.april-card-banner-icon {
+  width: 36px;
+  height: 36px;
+  color: rgba(255, 255, 255, 0.5);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.april-card-banner-text {
+  font-weight: 800;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  line-height: 1.2;
+  padding: 0 12px;
+  /* color, opacity, fontSize — inline из appearance */
+}
+
+/* ===== Паттерн-оверлей ===== */
+
+.april-pattern-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* CSS-переменные с дефолтами */
+  --april-pattern-scale: 1;
+  --april-pattern-ratio: 1;
+}
+
+/* Точки */
+.april-pattern-dots {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.8) calc(1.5px * var(--april-pattern-scale, 1)),
+    transparent calc(1.5px * var(--april-pattern-scale, 1))
+  );
+  background-size: calc(12px * var(--april-pattern-scale, 1)) calc(12px * var(--april-pattern-scale, 1));
+}
+
+/* Полоски (линия : промежуток = pr : 1) */
+.april-pattern-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent calc(6px * var(--april-pattern-scale, 1)),
+    rgba(255, 255, 255, 0.5) calc(6px * var(--april-pattern-scale, 1)),
+    rgba(255, 255, 255, 0.5) calc(6px * var(--april-pattern-scale, 1) * (1 + var(--april-pattern-ratio, 1)))
+  );
+}
+
+/* Сетка */
+.april-pattern-grid {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.4) calc(1px * var(--april-pattern-scale, 1)),
+      transparent calc(1px * var(--april-pattern-scale, 1))
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.4) calc(1px * var(--april-pattern-scale, 1)),
+      transparent calc(1px * var(--april-pattern-scale, 1))
+    );
+  background-size: calc(16px * var(--april-pattern-scale, 1)) calc(16px * var(--april-pattern-scale, 1));
+}
+
+/* Волны */
+.april-pattern-waves {
+  background:
+    radial-gradient(
+      circle at calc(10px * var(--april-pattern-scale, 1)) calc(10px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.5) calc(2px * var(--april-pattern-scale, 1)),
+      transparent calc(2px * var(--april-pattern-scale, 1))
+    ),
+    radial-gradient(
+      circle at calc(30px * var(--april-pattern-scale, 1)) calc(20px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.4) calc(3px * var(--april-pattern-scale, 1)),
+      transparent calc(3px * var(--april-pattern-scale, 1))
+    );
+  background-size:
+    calc(40px * var(--april-pattern-scale, 1)) calc(40px * var(--april-pattern-scale, 1)),
+    calc(60px * var(--april-pattern-scale, 1)) calc(60px * var(--april-pattern-scale, 1));
+}
+
+/* Ромбы (двойная диагональная штриховка) */
+.april-pattern-cross {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent calc(5px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.3) calc(5px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.3) calc(5px * var(--april-pattern-scale, 1) * (1 + var(--april-pattern-ratio, 1)))
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent calc(5px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.3) calc(5px * var(--april-pattern-scale, 1)),
+      rgba(255, 255, 255, 0.3) calc(5px * var(--april-pattern-scale, 1) * (1 + var(--april-pattern-ratio, 1)))
+    );
+}
+
+/* ===== Карточка каталога ===== */
+
+.april-card-catalog {
+  background: var(--mantine-color-body);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  width: 100%;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease;
+}
+
+.april-card-catalog:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Тело карточки ===== */
+
+.april-card-body {
+  padding: 12px 14px;
+}
+
+.april-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mantine-color-text);
+  line-height: 1.3;
+}
+
+.april-card-category {
+  font-size: 11px;
+  color: var(--mantine-color-dimmed);
+  margin-top: 2px;
+}
+
+.april-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.april-card-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--mantine-color-green-6);
+}
+
+/* Статус-бейджи */
+.april-card-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.april-card-status.badge-active {
+  background: var(--mantine-color-teal-0);
+  color: var(--mantine-color-teal-7);
+}
+
+.april-card-status.badge-draft {
+  background: var(--mantine-color-gray-0);
+  color: var(--mantine-color-gray-6);
+}
+
+.april-card-status.badge-archived {
+  background: var(--mantine-color-red-0);
+  color: var(--mantine-color-red-7);
+}
+
+.april-card-plugin {
+  font-size: 10px;
+  color: var(--mantine-color-dimmed);
+  margin-top: 6px;
+}
+
+/* ===== Редактор: цветовые swatch'и ===== */
+
+.april-color-swatches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.april-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.april-color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.april-color-swatch.april-color-swatch-active {
+  border-color: var(--mantine-color-text);
+  box-shadow: 0 0 0 2px var(--mantine-color-body);
+}
+
+/* Плюсик — произвольный цвет */
+.april-color-swatch-custom {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px dashed var(--mantine-color-gray-4);
+  background: var(--mantine-color-gray-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mantine-color-gray-6);
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.april-color-swatch-custom:hover {
+  transform: scale(1.15);
+  border-color: var(--mantine-color-teal-6);
+  background: var(--mantine-color-teal-0);
+  color: var(--mantine-color-teal-7);
+}
+
+/* ===== Icon Picker ===== */
+
+.april-icon-picker-item {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  color: var(--mantine-color-gray-6);
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+}
+
+.april-icon-picker-item:hover {
+  background: var(--mantine-color-gray-0);
+  border-color: var(--mantine-color-gray-3);
+  color: var(--mantine-color-dark-6);
+  transform: scale(1.1);
+}
+
+.april-icon-picker-item.april-icon-picker-item-active {
+  border-color: var(--mantine-color-teal-6);
+  background: var(--mantine-color-teal-0);
+  color: var(--mantine-color-teal-7);
+}
