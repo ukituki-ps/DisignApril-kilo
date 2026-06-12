@@ -77,6 +77,9 @@ export interface AprilCardAppearanceState {
   bannerImageUrl: string;
 }
 
+/** Вариант отображения карточки. */
+export type AprilCatalogCardVariant = 'catalog' | 'folder' | 'badge';
+
 /**
  * Данные тела карточки каталога.
  *

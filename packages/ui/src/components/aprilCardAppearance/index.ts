@@ -8,6 +8,7 @@ export {
 export type {
   AprilCardAppearanceState,
   AprilCatalogCardContent,
+  AprilCatalogCardVariant,
 } from './aprilCardAppearance.types';
 
 export { AprilIconPicker, BANNER_ICON_NAMES } from './AprilIconPicker';
