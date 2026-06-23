@@ -37,6 +37,7 @@ import { SupportFAQSection } from './SupportFAQSection';
 import { DocumentRowSection } from './DocumentRowSection';
 import { TopNavbarSection } from './TopNavbarSection';
 import { LkflComponentsSection } from './LkflComponentsSection';
+import { CardAppearanceSection } from './CardAppearanceSection';
 
 export function UIKit() {
   return (
@@ -270,6 +271,12 @@ export function UIKit() {
           title="35. LKFL-компоненты"
           description="Белые компоненты для продуктов April: AprilFilterPills, AprilWizard, AprilWizardProgress, AprilStatCard, AprilCard, AprilBenefitRow, AprilEventRow, AprilQuickButton, AprilBalanceCard, AprilTransactionRow, AprilFaqItem, AprilOptionCard, AprilPayOptionCard, AprilFormInput, AprilFormTextarea, AprilFormSelect, AprilConfirmCheckbox, AprilSuccessScreen, AprilConfirmDoc.">
           <LkflComponentsSection />
+        </Section>
+
+        <Section
+          title="36. CardAppearance (баннер + карточка каталога + редактор)"
+          description="Настройка визуального оформления карточек каталога льгот: цвет/градиент, CSS-узор, контент баннера. Интерактивное демо.">
+          <CardAppearanceSection />
         </Section>
       </Stack>
     </Container>
